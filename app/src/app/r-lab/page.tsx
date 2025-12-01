@@ -27,6 +27,9 @@
  */
 
 import Link from "next/link";
+import IcRing from "@/components/IcRing";
+import NftFrame from "@/components/NftFrame";
+import CategoryCard from "@/components/CategoryCard";
 
 // Tipo simple para las categorías troncales
 type CategoriaTroncal = {
@@ -123,55 +126,6 @@ const categorias: CategoriaTroncal[] = [
   },
 ];
 
-/**
- * Componente que dibuja un "anillo" simple para el Índice Colibrí (IC).
- * No es todavía un gráfico real, pero comunica visualmente un ÍNDICE sobre 100.
- */
-function IcRing({
-  value,
-  max,
-}: {
-  value: number;
-  max: number;
-}) {
-  const porcentaje = Math.round((value / max) * 100);
-
-  return (
-    <div className="flex items-center gap-4">
-      {/* Anillo circular estático (podremos animarlo después) */}
-      <div className="relative h-24 w-24">
-        {/* Círculo exterior */}
-        <div className="h-full w-full rounded-full border border-slate-600 bg-slate-900/70" />
-        {/* Círculo interior */}
-        <div className="absolute inset-2 flex items-center justify-center rounded-full bg-slate-950">
-          <span className="text-xl font-semibold text-cyan-300">
-            {porcentaje}
-            <span className="text-xs text-slate-400">%</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Texto descriptivo del IC */}
-      <div className="space-y-1 text-xs md:text-sm">
-        <p className="font-semibold text-slate-100">Índice Colibrí (IC)</p>
-        <p className="text-slate-300">
-          Este índice resume tu progreso educativo y reputacional. En estado
-          <span className="font-semibold text-slate-100">
-            {" "}
-            Torpor
-          </span>
-          , aún no has iniciado las microacciones del nivel base.
-        </p>
-        <p className="text-[11px] text-slate-400">
-          En este PMV el IC parte en {value}/{max}. A medida que registres
-          microacciones y evidencias, este valor aumentará y podrás evolucionar
-          a <span className="font-semibold text-cyan-300">Semilla de Luz (N1)</span>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export default function ReputationLabPage() {
   return (
     <main className="flex flex-1 items-start justify-center py-6 md:py-10">
@@ -250,7 +204,7 @@ export default function ReputationLabPage() {
                       Torpor
                     </span>{" "}
                     estás declarando el compromiso de iniciar tu proceso formativo
-                    Colibrí (N1).
+                    Colibrí (nivel base N1).
                   </p>
                 </div>
 
@@ -268,20 +222,15 @@ export default function ReputationLabPage() {
                 </div>
               </div>
 
-              {/* Zona inferior: mini "frame" del NFT + microresumen */}
+              {/* Zona inferior: frame del NFT + microresumen */}
               <div className="mt-4 flex gap-4">
-                {/* Frame del NFT Colibrí (placeholder) */}
-                <div className="flex h-28 w-24 items-center justify-center rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-[10px] text-slate-400">
-                  {/* Aquí en el futuro irá la imagen dinámica del NFT */}
-                  NFT Colibrí
-                  <br />
-                  (placeholder)
-                </div>
+                {/* Frame del NFT Colibrí (componente reutilizable) */}
+                <NftFrame />
 
                 <div className="flex-1 space-y-2 text-xs">
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300">
-                      Trayectoria educativa · N0 → N1
+                      Trayectoria educativa · Torpor → N1
                     </span>
                     <span className="rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-medium text-cyan-300">
                       21 microacciones + 7 evidencias
@@ -313,7 +262,7 @@ export default function ReputationLabPage() {
               </div>
             </div>
 
-            {/* Tarjeta de Índice Colibrí (IC) */}
+            {/* Tarjeta de Índice Colibrí (IC) usando componente IcRing */}
             <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-4">
               <IcRing value={emprendedorDemo.icActual} max={emprendedorDemo.icMax} />
             </div>
@@ -353,8 +302,9 @@ export default function ReputationLabPage() {
                     {emprendedorDemo.proyecto}
                   </p>
                   <p className="mt-1 text-slate-300">
-                    En la versión completa este bloque se alimentará de un registro
-                    de IP educativa (Story Protocol) vinculado al NFT Colibrí como
+                    En la versión completa este bloque se alimentará de un
+                    registro de IP educativa (Story Protocol) vinculado al NFT
+                    Colibrí como
                     <span className="font-semibold text-slate-100">
                       {" "}
                       IP Asset fundacional
@@ -373,8 +323,8 @@ export default function ReputationLabPage() {
                     </p>
                     <p className="mt-1 text-xs text-emerald-100/90">
                       Aún no has registrado microacciones. Este panel está listo
-                      para acompañarte cuando comiences tu recorrido en la Matriz
-                      N1 (21 microacciones + 7 evidencias).
+                      para acompañarte cuando comiences tu recorrido en la
+                      Matriz N1 (21 microacciones + 7 evidencias).
                     </p>
                   </div>
 
@@ -395,7 +345,7 @@ export default function ReputationLabPage() {
               </div>
             </div>
 
-            {/* Grid de categorías troncales */}
+            {/* Grid de categorías troncales usando CategoryCard */}
             <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-3 md:p-4">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
@@ -408,29 +358,15 @@ export default function ReputationLabPage() {
 
               <div className="grid gap-3 md:grid-cols-2">
                 {categorias.map((cat) => (
-                  <div
+                  <CategoryCard
                     key={cat.id}
-                    className={`group flex flex-col justify-between rounded-2xl border bg-slate-900/70 p-3 transition hover:-translate-y-[1px] hover:border-slate-300/70 ${cat.colorClase}`}
-                  >
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                        {cat.clave} · {cat.nombre}
-                      </p>
-                      <p className="mt-1 text-xs text-slate-200">
-                        {cat.descripcionCorta}
-                      </p>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400">
-                      <div className="space-y-0.5">
-                        <p>{cat.progresoMicroacciones}</p>
-                        <p>{cat.progresoEvidencia}</p>
-                      </div>
-                      <span className="rounded-full bg-slate-800/80 px-2 py-0.5 text-[10px] text-slate-300">
-                        Empezar ruta →
-                      </span>
-                    </div>
-                  </div>
+                    clave={cat.clave}
+                    nombre={cat.nombre}
+                    descripcion={cat.descripcionCorta}
+                    progresoMicroacciones={cat.progresoMicroacciones}
+                    progresoEvidencia={cat.progresoEvidencia}
+                    colorClase={cat.colorClase}
+                  />
                 ))}
               </div>
             </div>
