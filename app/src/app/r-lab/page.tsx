@@ -1,4 +1,4 @@
-// src/app/r-lab/page.tsx
+"use client";
 
 /**
  * Colibrí Reputation Lab · Panel de Vuelo del Emprendedor
@@ -6,58 +6,74 @@
  * Esta página representa el panel principal que ve una persona emprendedora
  * cuando entra a Colibrí OS. Aquí:
  *
- * - Se muestra el estado actual del NFT Colibrí (en este PMV: TORPOR).
- * - Se visualiza el Índice Colibrí (IC) como resumen de progreso.
+ * - Se muestra el estado actual del NFT Colibrí (dinámico: Torpor o N1).
+ * - Se visualiza el Índice Colibrí (IC) calculado en base a:
+ *      · microacciones registradas
+ *      · evidencias registradas
+ *   (datos leídos desde localStorage, simulando la futura base de datos).
  * - Se listan las 7 categorías troncales con su estado de avance.
- * - Se prepara el espacio para pestañas tipo:
- *   "Ficha del proyecto", "Timeline", "Evidencias & IP", "Mecenazgo", etc.
  *
- * IMPORTANTE (Modelo Educativo):
- * - El NFT Colibrí nace en estado TORPOR (estado inicial).
- * - El emprendedor debe completar 21 microacciones + 7 evidencias
- *   (3 microacciones + 1 evidencia por cada categoría C1–C7).
- * - Cuando completa ese conjunto, el NFT evoluciona a "Semilla de Luz (N1)".
- *
- * En esta primera versión del PMV:
- * - Los datos están "mockeados" (hardcoded).
- * - Más adelante conectaremos esto con:
- *   - Base de datos (Prisma + PostgreSQL).
- *   - Registro de IP en Story Protocol.
- *   - NFT dinámico onchain.
+ * Modelo para este PMV:
+ * - 21 microacciones (3 por cada C1–C7)
+ * - 7 evidencias (1 por categoría)
+ * - Fórmula IC (simple para demo):
+ *      microacciones: 50% del IC
+ *      evidencias:    50% del IC
+ * - Regla de evolución:
+ *      si microacciones >= 21 y evidencias >= 7 → NFT pasa de Torpor a N1.
  */
 
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import IcRing from "@/components/IcRing";
 import NftFrame from "@/components/NftFrame";
 import CategoryCard from "@/components/CategoryCard";
 
+// Clave compartida con /r-lab/evidencias
+const STORAGE_KEY = "colibri_timeline_custom_events_v1";
+
+type CategoryId = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7";
+
+type EntryType = "microaccion" | "evidencia";
+
+interface EvidenceEntry {
+  id: string;
+  type: EntryType;
+  category: CategoryId;
+  title: string;
+  description: string;
+  isIpOnStory: boolean;
+  createdAtIso: string;
+}
+
 // Tipo simple para las categorías troncales
 type CategoriaTroncal = {
   id: number;
-  clave: string;
+  clave: CategoryId;
   nombre: string;
   descripcionCorta: string;
-  colorClase: string; // usamos clases Tailwind como "border-c1"
-  progresoMicroacciones: string; // ej: "0/3 microacciones"
-  progresoEvidencia: string; // ej: "0/1 evidencia"
+  colorClase: string; // clases Tailwind como "border-c1"
+  progresoMicroacciones: string;
+  progresoEvidencia: string;
 };
 
-// Datos de ejemplo para el emprendedor y las categorías
+// Datos de ejemplo para el emprendedor y configuración del IC
 const emprendedorDemo = {
   nombre: "Ana López",
   pais: "Chile",
   vertical: "EdTech · IP Nativa",
   proyecto: "Colibrí OS · Infraestructura educativa IP-native",
-  estadoNft: "Torpor (estado inicial)",
-  icActual: 0,
-  icMax: 100,
 };
 
-const categorias: CategoriaTroncal[] = [
+const MAX_MICROACCIONES = 21;
+const MAX_EVIDENCIAS = 7;
+
+// Categorías base (el texto de progreso se actualizará dinámicamente)
+const categoriasBase: CategoriaTroncal[] = [
   {
     id: 1,
     clave: "C1",
-    nombre: "Propósito & Equipo",
+    nombre: "Propósito & ADN Colibrí",
     descripcionCorta:
       "Alinea biografía, motivación y equipo alrededor de un propósito claro.",
     colorClase: "border-c1",
@@ -67,9 +83,9 @@ const categorias: CategoriaTroncal[] = [
   {
     id: 2,
     clave: "C2",
-    nombre: "Problema & Contexto",
+    nombre: "Equipo & Alianzas",
     descripcionCorta:
-      "Define el problema, el contexto y la urgencia desde la mirada del usuario.",
+      "Define roles, acuerdos y aliados clave para sostener el proyecto.",
     colorClase: "border-c2",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -77,9 +93,9 @@ const categorias: CategoriaTroncal[] = [
   {
     id: 3,
     clave: "C3",
-    nombre: "Modelo & Propuesta de Valor",
+    nombre: "Problema & Cliente",
     descripcionCorta:
-      "Esboza la solución, la propuesta de valor y el modelo de impacto/negocio.",
+      "Comprende el problema, el contexto y la mirada de las personas usuarias.",
     colorClase: "border-c3",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -87,9 +103,9 @@ const categorias: CategoriaTroncal[] = [
   {
     id: 4,
     clave: "C4",
-    nombre: "Finanzas & Sostenibilidad",
+    nombre: "Modelo & Solución",
     descripcionCorta:
-      "Explora costos, fuentes de ingreso y sostenibilidad económica.",
+      "Diseña la propuesta de valor, el modelo de impacto y la solución inicial.",
     colorClase: "border-c4",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -97,9 +113,9 @@ const categorias: CategoriaTroncal[] = [
   {
     id: 5,
     clave: "C5",
-    nombre: "Timing & Estrategia",
+    nombre: "Finanzas & Viabilidad",
     descripcionCorta:
-      "Conecta el momento adecuado con la estrategia de entrada al mercado.",
+      "Explora costos, fuentes de ingreso y escenarios de sostenibilidad.",
     colorClase: "border-c5",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -107,9 +123,9 @@ const categorias: CategoriaTroncal[] = [
   {
     id: 6,
     clave: "C6",
-    nombre: "Entorno & Factores Exógenos",
+    nombre: "Contexto & Factores Exógenos",
     descripcionCorta:
-      "Lee el ecosistema, aliados, riesgos y factores fuera de tu control.",
+      "Analiza el ecosistema, riesgos, regulaciones y variables externas.",
     colorClase: "border-c6",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -119,7 +135,7 @@ const categorias: CategoriaTroncal[] = [
     clave: "C7",
     nombre: "Métricas & Tracción",
     descripcionCorta:
-      "Define qué vas a medir, cómo y con qué evidencias demostrarás tracción.",
+      "Define qué vas a medir, cómo y con qué evidencias mostrarás tracción.",
     colorClase: "border-c7",
     progresoMicroacciones: "0/3 microacciones",
     progresoEvidencia: "0/1 evidencia",
@@ -127,6 +143,84 @@ const categorias: CategoriaTroncal[] = [
 ];
 
 export default function ReputationLabPage() {
+  const [entries, setEntries] = useState<EvidenceEntry[]>([]);
+
+  // 1. Leer registros locales desde la pantalla de Evidencias
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as EvidenceEntry[];
+      setEntries(parsed);
+    } catch (err) {
+      console.error("Error leyendo evidencias desde localStorage", err);
+    }
+  }, []);
+
+  // 2. Derivados: conteos globales
+  const {
+    microaccionesCompletadas,
+    evidenciasCompletadas,
+    icValue,
+    nftEstado,
+    nftProximoNivel,
+  } = useMemo(() => {
+    const micro = entries.filter((e) => e.type === "microaccion").length;
+    const evid = entries.filter((e) => e.type === "evidencia").length;
+
+    const microClamped = Math.min(micro, MAX_MICROACCIONES);
+    const evidClamped = Math.min(evid, MAX_EVIDENCIAS);
+
+    // IC simple: 50% microacciones, 50% evidencias
+    const microRatio =
+      MAX_MICROACCIONES === 0 ? 0 : microClamped / MAX_MICROACCIONES;
+    const evidRatio = MAX_EVIDENCIAS === 0 ? 0 : evidClamped / MAX_EVIDENCIAS;
+    const ic = Math.round(((microRatio + evidRatio) / 2) * 100);
+
+    // Regla de evolución Torpor → N1
+    const haEvolucionado = micro >= MAX_MICROACCIONES && evid >= MAX_EVIDENCIAS;
+
+    return {
+      microaccionesCompletadas: micro,
+      evidenciasCompletadas: evid,
+      icValue: ic,
+      nftEstado: haEvolucionado ? "Semilla de Luz (N1)" : "Torpor",
+      nftProximoNivel: haEvolucionado ? "Ala Dorada (N2)" : "Semilla de Luz (N1)",
+    };
+  }, [entries]);
+
+  // 3. Progreso por categoría (para las cards)
+  const categoriasConProgreso: CategoriaTroncal[] = useMemo(() => {
+    const porCategoria: Record<CategoryId, { micro: number; evid: number }> = {
+      C1: { micro: 0, evid: 0 },
+      C2: { micro: 0, evid: 0 },
+      C3: { micro: 0, evid: 0 },
+      C4: { micro: 0, evid: 0 },
+      C5: { micro: 0, evid: 0 },
+      C6: { micro: 0, evid: 0 },
+      C7: { micro: 0, evid: 0 },
+    };
+
+    entries.forEach((e) => {
+      const bucket = porCategoria[e.category];
+      if (!bucket) return;
+      if (e.type === "microaccion") bucket.micro += 1;
+      if (e.type === "evidencia") bucket.evid += 1;
+    });
+
+    return categoriasBase.map((cat) => {
+      const bucket = porCategoria[cat.clave];
+      return {
+        ...cat,
+        progresoMicroacciones: `${Math.min(bucket.micro, 3)}/3 microacciones`,
+        progresoEvidencia: `${Math.min(bucket.evid, 1)}/1 evidencia`,
+      };
+    });
+  }, [entries]);
+
+  const totalRegistros = entries.length;
+
   return (
     <main className="flex flex-1 items-start justify-center py-6 md:py-10">
       {/* Panel principal con efecto glassmorphism */}
@@ -150,37 +244,56 @@ export default function ReputationLabPage() {
                 Panel de Vuelo · Emprendedor Colibrí
               </h1>
               <p className="mt-1 max-w-2xl text-sm text-slate-300 md:text-[15px]">
-                Aquí observas el estado actual de tu NFT Colibrí y tu progreso
-                a través de las 7 categorías troncales. Este panel representa el
-                inicio del viaje: tu NFT se encuentra en{" "}
-                <span className="font-semibold text-slate-100">
-                  estado Torpor
-                </span>
-                , preparándose para evolucionar a{" "}
-                <span className="font-semibold text-cyan-300">
-                  Semilla de Luz (N1)
-                </span>
-                .
+                Aquí observas el estado actual de tu NFT Colibrí y tu progreso a
+                través de las 7 categorías troncales. Este panel se alimenta de
+                las microacciones y evidencias que registres en{" "}
+                <Link
+                  href="/r-lab/evidencias"
+                  className="font-semibold text-sky-300 underline-offset-4 hover:underline"
+                >
+                  Evidencias &amp; IP
+                </Link>
+                , simulando la futura base de datos conectada a Story Protocol.
               </p>
             </div>
           </div>
 
           {/* Bloque con resumen de la persona emprendedora */}
-          <div className="flex items-center gap-3 rounded-2xl border border-slate-600/70 bg-slate-900/70 px-4 py-3 text-xs shadow-glass">
-            {/* Avatar placeholder */}
-            <div className="h-10 w-10 rounded-full border border-emerald-400/70 bg-gradient-to-tr from-emerald-400/40 to-cyan-500/40" />
-            <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Emprendedora Colibrí · Demo
-              </p>
-              <p className="text-xs font-medium text-slate-50">
-                {emprendedorDemo.nombre}
-                <span className="text-slate-400"> · {emprendedorDemo.pais}</span>
-              </p>
-              <p className="text-[11px] text-slate-300">
-                {emprendedorDemo.vertical}
-              </p>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-600/70 bg-slate-900/70 px-4 py-3 text-xs shadow-glass">
+              {/* Avatar placeholder */}
+              <div className="h-10 w-10 rounded-full border border-emerald-400/70 bg-gradient-to-tr from-emerald-400/40 to-cyan-500/40" />
+              <div className="space-y-0.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  Emprendedora Colibrí · Demo
+                </p>
+                <p className="text-xs font-medium text-slate-50">
+                  {emprendedorDemo.nombre}
+                  <span className="text-slate-400">
+                    {" "}
+                    · {emprendedorDemo.pais}
+                  </span>
+                </p>
+                <p className="text-[11px] text-slate-300">
+                  {emprendedorDemo.vertical}
+                </p>
+              </div>
             </div>
+
+            {/* CTA hacia el timeline */}
+            <Link
+              href="/r-lab/timeline"
+              className="inline-flex items-center rounded-full border border-sky-500/70 bg-sky-500/10 px-3 py-1.5 text-[11px] font-medium text-sky-100 shadow-sm hover:bg-sky-500/20 hover:shadow-sky-500/40"
+            >
+              Ver timeline de microacciones →
+            </Link>
+
+            <p className="text-[10px] text-slate-400">
+              Registros locales:{" "}
+              <span className="font-semibold text-slate-100">
+                {totalRegistros}
+              </span>
+            </p>
           </div>
         </header>
 
@@ -196,27 +309,27 @@ export default function ReputationLabPage() {
                     Tu Colibrí hoy
                   </p>
                   <h2 className="mt-1 text-sm font-semibold text-slate-50">
-                    NFT Colibrí · Estado Torpor
+                    NFT Colibrí · Estado {nftEstado}
                   </h2>
                   <p className="mt-1 text-xs text-slate-300">
                     Este NFT representa tu viaje educativo. En estado{" "}
                     <span className="font-semibold text-slate-100">
-                      Torpor
+                      {nftEstado}
                     </span>{" "}
-                    estás declarando el compromiso de iniciar tu proceso formativo
-                    Colibrí (nivel base N1).
+                    tu misión es completar las 21 microacciones y 7 evidencias
+                    del nivel base Colibrí.
                   </p>
                 </div>
 
                 {/* "Chip" de estado del NFT */}
                 <div className="inline-flex flex-col items-end gap-1 text-right">
                   <span className="rounded-full border border-slate-600/70 bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-200">
-                    Estado · Torpor
+                    Estado · {nftEstado}
                   </span>
                   <span className="text-[10px] text-slate-400">
                     Próximo nivel:{" "}
                     <span className="font-semibold text-cyan-300">
-                      Semilla de Luz (N1)
+                      {nftProximoNivel}
                     </span>
                   </span>
                 </div>
@@ -237,34 +350,57 @@ export default function ReputationLabPage() {
                     </span>
                   </div>
                   <p className="text-slate-300">
-                    Para evolucionar a{" "}
+                    Para consolidar{" "}
                     <span className="font-semibold text-cyan-300">
                       Semilla de Luz (N1)
                     </span>{" "}
                     deberás completar las 3 microacciones y la evidencia de
-                    cada categoría troncal.
+                    cada categoría troncal. Este panel se actualiza en función
+                    de lo que registres como avance.
                   </p>
                   <ul className="text-[11px] text-slate-400">
                     <li>
                       Microacciones completadas:{" "}
                       <span className="font-semibold text-slate-200">
-                        0 / 21
+                        {microaccionesCompletadas} / {MAX_MICROACCIONES}
                       </span>
                     </li>
                     <li>
                       Evidencias registradas:{" "}
                       <span className="font-semibold text-slate-200">
-                        0 / 7
+                        {evidenciasCompletadas} / {MAX_EVIDENCIAS}
                       </span>
                     </li>
                   </ul>
+
+                  {/* CTA secundario hacia el timeline */}
+                  <div className="pt-2 flex flex-wrap gap-2">
+                    <Link
+                      href="/r-lab/timeline"
+                      className="inline-flex items-center rounded-full border border-sky-500/60 bg-sky-500/10 px-2.5 py-1 text-[10px] font-medium text-sky-100 hover:bg-sky-500/20"
+                    >
+                      Ver detalle en el Timeline →
+                    </Link>
+                    <Link
+                      href="/r-lab/evidencias"
+                      className="inline-flex items-center rounded-full border border-emerald-500/60 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-medium text-emerald-100 hover:bg-emerald-500/20"
+                    >
+                      Registrar nueva evidencia →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Tarjeta de Índice Colibrí (IC) usando componente IcRing */}
             <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-4">
-              <IcRing value={emprendedorDemo.icActual} max={emprendedorDemo.icMax} />
+              <IcRing value={icValue} max={100} />
+              <p className="mt-2 text-[11px] text-slate-400">
+                El IC se calcula combinando el porcentaje de microacciones y
+                evidencias completadas en este nivel. Es una simulación local
+                para este PMV; en producción se alimentará desde la base de
+                datos y los IP Assets registrados en Story Protocol.
+              </p>
             </div>
           </div>
 
@@ -277,18 +413,31 @@ export default function ReputationLabPage() {
                   Vista consolidada
                 </p>
                 <div className="flex flex-wrap gap-1 text-[10px] text-slate-400">
-                  <span className="rounded-full bg-slate-900/80 px-2 py-0.5">
+                  {/* Pestañas navegables */}
+                  <Link
+                    href="/r-lab"
+                    className="rounded-full bg-slate-900/80 px-2 py-0.5 font-medium text-slate-100"
+                  >
                     Ficha del proyecto
-                  </span>
-                  <span className="rounded-full bg-slate-900/40 px-2 py-0.5">
+                  </Link>
+                  <Link
+                    href="/r-lab/timeline"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-sky-500/20 hover:text-sky-100"
+                  >
                     Timeline
-                  </span>
-                  <span className="rounded-full bg-slate-900/40 px-2 py-0.5">
-                    Evidencias & IP
-                  </span>
-                  <span className="rounded-full bg-slate-900/40 px-2 py-0.5">
+                  </Link>
+                  <Link
+                    href="/r-lab/evidencias"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-emerald-500/20 hover:text-emerald-100"
+                  >
+                    Evidencias &amp; IP
+                  </Link>
+                  <Link
+                    href="/r-lab/mecenazgo"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-fuchsia-500/20 hover:text-fuchsia-100"
+                  >
                     Mecenazgo
-                  </span>
+                  </Link>
                 </div>
               </div>
 
@@ -319,12 +468,12 @@ export default function ReputationLabPage() {
                       Estado educativo
                     </p>
                     <p className="mt-1 text-sm font-medium text-slate-50">
-                      Preparando nivel base N1
+                      Nivel base · {nftEstado}
                     </p>
                     <p className="mt-1 text-xs text-emerald-100/90">
-                      Aún no has registrado microacciones. Este panel está listo
-                      para acompañarte cuando comiences tu recorrido en la
-                      Matriz N1 (21 microacciones + 7 evidencias).
+                      Este panel resume tu avance en la Matriz N1 (21
+                      microacciones + 7 evidencias). Los datos provienen del
+                      registro que realizas en la sección Evidencias &amp; IP.
                     </p>
                   </div>
 
@@ -352,12 +501,13 @@ export default function ReputationLabPage() {
                   Categorías troncales · Nivel base
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  0/7 evidencias registradas · 0/21 microacciones
+                  {evidenciasCompletadas}/{MAX_EVIDENCIAS} evidencias ·{" "}
+                  {microaccionesCompletadas}/{MAX_MICROACCIONES} microacciones
                 </p>
               </div>
 
               <div className="grid gap-3 md:grid-cols-2">
-                {categorias.map((cat) => (
+                {categoriasConProgreso.map((cat) => (
                   <CategoryCard
                     key={cat.id}
                     clave={cat.clave}
