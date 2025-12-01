@@ -1,72 +1,162 @@
-// src/app/page.tsx
-
-import Link from "next/link";
+// src/app/r-lab/page.tsx
 
 /**
- * Página principal (landing mínima) del PMV.
+ * Colibrí Reputation Lab · Panel de Vuelo del Emprendedor
  *
- * Objetivo:
- * - Representar el onboarding de Colibrí OS.
- * - Permitir que el usuario elija su rol:
- *   Emprendedor · Mecenas · Jurado.
+ * Esta página representa el panel principal que ve una persona emprendedora
+ * cuando entra a Colibrí OS. Aquí:
  *
- * Nota importante del modelo:
- * - El emprendedor recibe su NFT Colibrí en estado Torpor (estado inicial).
- * - Cuando completa las 21 microacciones + 7 evidencias (3 microacciones + 1
- *   evidencia por cada una de las 7 categorías), el NFT evoluciona a
- *   Semilla de Luz (N1).
+ * - Se muestra el estado actual del NFT Colibrí (en este PMV: TORPOR).
+ * - Se visualiza el Índice Colibrí (IC) como resumen de progreso.
+ * - Se listan las 7 categorías troncales con su estado de avance.
+ * - Se prepara el espacio para pestañas tipo:
+ *   "Ficha del proyecto", "Timeline", "Evidencias & IP", "Mecenazgo", etc.
+ *
+ * IMPORTANTE (Modelo Educativo):
+ * - El NFT Colibrí nace en estado TORPOR (estado inicial).
+ * - El emprendedor debe completar 21 microacciones + 7 evidencias
+ *   (3 microacciones + 1 evidencia por cada categoría C1–C7).
+ * - Cuando completa ese conjunto, el NFT evoluciona a "Semilla de Luz (N1)".
+ *
+ * En esta primera versión del PMV:
+ * - Los datos están "mockeados" (hardcoded).
+ * - Más adelante conectaremos esto con:
+ *   - Base de datos (Prisma + PostgreSQL).
+ *   - Registro de IP en Story Protocol.
+ *   - NFT dinámico onchain.
  */
-export default function HomePage() {
-  return (
-    <main className="flex flex-1 items-center justify-center">
-      {/* Panel principal con efecto glassmorphism */}
-      <section className="colibri-panel w-full max-w-4xl rounded-3xl px-6 py-6 md:px-10 md:py-8">
-        {/* Encabezado del Panel de Vuelo */}
-        <header className="mb-6 flex flex-col gap-3 md:mb-8 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
-              Movimiento Colibrí LATAM
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl">
-              Colibrí OS · Panel de Vuelo
-            </h1>
-            <p className="mt-2 max-w-xl text-sm text-slate-300 md:text-base">
-              Esta es la versión PMV del ecosistema Colibrí OS. Aquí simulamos
-              cómo un NFT Colibrí nace en estado{" "}
-              <span className="font-semibold text-cyan-300">Torpor</span> y
-              evoluciona gracias a microacciones y evidencias educativas
-              registradas como Propiedad Intelectual.
-            </p>
-          </div>
 
-          {/* 
-            Chip que representa el estado del NFT de demostración.
-            En el modelo Colibrí:
-            - Torpor = estado inicial del NFT (antes de N1).
-            - Al completar 21 microacciones + 7 evidencias, evoluciona a Semilla de Luz (N1).
-          */}
-          <div className="inline-flex max-w-xs items-center gap-3 rounded-2xl border border-slate-600/60 bg-slate-900/60 px-4 py-3 text-xs shadow-glass">
-            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-slate-500 to-slate-300 p-[2px]">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-950">
-                {/* No usamos N0 para evitar confusiones; mostramos directamente 'Torpor' */}
-                <span className="text-[9px] font-semibold text-slate-200">
-                  Torpor
-                </span>
-              </div>
+import Link from "next/link";
+import IcRing from "@/components/IcRing";
+import NftFrame from "@/components/NftFrame";
+import CategoryCard from "@/components/CategoryCard";
+
+// Tipo simple para las categorías troncales
+type CategoriaTroncal = {
+  id: number;
+  clave: string;
+  nombre: string;
+  descripcionCorta: string;
+  colorClase: string; // usamos clases Tailwind como "border-c1"
+  progresoMicroacciones: string; // ej: "0/3 microacciones"
+  progresoEvidencia: string; // ej: "0/1 evidencia"
+};
+
+// Datos de ejemplo para el emprendedor y las categorías
+const emprendedorDemo = {
+  nombre: "Ana López",
+  pais: "Chile",
+  vertical: "EdTech · IP Nativa",
+  proyecto: "Colibrí OS · Infraestructura educativa IP-native",
+  estadoNft: "Torpor (estado inicial)",
+  icActual: 0,
+  icMax: 100,
+};
+
+const categorias: CategoriaTroncal[] = [
+  {
+    id: 1,
+    clave: "C1",
+    nombre: "Propósito & Equipo",
+    descripcionCorta:
+      "Alinea biografía, motivación y equipo alrededor de un propósito claro.",
+    colorClase: "border-c1",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 2,
+    clave: "C2",
+    nombre: "Problema & Contexto",
+    descripcionCorta:
+      "Define el problema, el contexto y la urgencia desde la mirada del usuario.",
+    colorClase: "border-c2",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 3,
+    clave: "C3",
+    nombre: "Modelo & Propuesta de Valor",
+    descripcionCorta:
+      "Esboza la solución, la propuesta de valor y el modelo de impacto/negocio.",
+    colorClase: "border-c3",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 4,
+    clave: "C4",
+    nombre: "Finanzas & Sostenibilidad",
+    descripcionCorta:
+      "Explora costos, fuentes de ingreso y sostenibilidad económica.",
+    colorClase: "border-c4",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 5,
+    clave: "C5",
+    nombre: "Timing & Estrategia",
+    descripcionCorta:
+      "Conecta el momento adecuado con la estrategia de entrada al mercado.",
+    colorClase: "border-c5",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 6,
+    clave: "C6",
+    nombre: "Entorno & Factores Exógenos",
+    descripcionCorta:
+      "Lee el ecosistema, aliados, riesgos y factores fuera de tu control.",
+    colorClase: "border-c6",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+  {
+    id: 7,
+    clave: "C7",
+    nombre: "Métricas & Tracción",
+    descripcionCorta:
+      "Define qué vas a medir, cómo y con qué evidencias demostrarás tracción.",
+    colorClase: "border-c7",
+    progresoMicroacciones: "0/3 microacciones",
+    progresoEvidencia: "0/1 evidencia",
+  },
+];
+
+export default function ReputationLabPage() {
+  return (
+    <main className="flex flex-1 items-start justify-center py-6 md:py-10">
+      {/* Panel principal con efecto glassmorphism */}
+      <section className="colibri-panel w-full max-w-6xl rounded-3xl px-4 py-5 md:px-8 md:py-7">
+        {/* ENCABEZADO DEL PANEL */}
+        <header className="mb-6 flex flex-col gap-4 border-b border-slate-700/60 pb-4 md:mb-8 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            {/* Breadcrumb simple para volver al onboarding */}
+            <div className="text-[11px] uppercase tracking-[0.24em] text-slate-400">
+              <Link
+                href="/"
+                className="text-slate-400 underline-offset-4 hover:text-slate-100 hover:underline"
+              >
+                Colibrí OS
+              </Link>{" "}
+              · <span className="text-slate-300">Reputation Lab</span>
             </div>
-            <div className="space-y-0.5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                NFT Colibrí · Demo
-              </p>
-              <p className="text-xs text-slate-200">
-                Estado actual:{" "}
+
+            <div>
+              <h1 className="text-xl font-semibold tracking-tight text-slate-50 md:text-2xl">
+                Panel de Vuelo · Emprendedor Colibrí
+              </h1>
+              <p className="mt-1 max-w-2xl text-sm text-slate-300 md:text-[15px]">
+                Aquí observas el estado actual de tu NFT Colibrí y tu progreso
+                a través de las 7 categorías troncales. Este panel representa el
+                inicio del viaje: tu NFT se encuentra en{" "}
                 <span className="font-semibold text-slate-100">
-                  Torpor (estado inicial)
+                  estado Torpor
                 </span>
-              </p>
-              <p className="text-[10px] text-slate-400">
-                Al completar 21 microacciones + 7 evidencias, este NFT
-                evoluciona a{" "}
+                , preparándose para evolucionar a{" "}
                 <span className="font-semibold text-cyan-300">
                   Semilla de Luz (N1)
                 </span>
@@ -74,107 +164,250 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+
+          {/* Bloque con resumen de la persona emprendedora */}
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-600/70 bg-slate-900/70 px-4 py-3 text-xs shadow-glass">
+              {/* Avatar placeholder */}
+              <div className="h-10 w-10 rounded-full border border-emerald-400/70 bg-gradient-to-tr from-emerald-400/40 to-cyan-500/40" />
+              <div className="space-y-0.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  Emprendedora Colibrí · Demo
+                </p>
+                <p className="text-xs font-medium text-slate-50">
+                  {emprendedorDemo.nombre}
+                  <span className="text-slate-400">
+                    {" "}
+                    · {emprendedorDemo.pais}
+                  </span>
+                </p>
+                <p className="text-[11px] text-slate-300">
+                  {emprendedorDemo.vertical}
+                </p>
+              </div>
+            </div>
+
+            {/* CTA hacia el timeline */}
+            <Link
+              href="/r-lab/timeline"
+              className="inline-flex items-center rounded-full border border-sky-500/70 bg-sky-500/10 px-3 py-1.5 text-[11px] font-medium text-sky-100 shadow-sm hover:bg-sky-500/20 hover:shadow-sky-500/40"
+            >
+              Ver timeline de microacciones →
+            </Link>
+          </div>
         </header>
 
-        {/* Cuerpo: explicación breve + selección de rol */}
-        <div className="grid gap-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-start">
-          {/* Columna izquierda: explicación narrativa */}
+        {/* CUERPO · DISEÑO EN 2 COLUMNAS */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.6fr)]">
+          {/* COLUMNA IZQUIERDA · Tu Colibrí hoy */}
           <div className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">
-              ¿Cómo quieres entrar al panel?
-            </h2>
-            <p className="text-sm leading-relaxed text-slate-200 md:text-[15px]">
-              Colibrí OS convierte tu aprendizaje emprendedor en una narrativa
-              verificable. Cada pequeña acción se traduce en evidencia, y cada
-              evidencia impulsa la evolución de tu NFT Colibrí y tu Índice
-              Colibrí (IC).
-            </p>
-            <p className="text-sm leading-relaxed text-slate-300">
-              En esta versión PMV puedes explorar el sistema desde tres
-              perspectivas:
-            </p>
-            <ul className="space-y-2 text-sm text-slate-300">
-              <li>
-                <span className="font-semibold text-c1">Emprendedor/a:</span>{" "}
-                observa tu propio Panel de Vuelo y cómo tu NFT pasa de Torpor a
-                Semilla de Luz (N1).
-              </li>
-              <li>
-                <span className="font-semibold text-c6">
-                  Mecenas / Aliado Semilla:
-                </span>{" "}
-                mira el impacto de tus becas y tu portafolio de Colibrís
-                apoyados.
-              </li>
-              <li>
-                <span className="font-semibold text-c7">Jurado / Evaluador:</span>{" "}
-                compara startups en el Reputation Market usando las 7 categorías
-                troncales.
-              </li>
-            </ul>
+            {/* Tarjeta principal: NFT + resumen de estado */}
+            <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                    Tu Colibrí hoy
+                  </p>
+                  <h2 className="mt-1 text-sm font-semibold text-slate-50">
+                    NFT Colibrí · Estado Torpor
+                  </h2>
+                  <p className="mt-1 text-xs text-slate-300">
+                    Este NFT representa tu viaje educativo. En estado{" "}
+                    <span className="font-semibold text-slate-100">
+                      Torpor
+                    </span>{" "}
+                    estás declarando el compromiso de iniciar tu proceso formativo
+                    Colibrí (nivel base N1).
+                  </p>
+                </div>
+
+                {/* "Chip" de estado del NFT */}
+                <div className="inline-flex flex-col items-end gap-1 text-right">
+                  <span className="rounded-full border border-slate-600/70 bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-200">
+                    Estado · Torpor
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Próximo nivel:{" "}
+                    <span className="font-semibold text-cyan-300">
+                      Semilla de Luz (N1)
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Zona inferior: frame del NFT + microresumen */}
+              <div className="mt-4 flex gap-4">
+                {/* Frame del NFT Colibrí (componente reutilizable) */}
+                <NftFrame />
+
+                <div className="flex-1 space-y-2 text-xs">
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300">
+                      Trayectoria educativa · Torpor → N1
+                    </span>
+                    <span className="rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-medium text-cyan-300">
+                      21 microacciones + 7 evidencias
+                    </span>
+                  </div>
+                  <p className="text-slate-300">
+                    Para evolucionar a{" "}
+                    <span className="font-semibold text-cyan-300">
+                      Semilla de Luz (N1)
+                    </span>{" "}
+                    deberás completar las 3 microacciones y la evidencia de
+                    cada categoría troncal.
+                  </p>
+                  <ul className="text-[11px] text-slate-400">
+                    <li>
+                      Microacciones completadas:{" "}
+                      <span className="font-semibold text-slate-200">
+                        0 / 21
+                      </span>
+                    </li>
+                    <li>
+                      Evidencias registradas:{" "}
+                      <span className="font-semibold text-slate-200">
+                        0 / 7
+                      </span>
+                    </li>
+                  </ul>
+
+                  {/* CTA secundario hacia el timeline */}
+                  <div className="pt-2">
+                    <Link
+                      href="/r-lab/timeline"
+                      className="inline-flex items-center rounded-full border border-sky-500/60 bg-sky-500/10 px-2.5 py-1 text-[10px] font-medium text-sky-100 hover:bg-sky-500/20"
+                    >
+                      Ver detalle en el Timeline →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tarjeta de Índice Colibrí (IC) usando componente IcRing */}
+            <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-4">
+              <IcRing value={emprendedorDemo.icActual} max={emprendedorDemo.icMax} />
+            </div>
           </div>
 
-          {/* Columna derecha: tarjetas de selección de rol */}
-          <div className="space-y-3">
-            {/* Rol Emprendedor → /r-lab */}
-            <Link
-              href="/r-lab"
-              className="group flex w-full flex-col items-start rounded-2xl border border-emerald-500/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-emerald-400 hover:bg-slate-900/90"
-            >
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300/90">
-                Rol · Emprendedor/a
-              </span>
-              <span className="mt-1 text-sm font-medium text-slate-50">
-                Explorar mi Panel de Vuelo
-              </span>
-              <span className="mt-1 text-xs text-slate-300">
-                Verás tu NFT Colibrí en estado Torpor, tu Índice Colibrí (IC) y
-                las evidencias que impulsan su evolución hacia Semilla de Luz
-                (N1).
-              </span>
-            </Link>
+          {/* COLUMNA DERECHA · Categorías troncales + pestañas futuras */}
+          <div className="space-y-4">
+            {/* Bloque de pestañas principales (estructura base) */}
+            <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-3 md:p-4">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                  Vista consolidada
+                </p>
+                <div className="flex flex-wrap gap-1 text-[10px] text-slate-400">
+                  {/* Pestañas navegables */}
+                  <Link
+                    href="/r-lab"
+                    className="rounded-full bg-slate-900/80 px-2 py-0.5 font-medium text-slate-100"
+                  >
+                    Ficha del proyecto
+                  </Link>
+                  <Link
+                    href="/r-lab/timeline"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-sky-500/20 hover:text-sky-100"
+                  >
+                    Timeline
+                  </Link>
+                  <Link
+                    href="/r-lab/evidencias"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-emerald-500/20 hover:text-emerald-100"
+                  >
+                    Evidencias &amp; IP
+                  </Link>
+                  <Link
+                    href="/r-lab/mecenazgo"
+                    className="rounded-full bg-slate-900/40 px-2 py-0.5 hover:bg-fuchsia-500/20 hover:text-fuchsia-100"
+                  >
+                    Mecenazgo
+                  </Link>
+                </div>
+              </div>
 
-            {/* Rol Mecenas → /r-lab-mecenas */}
-            <Link
-              href="/r-lab-mecenas"
-              className="group flex w-full flex-col items-start rounded-2xl border border-cyan-400/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-cyan-300 hover:bg-slate-900/90"
-            >
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">
-                Rol · Mecenas / Aliado Semilla
-              </span>
-              <span className="mt-1 text-sm font-medium text-slate-50">
-                Ver portafolio de Colibrís apoyados
-              </span>
-              <span className="mt-1 text-xs text-slate-300">
-                Verás cuántas becas has activado, en qué nivel están tus
-                Colibrís y qué impacto educativo has generado.
-              </span>
-            </Link>
+              {/* Contenido base de "Ficha del proyecto" (PMV simplificado) */}
+              <div className="space-y-3 text-xs md:text-sm">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                    Proyecto asociado
+                  </p>
+                  <p className="mt-1 font-medium text-slate-100">
+                    {emprendedorDemo.proyecto}
+                  </p>
+                  <p className="mt-1 text-slate-300">
+                    En la versión completa este bloque se alimentará de un
+                    registro de IP educativa (Story Protocol) vinculado al NFT
+                    Colibrí como
+                    <span className="font-semibold text-slate-100">
+                      {" "}
+                      IP Asset fundacional
+                    </span>
+                    .
+                  </p>
+                </div>
 
-            {/* Rol Jurado → /r-market */}
-            <Link
-              href="/r-market"
-              className="group flex w-full flex-col items-start rounded-2xl border border-violet-400/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-violet-300 hover:bg-slate-900/90"
-            >
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300/90">
-                Rol · Jurado / Evaluador
-              </span>
-              <span className="mt-1 text-sm font-medium text-slate-50">
-                Acceder al Reputation Market
-              </span>
-              <span className="mt-1 text-xs text-slate-300">
-                Podrás comparar startups a través de las 7 categorías Colibrí,
-                viendo datos en lugar de relatos difusos.
-              </span>
-            </Link>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/5 p-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-300">
+                      Estado educativo
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-slate-50">
+                      Preparando nivel base N1
+                    </p>
+                    <p className="mt-1 text-xs text-emerald-100/90">
+                      Aún no has registrado microacciones. Este panel está listo
+                      para acompañarte cuando comiences tu recorrido en la
+                      Matriz N1 (21 microacciones + 7 evidencias).
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-cyan-500/40 bg-cyan-500/5 p-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-300">
+                      Story Protocol (visión)
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-slate-50">
+                      Registro de IP educativa
+                    </p>
+                    <p className="mt-1 text-xs text-cyan-100/90">
+                      Más adelante, cada evidencia generará un activo de
+                      Propiedad Intelectual (IP Asset) con licenciamiento
+                      programable (PIL) y regalías IPFi asociadas al NFT.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Grid de categorías troncales usando CategoryCard */}
+            <div className="rounded-3xl border border-slate-700/70 bg-slate-950/60 p-3 md:p-4">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                  Categorías troncales · Nivel base
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  0/7 evidencias registradas · 0/21 microacciones
+                </p>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                {categorias.map((cat) => (
+                  <CategoryCard
+                    key={cat.id}
+                    clave={cat.clave}
+                    nombre={cat.nombre}
+                    descripcion={cat.descripcionCorta}
+                    progresoMicroacciones={cat.progresoMicroacciones}
+                    progresoEvidencia={cat.progresoEvidencia}
+                    colorClase={cat.colorClase}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Pie de panel con lema del movimiento */}
-        <footer className="mt-6 border-t border-slate-700/60 pt-4 text-xs text-slate-400 md:mt-8">
-          Haz tu parte. <span className="text-slate-200">Hazlo visible.</span>{" "}
-          <span className="text-cyan-300">Hazlo en red.</span>
-        </footer>
       </section>
     </main>
   );
