@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Colibrí OS · Onboarding Master</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Onboarding completo: Ficha emprendedor restaurada y flujo mecenas con identidad NFT diferenciada." />
+
+  <!-- FAVICON (Generado inline para no depender de archivos externos) -->
+    <link rel="icon" href="imgs/favicon_colibri_latam_iridiscente.svg">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  />
+
+  <style>
+    /* ===============================================================
+       SISTEMA DE DISEÑO COLIBRÍ
+       =============================================================== */
+    :root {
+      --color-verde-esmeralda: #009975;
+      --color-turquesa: #00CFCF;
+      --color-titulo: #03223A;
+      --color-texto: #505667;
+      --font-principal: 'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-principal);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(0, 207, 207, 0.35) 0, transparent 50%),
+        radial-gradient(circle at 90% 10%, rgba(255, 77, 109, 0.30) 0, transparent 50%),
+        radial-gradient(circle at 15% 85%, rgba(120, 217, 180, 0.45) 0, transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #fdf5e7 40%, #f9fbff 100%);
+      background-attachment: fixed;
+      color: var(--color-texto);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* UI Components */
+    .glass-header {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .card-soft {
+      background: linear-gradient(145deg, #ffffff, #f9faff);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .role-card { cursor: pointer; }
+    .role-card:hover { transform: translateY(-5px); border-color: var(--color-verde-esmeralda); }
+    .role-card.active-role { border: 2px solid var(--color-verde-esmeralda); background: linear-gradient(145deg, #ecfdf5, #ffffff); }
+
+    /* Botones */
+    .btn-studio-primary {
+      background: linear-gradient(135deg, #009975, #00cfcf);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-studio-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 153, 117, 0.3); color: white; }
+
+    .btn-studio-secondary {
+      background: white;
+      color: #3b82f6;
+      border: 2px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-studio-secondary:hover { background: #eff6ff; transform: translateY(-2px); }
+
+    /* Pills de Pasos */
+    .step-pill {
+      background: rgba(255,255,255,0.6);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-texto);
+      border: 1px solid transparent;
+      display: inline-block;
+    }
+    .step-pill.active {
+      background: var(--color-verde-esmeralda);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0, 153, 117, 0.25);
+    }
+    
+    .d-none { display: none !important; }
+
+    /* Elementos Específicos */
+    .nft-square-img {
+      width: 140px; height: 140px; object-fit: cover; border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 153, 117, 0.2); border: 4px solid #ffffff;
+    }
+    
+    /* Card Aliado Semilla (Estilo Verde) */
+    .aliado-card {
+      background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 1rem; text-align: left;
+    }
+    .aliado-icon-circle {
+      width: 40px; height: 40px; background: #d1fae5; color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+
+    /* Modal Customization (Based on Image) */
+    .modal-content-colibri { border-radius: 24px; border: none; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .modal-header-colibri { border-bottom: 1px solid rgba(0,0,0,0.05); padding: 1.5rem 1.5rem 0.5rem; }
+    .modal-body-colibri { padding: 2rem; }
+    
+    .learning-list-item {
+        display: flex; align-items: start; gap: 10px; margin-bottom: 12px; text-align: left; font-size: 0.9rem; color: #4b5563;
+    }
+    .learning-icon {
+        color: var(--color-verde-esmeralda); font-size: 1.1rem; flex-shrink: 0; margin-top: 2px;
+    }
+    
+    .fade-in { animation: fadeIn 0.5s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="glass-header py-3">
+    <div class="container-xl d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+  <a href="index.html" class="text-decoration-none">
+  <div class="logo-pill">
+    <img
+      src="imgs/avatar_colibri_os.png"
+      alt="Logo Colibrí OS"
+      class="rounded-circle"
+      style="width: 50px; height: 50px; object-fit: cover"
+    />
+  </div>
+</a>
+
+  <div class="d-flex flex-column lh-1">
+    <span class="fw-semibold">Colibrí OS</span>
+    <span style="font-size: 0.7rem; color: var(--color-verde-esmeralda);">REPUTATION LAB</span>
+  </div>
+</div>
+      
+      <!-- User Indicator -->
+      <div id="user-indicator" class="d-none align-items-center gap-2 fade-in">
+         <div class="text-end lh-1">
+           <div class="fw-bold small" id="header-role-text">Usuario</div>
+           <div class="text-muted font-monospace" style="font-size: 0.7rem;" id="header-wallet">--</div>
+         </div>
+         <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+            <i class="bi bi-person-fill text-muted"></i>
+         </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow-1 d-flex flex-column justify-content-center py-4">
+    <div class="container-xl">
+      
+      <!-- STEPS INDICATOR -->
+      <div id="steps-container" class="row justify-content-center mb-5 fade-in">
+        <div class="col-lg-9 text-center">
+          <h1 class="h3 fw-bold mb-3" style="color: var(--color-titulo);">Bienvenido al Colibrí Reputation Lab</h1>
+          <p class="text-muted mb-4" style="font-size: 0.95rem; max-width: 700px; margin: 0 auto;">
+            Esta demo recrea cómo los usuarios acceden al ecosistema Colibrí a través de un NFT. 
+            Elige tu rol, verifica tu NFT y entra al panel del Reputation Lab.
+          </p>
+
+          <div class="d-inline-flex flex-wrap justify-content-center gap-2">
+            <span class="step-pill active" id="pill-1">1 Elige tu rol</span>
+            <span class="step-pill" id="pill-2">2 Verificamos tu NFT</span>
+            <span class="step-pill" id="pill-3">3 Completa tu ficha</span>
+            <span class="step-pill" id="pill-4">4 Entra al R Lab</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           1. SELECCIÓN DE ROL
+           ========================================== -->
+      <section id="section-role" class="fade-in">
+        <div class="row g-4 justify-content-center">
+          <!-- Emprendedor -->
+          <div class="col-md-6 col-lg-5">
+            <article class="card-soft role-card p-4 p-md-5 h-100 d-flex flex-column text-start" 
+                     onclick="handleRoleSelect('emprendedor')" id="card-emprendedor">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                     style="width: 48px; height: 48px; background: #ecfdf5; color: var(--color-verde-esmeralda); font-size: 1.25rem;">
+                  <i class="bi bi-rocket-takeoff-fill"></i>
+                </div>
+                <h2 class="h5 fw-bold mb-0">Soy Emprendedor Colibrí</h2>
+              </div>
+              <p class="text-muted small mb-3">
+                Ya tienes un NFT Colibrí N1 en tu wallet. En esta demo verás cómo tu identidad, tu proyecto y tus evidencias comienzan a formar tu reputación digital.
+              </p>
+              <ul class="text-muted small mb-4 ps-3" style="line-height: 1.6;">
+                <li>Tu NFT N1 es la llave de acceso al ecosistema.</li>
+                <li>Podrás documentar tu modelo de negocio y microacciones.</li>
+                <li>Todo se traducirá en reputación trazable (Índice Colibrí).</li>
+              </ul>
+              <button class="btn btn-studio-primary w-100 mt-auto">Continuar como Emprendedor</button>
+            </article>
+          </div>
+
+          <!-- Mecenas -->
+          <div class="col-md-6 col-lg-5">
+            <article class="card-soft role-card p-4 p-md-5 h-100 d-flex flex-column text-start" 
+                     onclick="handleRoleSelect('mecenas')" id="card-mecenas">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                     style="width: 48px; height: 48px; background: #eff6ff; color: #3b82f6; font-size: 1.25rem;">
+                  <i class="bi bi-gem"></i>
+                </div>
+                <h2 class="h5 fw-bold mb-0">Soy Mecenas</h2>
+              </div>
+              <p class="text-muted small mb-3">
+                Explora cómo los Mecenas pueden financiar NFTs Colibrí, seguir la evolución de proyectos y asociar su identidad a historias regenerativas.
+              </p>
+              <ul class="text-muted small mb-4 ps-3" style="line-height: 1.6;">
+                <li>Compras o financias NFTs para emprendedores.</li>
+                <li>Sigues el progreso de los proyectos a los que apoyas.</li>
+                <li>Construyes reputación alineada a impacto real.</li>
+              </ul>
+              <button class="btn btn-studio-secondary w-100 mt-auto">Continuar como Mecenas</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           2. SIMULACIÓN WALLET
+           ========================================== -->
+      <section id="section-wallet" class="d-none">
+        <div class="row justify-content-center fade-in">
+          <div class="col-lg-6 col-md-8">
+            <div class="card-soft p-4 p-md-5 text-center">
+              
+              <!-- Vista Inicial -->
+              <div id="wallet-view-initial">
+                <div class="mb-4">
+                  <i class="bi bi-wallet2 display-1 text-muted opacity-25"></i>
+                </div>
+                <h3 class="h5 fw-bold mb-2">Verificamos tu NFT de acceso</h3>
+                <p class="text-muted small mb-4">
+                  Esta es una simulación: no firmarás transacciones reales. Solo recreamos el momento en que tu wallet es detectada por el sistema.
+                </p>
+                <button class="btn btn-studio-primary w-100 py-2 mb-3" onclick="startWalletSimulation()">
+                  Verificar NFT en mi wallet (demo)
+                </button>
+                <button class="btn btn-link btn-sm text-muted text-decoration-none" onclick="resetApp()">← Volver atrás</button>
+              </div>
+
+              <!-- Loading -->
+              <div id="wallet-view-loading" class="d-none py-4">
+                <div class="spinner-border text-success mb-3" role="status"></div>
+                <p class="fw-semibold text-dark">Escaneando activos en blockchain...</p>
+              </div>
+
+              <!-- ÉXITO: EMPRENDEDOR (NFT Colibrí) -->
+              <div id="wallet-view-success-emprendedor" class="d-none">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-3 position-relative">
+                    <img src="nft_n1_semilla de luz.svg" 
+                         alt="NFT Colibrí Semilla" class="nft-square-img">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success border border-white">N1</span>
+                  </div>
+                  <h3 class="h5 fw-bold mb-1 text-success">¡NFT Detectado!</h3>
+                  <p class="fw-bold text-dark mb-1">Colibrí #001 · Semilla de Luz</p>
+                  
+                  <div class="d-inline-block px-3 py-1 bg-light rounded-pill border mb-3">
+                     <span class="font-monospace text-muted small" id="wallet-address-display-emp">0x...</span>
+                  </div>
+                  
+                  <!-- Card Aliado Semilla -->
+                  <div class="aliado-card w-100 mb-4 shadow-sm">
+                    <div class="d-flex align-items-start gap-3">
+                      <div class="aliado-icon-circle flex-shrink-0"><i class="bi bi-heart-fill"></i></div>
+                      <div>
+                        <h6 class="fw-bold text-dark mb-1" style="font-size: 0.9rem;">Aliado Semilla</h6>
+                        <div class="fw-bold text-success mb-1">Fundación Raíces de Luz</div>
+                        <p class="mb-0 lh-sm text-muted" style="font-size: 0.75rem;">
+                          Beca completa N1–N2. Asociado permanentemente a tu NFT.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-studio-primary w-100" onclick="goToProjectSetup()">
+                    Completar Ficha del Proyecto <i class="bi bi-arrow-right-short"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- ÉXITO: MECENAS (NFT Aliado Diferente + Botón Directo) -->
+              <div id="wallet-view-success-mecenas" class="d-none">
+                <div class="d-flex flex-column align-items-center text-center">
+                    
+                    <!-- Imagen del NFT (DIFERENCIADA - Planta/Semilla) -->
+                    <div class="mb-3 position-relative">
+                        <img src="base_aliado_semilla.svg" 
+                             alt="NFT Aliado Semilla" class="nft-square-img">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary border border-white">MECENAS</span>
+                    </div>
+
+                    <h3 class="h5 fw-bold mb-1 text-success">¡NFT Detectado!</h3>
+                    <p class="fw-bold text-dark mb-1">NFT Aliado Semilla</p>
+                    
+                    <div class="d-inline-block px-3 py-1 bg-light rounded-pill border mb-3">
+                         <span class="font-monospace text-muted small" id="wallet-address-display-mec">0x...</span>
+                    </div>
+
+                    <!-- Perfil de la Fundación -->
+                    <div class="aliado-card w-100 mb-4 shadow-sm">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="aliado-icon-circle flex-shrink-0">
+                                <i class="bi bi-heart-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">Fundación Raíces de Luz</h6>
+                                <div class="fw-bold text-success mb-1">Aliado Semilla</div>
+                                <p class="mb-0 lh-sm text-muted" style="font-size: 0.75rem;">
+                                    Patrocinio de 10 NFTs Colibrí N1.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón directo al R Lab Mecenas -->
+                    <button class="btn btn-studio-secondary w-100" onclick="redirectToRLabMecenas()">
+                        Entrar al Panel del Mecenas <i class="bi bi-arrow-right-short"></i>
+                    </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           3. FICHA PROYECTO (SOLO EMPRENDEDOR)
+           ========================================== -->
+      <section id="section-setup-project" class="d-none">
+        <div class="row justify-content-center fade-in">
+          <div class="col-lg-8">
+            <div class="card-soft p-4 p-md-5">
+              <div class="text-center mb-4">
+                <h2 class="h4 fw-bold mb-1">Ficha detallada del proyecto</h2>
+                <p class="text-muted small">
+                  Estos datos se usarán como la <strong>versión 1.0</strong> de tu proyecto.
+                </p>
+              </div>
+              
+              <form id="project-form" onsubmit="handleProjectSubmit(event)">
+                <h6 class="text-uppercase text-primary fw-bold mb-3" style="font-size: 0.75rem;">Información Básica</h6>
+                <small class="text-muted d-block mb-3" style="font-size: 0.75rem;">
+                   Campos pre-rellenados para la demo:
+                </small>
+
+                <!-- Campos Completos -->
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="projName" value="Colibrí LATAM" required>
+                  <label>Nombre del Proyecto</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="projFounder" value="Jesús Díaz (Founder – Movimiento Colibrí LATAM)" required>
+                  <label>Emprendedor</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="projSector" value="EdTech · Reputational Tech · Impact Blockchain · ReFi Humana" required>
+                  <label>Sector / Categoría</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" id="projTagline" style="height: 100px" required>Ecosistema educativo y reputacional que convierte microacciones en evidencias verificables y habilita mecenazgo ético.</textarea>
+                  <label>Tagline</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="projLoc" value="Base binacional: Chile & Argentina — Expansión LATAM" required>
+                    <label>Localidad / Región</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="projState" value="Piloto de plataforma (PMV) en desarrollo + Comunidad inicial en expansión" required>
+                    <label>Estado Actual</label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                   <button type="button" class="btn btn-link text-muted btn-sm text-decoration-none" onclick="backToWallet()">Cancelar</button>
+                   <button type="submit" class="btn btn-studio-primary px-4">Guardar y Entrar <i class="bi bi-check-lg"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           4. DASHBOARD FINAL (SOLO EMPRENDEDOR)
+           ========================================== -->
+      <section id="section-dashboard" class="d-none">
+        <div class="row fade-in">
+          <div class="col-12 text-center py-5">
+            <div class="mb-3">
+                <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 64px; height: 64px;">
+                    <i class="bi bi-check-lg display-6"></i>
+                </div>
+            </div>
+            <h2 class="h3 fw-bold mb-2">¡Bienvenido al Reputation Lab!</h2>
+            <p class="text-muted mb-5">Tu proyecto <strong id="final-project-name">Colibrí LATAM</strong> ha sido inicializado.</p>
+            
+            <div class="card-soft d-inline-block p-4 mx-auto mb-5 text-start shadow-sm" style="max-width: 380px;">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="nft_n1_semilla de luz.svg" class="rounded-3 border" width="60" height="60">
+                    <div>
+                        <div class="small text-uppercase text-muted fw-bold" style="font-size: 0.65rem;">Nivel Actual</div>
+                        <div class="fw-bold text-dark">Semilla de Luz (N1)</div>
+                        <div class="small text-success"><i class="bi bi-lightning-charge-fill"></i> Estado: Activo</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+                <button class="btn btn-studio-secondary px-4 py-2" onclick="openElearningModal()">
+                    <i class="bi bi-mortarboard-fill me-2"></i> Acceso E-learning
+                </button>
+                <button class="btn btn-studio-primary px-4 py-2" onclick="redirectToRLab()">
+                   Explorar Panel de Control
+                </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL E-LEARNING (EMPRENDEDOR) -->
+  <div class="modal fade" id="elearningModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-colibri">
+        <div class="modal-header modal-header-colibri">
+          <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+            <i class="bi bi-mortarboard text-success"></i> Academia Colibrí
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body modal-body-colibri text-center">
+            <!-- Icono Libros -->
+            <div class="mb-3">
+                <i class="bi bi-journal-richtext text-warning display-4"></i>
+            </div>
+            
+            <h6 class="fw-bold mb-3">Tu ruta de aprendizaje N1 está lista</h6>
+            
+            <p class="mb-4 text-muted small">
+              En nuestra plataforma educativa, podrás explorar contenidos diseñados específicamente para tu nivel <strong>Semilla de Luz (N1)</strong>.
+            </p>
+
+            <div class="bg-light p-3 rounded-3 mb-4">
+                <div class="learning-list-item">
+                    <i class="bi bi-check-circle-fill learning-icon"></i>
+                    <span>Completa <strong>microacciones</strong> de impacto.</span>
+                </div>
+                <div class="learning-list-item">
+                    <i class="bi bi-check-circle-fill learning-icon"></i>
+                    <span>Sube <strong>evidencias</strong> de tu trabajo.</span>
+                </div>
+                <div class="learning-list-item">
+                    <i class="bi bi-check-circle-fill learning-icon"></i>
+                    <span>Obtén <strong>credenciales digitales</strong>.</span>
+                </div>
+                <div class="learning-list-item">
+                    <i class="bi bi-arrow-right-circle-fill text-primary learning-icon"></i>
+                    <span>Y finalmente los verás reflejados en tu panel del <strong>Reputation Lab (R Lab)</strong>.</span>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="button" class="btn btn-studio-primary py-2 fw-bold" onclick="redirectToRLab()">
+                    Ir al Reputation Lab (R Lab)
+                </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /** ESTADO DE LA APLICACIÓN **/
+    const state = { role: null, walletAddress: null, projectData: {} };
+    const sections = {
+      role: document.getElementById('section-role'),
+      wallet: document.getElementById('section-wallet'),
+      setup: document.getElementById('section-setup-project'),
+      dashboard: document.getElementById('section-dashboard')
+    };
+    const pills = { 
+      1: document.getElementById('pill-1'), 
+      2: document.getElementById('pill-2'), 
+      3: document.getElementById('pill-3'), 
+      4: document.getElementById('pill-4') 
+    };
+
+    function handleRoleSelect(role) {
+      state.role = role;
+      document.querySelectorAll('.role-card').forEach(el => el.classList.remove('active-role'));
+      document.getElementById(`card-${role}`).classList.add('active-role');
+      
+      // Configuración de pasos según rol
+      if(role === 'mecenas') {
+         pills[3].classList.add('d-none');
+         pills[4].innerHTML = '3 Entra al R Lab';
+      } else {
+         pills[3].classList.remove('d-none');
+         pills[4].innerHTML = '4 Entra al R Lab';
+      }
+      
+      setTimeout(() => { switchSection(sections.role, sections.wallet); updatePills(2); }, 300);
+    }
+
+    function startWalletSimulation() {
+      document.getElementById('wallet-view-initial').classList.add('d-none');
+      document.getElementById('wallet-view-loading').classList.remove('d-none');
+      
+      setTimeout(() => {
+        const randomHex = Math.random().toString(16).substr(2, 6).toUpperCase();
+        state.walletAddress = `0x71C9...${randomHex}`;
+        
+        document.getElementById('wallet-view-loading').classList.add('d-none');
+        document.getElementById('user-indicator').classList.remove('d-none');
+        document.getElementById('header-wallet').textContent = state.walletAddress;
+
+        if (state.role === 'emprendedor') {
+          // Flujo Emprendedor
+          const viewSuccess = document.getElementById('wallet-view-success-emprendedor');
+          document.getElementById('wallet-address-display-emp').textContent = state.walletAddress;
+          document.getElementById('header-role-text').textContent = 'Emprendedor';
+          viewSuccess.classList.remove('d-none');
+          viewSuccess.classList.add('fade-in');
+        
+        } else {
+          // Flujo Mecenas (Correcto)
+          const viewSuccessMec = document.getElementById('wallet-view-success-mecenas');
+          document.getElementById('wallet-address-display-mec').textContent = state.walletAddress;
+          document.getElementById('header-role-text').textContent = 'Mecenas';
+          viewSuccessMec.classList.remove('d-none');
+          viewSuccessMec.classList.add('fade-in');
+          
+          // Actualizar pills al paso final (que es el 3 para mecenas)
+          updatePills(4); 
+        }
+
+      }, 2000);
+    }
+
+    // Funciones Emprendedor
+    function goToProjectSetup() { switchSection(sections.wallet, sections.setup); updatePills(3); }
+    function handleProjectSubmit(e) { e.preventDefault(); state.projectData.name = document.getElementById('projName').value; setTimeout(() => { goToDashboard(); }, 1200); }
+    function goToDashboard() { 
+        if(state.projectData.name) document.getElementById('final-project-name').textContent = state.projectData.name;
+        switchSection(sections.setup, sections.dashboard); updatePills(4); 
+    }
+    
+    // Redirecciones
+    function redirectToRLabMecenas() { window.location.href = 'colibri_r_lab_mecenas.html'; }
+    function redirectToRLab() {
+        const modalEl = document.getElementById('elearningModal');
+        if (modalEl) { const i = bootstrap.Modal.getInstance(modalEl); if(i) i.hide(); }
+        window.location.href = 'colibri_r_lab.html';
+    }
+
+    function openElearningModal() { new bootstrap.Modal(document.getElementById('elearningModal')).show(); }
+    function backToWallet() { switchSection(sections.setup, sections.wallet); updatePills(2); }
+    
+    function switchSection(from, to) { from.classList.add('d-none'); to.classList.remove('d-none'); to.classList.add('fade-in'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    
+    function updatePills(step) {
+       Object.values(pills).forEach(p => p.classList.remove('active'));
+       
+       if (state.role === 'mecenas') {
+         if(step === 1) pills[1].classList.add('active');
+         if(step === 2) pills[2].classList.add('active');
+         if(step === 4) pills[4].classList.add('active');
+       } else {
+         for (let i = 1; i <= 4; i++) { if (i <= step) pills[i].classList.add('active'); }
+       }
+    }
+    
+    function resetApp() { location.reload(); }
+  </script>
+</body>
+</html>

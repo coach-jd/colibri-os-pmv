@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ================================================================================= -->
+    <!-- 1. METADATOS Y SEO AVANZADO                                                       -->
+    <!-- ================================================================================= -->
+    <!-- 
+        El título y la descripción están optimizados para keywords B2B: 
+        "Infraestructura", "Dealflow", "Incubadoras", "Startups LatAm".
+    -->
+    <title>
+      Colibrí OS · Infraestructura Educativa y Reputacional para Startups
+    </title>
+    <meta
+      name="description"
+      content="Infraestructura B2B/B2G para incubadoras, fondos y gobiernos. Gestiona dealflow, verifica evidencias y traza la reputación de startups con NFTs evolutivos (N1-N6)."
+    />
+    <meta
+      name="keywords"
+      content="Colibrí OS, Dealflow, Startups LatAm, Due Diligence, Blockchain Educativo, Incubadoras, Aceleradoras, Gobierno"
+    />
+    <meta name="author" content="Colibrí OS" />
+
+    <!-- FAVICON (Generado inline para no depender de archivos externos) -->
+    <link rel="icon" href="imgs/favicon_colibri_latam_iridiscente.svg" />
+
+    <!-- OPEN GRAPH (Para que se vea bien al compartir en WhatsApp, LinkedIn, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://colibrilatam.com/" />
+    <meta
+      property="og:title"
+      content="Colibrí OS · Infraestructura para Emprendimientos Dinámicos"
+    />
+    <meta
+      property="og:description"
+      content="Optimiza tus convocatorias y haz trazable el impacto. Tecnología educativa y reputacional para el ecosistema emprendedor."
+    />
+    <meta
+      property="og:image"
+      content="https://placehold.co/1200x630/003366/FFF?text=Colibri+OS+Preview"
+    />
+
+    <!-- TWITTER CARD -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:title"
+      content="Colibrí OS · Infraestructura para Emprendimientos Dinámicos"
+    />
+    <meta
+      property="twitter:description"
+      content="Menos ruido, mejor dealflow. Plataforma para gestionar y validar startups en LatAm."
+    />
+
+    <!-- 
+        DATOS ESTRUCTURADOS (JSON-LD)
+        Fundamental para la IA SEO. Define explícitamente qué es el software.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Colibrí OS",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "description": "Infraestructura educativa y reputacional que ayuda a incubadoras y fondos a filtrar y acompañar startups mediante evidencias verificables.",
+        "audience": {
+          "@type": "BusinessAudience",
+          "audienceType": "Incubators, Accelerators, Venture Capital Funds, Public Programs"
+        }
+      }
+    </script>
+
+    <!-- SCHEMA FAQ (Para aparecer en los resultados enriquecidos de Google) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo ayuda Colibrí OS a las incubadoras?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Colibrí OS reduce las postulaciones irrelevantes pre-filtrando startups a través del nivel N1 y proporciona un data room vivo de evidencias verificables."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Es necesario saber de blockchain para usar Colibrí OS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. La tecnología blockchain y los NFTs evolutivos funcionan en segundo plano para garantizar la trazabilidad, pero la experiencia de usuario es la de una plataforma de gestión web estándar."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- ================================================================================= -->
+    <!-- 2. FUENTES Y LIBRERÍAS CSS                                                        -->
+    <!-- ================================================================================= -->
+
+    <!-- Google Fonts: Montserrat (Titulares firmes) y Lato (Lectura amable) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap 5.3 CSS (Framework Base) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons (Iconografía) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- Hoja de estilos principal (futura migración a Tailwind) -->
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- 
+        FONDO ANIMADO - LIGHT MODE
+        Estos divs están posicionados con 'fixed' y z-index negativo para servir de fondo.
+    -->
+    <div class="iridescent-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <!-- ================================================================================= -->
+    <!-- 4. HEADER / NAVBAR                                                                -->
+    <!-- ================================================================================= -->
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+        <div class="container">
+          <a
+            class="navbar-brand d-flex align-items-center"
+            href="#section-hero"
+          >
+            <img
+              src="imgs/avatar_colibri_os.png"
+              alt="Logo Colibrí OS"
+              class="me-2 rounded-circle"
+              style="width: 50px; height: 50px; object-fit: cover"
+            />
+            <span class="fw-semibold">Colibrí OS</span>
+          </a>
+
+          <button
+            class="navbar-toggler shadow-sm border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+              <li class="nav-item">
+                <a class="nav-link" href="#section-pain">Problema</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#section-product">Solución</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#section-use-cases">Casos de Uso</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#section-tech">Tecnología</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#section-ecosystem">Ecosistema</a>
+              </li>
+              <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                <a
+                  href="#section-demo"
+                  class="btn btn-colibri-primary btn-sm px-4"
+                >
+                  Ver Demo <i class="bi bi-play-fill ms-1"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================================================================================= -->
+      <!-- 5. SECCIÓN HERO (La primera impresión)                                            -->
+      <!-- ================================================================================= -->
+      <section
+        id="section-hero"
+        class="section-padding min-vh-100 d-flex align-items-center"
+      >
+        <div class="container">
+          <div class="row align-items-center">
+            <!-- Columna de Texto (Izquierda) - INTACTA -->
+            <div class="col-lg-6 order-2 order-lg-1 fade-in-element">
+              <h1 class="hero-title mb-4">
+                <br />
+                Infraestructura educativa y reputacional para emprendimientos
+                dinámicos
+              </h1>
+
+              <p class="lead text-secondary mb-5">
+                Ayudamos a incubadoras, fondos y gobiernos de LatAm a
+                <strong>prefiltrar y acompañar startups</strong> mediante
+                evidencias verificables y NFTs evolutivos.
+              </p>
+
+              <!-- Lista de valor -->
+              <div class="d-flex flex-column gap-3 mb-5">
+                <div class="d-flex align-items-center text-secondary">
+                  <i
+                    class="bi bi-check-circle-fill me-3"
+                    style="color: var(--colibri-emerald)"
+                  ></i>
+                  <span class="fs-6">Reduce postulaciones irrelevantes</span>
+                </div>
+                <div class="d-flex align-items-center text-secondary">
+                  <i
+                    class="bi bi-check-circle-fill me-3"
+                    style="color: var(--colibri-emerald)"
+                  ></i>
+                  <span class="fs-6">Due diligence trazable con data real</span>
+                </div>
+                <div class="d-flex align-items-center text-secondary">
+                  <i
+                    class="bi bi-check-circle-fill me-3"
+                    style="color: var(--colibri-emerald)"
+                  ></i>
+                  <span class="fs-6">Reportes de impacto automatizados</span>
+                </div>
+              </div>
+
+              <!-- CTAs Principales -->
+              <div class="d-flex flex-wrap gap-3">
+                <a href="#section-demo" class="btn btn-colibri-primary btn-lg"
+                  >Ver demo de Colibrí OS</a
+                >
+                <a
+                  href="#section-use-cases"
+                  class="btn btn-colibri-outline btn-lg"
+                  >Explorar casos de uso</a
+                >
+              </div>
+            </div>
+
+            <!-- Columna Visual (Derecha) - MODIFICADA -->
+            <!-- Se sustituyó el HTML complejo por la imagen solicitada -->
+            <div
+              class="col-lg-6 order-1 order-lg-2 mb-5 mb-lg-0 text-center fade-in-element"
+              style="animation-delay: 0.2s"
+            >
+              <div class="hero-img-container position-relative">
+                <!-- Brillo decorativo detrás de la imagen para darle profundidad -->
+                <div
+                  class="position-absolute top-50 start-50 translate-middle rounded-circle bg-info"
+                  style="
+                    width: 80%;
+                    height: 80%;
+                    filter: blur(80px);
+                    opacity: 0.15;
+                    z-index: -1;
+                  "
+                ></div>
+
+                <!-- Imagen Mockup -->
+                <!-- Nota: Asegúrate de que el archivo Mockup_R_Lab.webp esté en la carpeta raíz -->
+                <img
+                  src="imgs/Mockup-R-Lab.webp"
+                  alt="Panel de Control Colibrí Reputation Lab"
+                  class="img-fluid hero-mockup drop-shadow-lg"
+                  style="
+                    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
+                    max-height: 800px;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 6. SECCIÓN DOLOR DEL CLIENTE (Pain Points)                                        -->
+      <!-- ================================================================================= -->
+      <section id="section-pain" class="section-padding">
+        <div class="container">
+          <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-8 fade-in-element">
+              <h2 class="mb-3">Convocatorias saturadas, poca data confiable</h2>
+              <p class="text-secondary fs-5">
+                Cada batch recibes cientos de postulaciones, pero...
+              </p>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-5">
+            <!-- Card Dolor 1 -->
+            <div
+              class="col-md-6 col-lg-3 fade-in-element"
+              style="animation-delay: 0.1s"
+            >
+              <div class="glass-card h-100 p-4 position-relative text-center">
+                <div class="mb-3 text-warning fs-2">
+                  <i class="bi bi-inbox-fill"></i>
+                </div>
+                <h3 class="h5 fw-bold">Postulaciones Irrelevantes</h3>
+                <p class="small text-secondary mb-0">
+                  Más del 50% de aplicaciones no cumplen criterios básicos pero
+                  igual consumen tiempo de revisión.
+                </p>
+              </div>
+            </div>
+            <!-- Card Dolor 2 -->
+            <div
+              class="col-md-6 col-lg-3 fade-in-element"
+              style="animation-delay: 0.2s"
+            >
+              <div class="glass-card h-100 p-4 text-center">
+                <div class="mb-3 text-danger fs-2">
+                  <i class="bi bi-search"></i>
+                </div>
+                <h3 class="h5 fw-bold">Poca Evidencia</h3>
+                <p class="small text-secondary mb-0">
+                  Declaraciones de tracción sin datos, aprendizajes sin soporte,
+                  difícil comparar startups entre sí.
+                </p>
+              </div>
+            </div>
+            <!-- Card Dolor 3 -->
+            <div
+              class="col-md-6 col-lg-3 fade-in-element"
+              style="animation-delay: 0.3s"
+            >
+              <div class="glass-card h-100 p-4 text-center">
+                <div class="mb-3 text-info fs-2">
+                  <i class="bi bi-diagram-3"></i>
+                </div>
+                <h3 class="h5 fw-bold">Decisiones Opacas</h3>
+                <p class="small text-secondary mb-0">
+                  Selecciones basadas en "feeling" y pitch decks, sin
+                  trazabilidad para explicar por qué entró A y no B.
+                </p>
+              </div>
+            </div>
+            <!-- Card Dolor 4 -->
+            <div
+              class="col-md-6 col-lg-3 fade-in-element"
+              style="animation-delay: 0.4s"
+            >
+              <div class="glass-card h-100 p-4 text-center">
+                <div class="mb-3 text-success fs-2">
+                  <i class="bi bi-bar-chart-line"></i>
+                </div>
+                <h3 class="h5 fw-bold">Reportes Difíciles</h3>
+                <p class="small text-secondary mb-0">
+                  Cuando el directorio pregunta por el impacto real, faltan
+                  indicadores consolidados.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cierre Corto -->
+          <div
+            class="row justify-content-center text-center fade-in-element"
+            style="animation-delay: 0.5s"
+          >
+            <div class="col-lg-8">
+              <p class="lead fw-bold text-primary">
+                Colibrí OS nace para transformar este ruido en
+                <strong>datos claros y trayectorias visibles.</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 7. SECCIÓN PRODUCTO (Las 3 Capas)                                                 -->
+      <!-- ================================================================================= -->
+      <section id="section-product" class="section-padding">
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2 class="mb-3">Tres capas para ordenar tu funnel</h2>
+            <p class="text-secondary fs-5">
+              Transformamos el ruido en señales claras.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <!-- Capa 1: Formativa -->
+            <div class="col-lg-4 fade-in-element">
+              <div
+                class="glass-card p-4 h-100 border-top border-4 d-flex flex-column shadow-sm"
+                style="border-top-color: var(--colibri-emerald) !important"
+              >
+                <div
+                  class="d-flex justify-content-between align-items-start mb-3"
+                >
+                  <div class="badge bg-success">Capa 1</div>
+                  <i class="bi bi-mortarboard text-success fs-4"></i>
+                </div>
+                <h3 class="h4 mb-3">Formativa</h3>
+                <p class="text-secondary small mb-4 flex-grow-1">
+                  Programas de 21 microacciones y 7 evidencias por nivel
+                  (N1–N6). que preparan a los equipos antes de postular a tus
+                  convocatorias. Todos hablan un mismo lenguaje mínimo de
+                  problema, solución, modelo y tracción.
+                </p>
+                <ul class="list-unstyled text-secondary small">
+                  <li class="mb-2">
+                    <i class="bi bi-check2 text-success me-2"></i>Estándar común
+                    de calidad para tus postulantes.
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check2 text-success me-2"></i>Señales claras
+                    de compromiso y disciplina.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Capa 2: Reputation Lab -->
+            <div class="col-lg-4 fade-in-element" style="animation-delay: 0.2s">
+              <div
+                class="glass-card p-4 h-100 border-top border-4 d-flex flex-column shadow-sm"
+                style="border-top-color: var(--colibri-turquoise) !important"
+              >
+                <div
+                  class="d-flex justify-content-between align-items-start mb-3"
+                >
+                  <div class="badge bg-info">Capa 2</div>
+                  <i class="bi bi-sliders text-info fs-4"></i>
+                </div>
+                <h3 class="h4 mb-3">Reputation Lab</h3>
+                <p class="text-secondary small mb-4 flex-grow-1">
+                  Plataforma donde se registran microacciones, evidencias,
+                  credenciales y evolución NFT de cada emprendimiento dinámico.
+                  Es tu <strong>data room vivo </strong>para evaluar y hacer
+                  seguimiento.
+                </p>
+                <ul class="list-unstyled text-secondary small">
+                  <li class="mb-2">
+                    <i class="bi bi-check2 text-info me-2"></i>Indicadores
+                    visuales (Índice Colibrí, niveles N1–N6).
+                  </li>
+                  <li class="mb-2">
+                    <i class="bi bi-check2 text-info me-2"></i>Due diligence más
+                    ágil y transparente.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Capa 3: Market (Roadmap) -->
+            <div class="col-lg-4 fade-in-element" style="animation-delay: 0.4s">
+              <div
+                class="glass-card p-4 h-100 border-top border-4 d-flex flex-column shadow-sm"
+                style="border-top-color: var(--colibri-nectar) !important"
+              >
+                <div
+                  class="d-flex justify-content-between align-items-start mb-3"
+                >
+                  <div class="badge bg-warning text-dark">Capa 3 (Roadmap)</div>
+                  <i class="bi bi-shop text-warning fs-4"></i>
+                </div>
+                <h3 class="h4 mb-3">Reputation Market</h3>
+                <p class="text-secondary small mb-4 flex-grow-1">
+                  Futuro marketplace de dealflow reputacionalmente trazable,
+                  donde fondos, corporativos y mecenas podrán descubrir
+                  proyectos ya filtrados por el estándar Colibrí.
+                </p>
+                <div
+                  class="alert alert-warning py-2 px-3 small border-0 mt-auto d-flex align-items-center text-dark"
+                >
+                  <i class="bi bi-eye me-2"></i> Visible en Demo
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 8. SECCIÓN DEMO (Hub central de interacción)                                      -->
+      <!-- ================================================================================= -->
+      <section id="section-demo" class="section-padding">
+        <div class="container">
+          <div class="row align-items-center g-5">
+            <!-- Columna Video (Izquierda) -->
+            <div class="col-lg-8 fade-in-element">
+              <div
+                class="glass-card p-2 position-relative overflow-hidden shadow-lg bg-white"
+              >
+                <!-- 
+                                Placeholder de Video (Ratio 16:9)
+                                En producción, reemplazar el contenido interno con un <iframe> de YouTube/Vimeo
+                            -->
+                <div
+                  class="ratio ratio-16x9 bg-light rounded-4 d-flex align-items-center justify-content-center border border-secondary border-opacity-10"
+                >
+                  <div class="text-center cursor-pointer hover-scale">
+                    <div class="display-1 text-danger mb-3 opacity-75">
+                      <i class="bi bi-play-circle-fill"></i>
+                    </div>
+                    <p class="text-dark lead fw-bold">Ver Demo Interactiva</p>
+                    <span
+                      class="badge bg-white border border-secondary text-secondary shadow-sm"
+                      >Duración: 6 min</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna Accesos Directos (Derecha) -->
+            <div class="col-lg-4 fade-in-element">
+              <h2 class="mb-3">Mira Colibrí OS en acción</h2>
+              <p class="text-secondary mb-4">
+                Te mostramos cómo un emprendimiento dinámico recorre el nivel N1
+                · Semilla de Luz en el <strong>Reputation Lab</strong> y cómo se
+                ve su progreso desde el <strong> Panel de Vuelo</strong>.
+              </p>
+
+              <!-- Botones de flujo específico -->
+              <div class="d-flex flex-column gap-3">
+                <!-- Link a R Lab -->
+                <a
+                  href="colibri_onboarding.html"
+                  class="glass-card p-3 text-decoration-none d-flex align-items-center hover-light-bg transition-all bg-white shadow-sm"
+                >
+                  <div
+                    class="bg-primary bg-opacity-10 p-2 rounded me-3 text-primary"
+                  >
+                    <i class="bi bi-laptop"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-0 text-primary fw-bold">
+                      Demo Reputation Lab (N1)
+                    </h6>
+                    <small class="text-secondary"
+                      >Explora el panel donde se registran microacciones,
+                      evidencias y credenciales.</small
+                    >
+                  </div>
+                  <i class="bi bi-chevron-right ms-auto text-secondary"></i>
+                </a>
+                <!-- Link a M Lab -->
+                <!-- Link a M Lab (MODIFICADO) -->
+                <a
+  href="colibri_r_market.html"
+  class="glass-card p-3 text-decoration-none d-flex align-items-center hover-light-bg transition-all bg-white shadow-sm border-0 text-start w-100"
+>
+  <div class="bg-danger bg-opacity-10 p-2 rounded me-3 text-danger">
+    <i class="bi bi-hexagon"></i>
+  </div>
+
+  <div>
+    <h6 class="mb-0 text-danger fw-bold">
+      Vista preliminar del Reputation Market
+    </h6>
+    <small class="text-secondary">
+      Mira cómo se verán los NFTs listos para inversión.
+    </small>
+  </div>
+
+  <i class="bi bi-chevron-right ms-auto text-secondary"></i>
+</a>
+
+
+                <!-- ¿Link para descargar el One-Pager -->
+                <a
+                  href="One Pager - Colibrí Latam.pdf"
+                  class="btn btn-colibri-outline w-100 mt-2"
+                  download
+                >
+                  <i class="bi bi-file-earmark-pdf me-2"></i> Descargar
+                  One-Pager
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 9. RUTA DE EVOLUCIÓN N1-N6 (Timeline Vertical)                                    -->
+      <!-- ================================================================================= -->
+      <section id="section-evolution" class="section-padding">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="text-center mb-5 fade-in-element">
+                <h2 class="mb-3">Ruta de Evolución de un NFT Colibrí</h2>
+                <p class="text-secondary">
+                  Cada emprendimiento dinámico
+                  <strong> avanza por niveles N1–N6.</strong> <br />Cada
+                  evolución representa
+                  <strong>nuevas evidencias, aprendizajes y tracción</strong>
+                  que tu equipo puede ver en tiempo real.
+                </p>
+              </div>
+
+              <!-- Timeline Container -->
+              <div class="ms-4 ps-2 border-start-0 fade-in-element">
+                <!-- N1 -->
+                <div class="timeline-step">
+                  <div class="timeline-dot">N1</div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N1) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n1_semilla de luz.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Semilla de Luz</h3>
+                      <p class="text-secondary small mb-0">
+                        Diagnóstico inicial, problema definido, equipo
+                        comprometido y mapa personal del fundador. <br />Ideal
+                        como requisito mínimo para aplicar a programas base.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- N2 -->
+                <div class="timeline-step">
+                  <div class="timeline-dot">N2</div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N2) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n2_chispa_azul.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                        class="nft-thumb-img"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Chispa Azul</h3>
+                      <p class="text-secondary small mb-0">
+                        Primeras validaciones con usuarios, hipótesis de
+                        solución y propuesta de valor más clara.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- N3 -->
+                <div class="timeline-step">
+                  <div
+                    class="timeline-dot"
+                    style="
+                      border-color: var(--colibri-nectar);
+                      color: var(--colibri-nectar);
+                    "
+                  >
+                    N3
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N3) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n3_ala_dorada.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                        class="nft-thumb-img"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Ala Dorada</h3>
+                      <p class="text-secondary small mb-0">
+                        Ajuste de modelo de negocio, pruebas de concepto y
+                        primeros indicadores de interés. <br />Nivel mínimo para
+                        inversión ángel.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- N4 -->
+                <div class="timeline-step">
+                  <div class="timeline-dot">N4</div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N4) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n4_eco_carmesi.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                        class="nft-thumb-img"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Eco Carmesí</h3>
+                      <p class="text-secondary small mb-0">
+                        Tracción temprana, comunidad alrededor de la solución y
+                        métricas iniciales de uso/ingresos.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- N5 -->
+                <div class="timeline-step">
+                  <div class="timeline-dot">N5</div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N5) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n5_Iridiscente.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                        class="nft-thumb-img"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Iridiscente</h3>
+                      <p class="text-secondary small mb-0">
+                        Consolidación del modelo, refinamiento del equipo y
+                        preparación para rondas de capital. <br />Listos para
+                        inversión Seed/Series A.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- N6 -->
+                <div class="timeline-step">
+                  <!-- Destacamos el último nivel -->
+                  <div
+                    class="timeline-dot"
+                    style="
+                      border-color: var(--colibri-emerald);
+                      background: var(--colibri-emerald);
+                      color: #fff;
+                    "
+                  >
+                    N6
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <!-- (SVG animado N6) -->
+                    <div class="nft-thumb me-4">
+                      <img
+                        src="imgs/nft_n6_colibri_del_cambio.svg"
+                        alt="NFT Colibrí - N1 Semilla de Luz"
+                        class="nft-thumb-img"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="h5 fw-bold mb-1">Colibrí del Cambio</h3>
+                      <p class="text-secondary small mb-0">
+                        Expansión, alianzas clave y mecenazgo avanzado.
+                        Proyectos listos para escalar impacto.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Cierre Corto -->
+              <div
+                class="row justify-content-center text-center fade-in-element"
+                style="animation-delay: 0.5s"
+              >
+                <div class="col-lg-8">
+                  <p class="lead fw-bold text-primary">
+                    En el Reputation Lab puedes ver
+                    <strong
+                      >en qué nivel está cada equipo y qué evidencias</strong
+                    >
+                    respaldan ese nivel.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 10. CASOS DE USO (Tabs)                                                           -->
+      <!-- ================================================================================= -->
+      <section id="section-use-cases" class="section-padding">
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2>¿Para quienes diseñamos Colibrí OS?</h2>
+            <p class="text-secondary">
+              Soluciones adaptadas a cada actor clave del Ecosistema
+              Emprendedor.
+            </p>
+          </div>
+
+          <!-- Navegación de Tabs -->
+          <ul
+            class="nav nav-pills justify-content-center mb-4 fade-in-element"
+            id="pills-tab"
+            role="tablist"
+          >
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="pills-accel-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-accel"
+                type="button"
+                role="tab"
+              >
+                Aceleradoras y Fondos
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="pills-public-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-public"
+                type="button"
+                role="tab"
+              >
+                Programas Públicos
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="pills-uni-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-uni"
+                type="button"
+                role="tab"
+              >
+                Universidades
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="pills-corp-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-corp"
+                type="button"
+                role="tab"
+              >
+                Corporativos
+              </button>
+            </li>
+          </ul>
+
+          <!-- Contenido de Tabs -->
+          <div class="tab-content fade-in-element" id="pills-tabContent">
+            <!-- Panel Aceleradoras -->
+            <div
+              class="tab-pane fade show active"
+              id="pills-accel"
+              role="tabpanel"
+            >
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="glass-card p-5 text-center bg-white shadow-sm">
+                    <i class="bi bi-rocket-takeoff fs-1 mb-3 text-info"></i>
+                    <h3 class="h4 mb-3">Aceleradoras y Fondos VC</h3>
+                    <h3 class="h5 mb-3">
+                      Seleccionar y seguir startups de manera más eficiente
+                    </h3>
+                    <p class="text-secondary mb-4">
+                      Usa Colibrí OS como
+                      <strong>pre-acelerador</strong> estándar. Solo las
+                      startups que completen el nivel que se
+                      <strong>adecúe a tu tésis de inversión</strong> pueden
+                      postular a tus batches, y las evidencias que lo demuestran
+                      estarán registradas en el <strong>Reputation Lab.</strong>
+                    </p>
+                    <!-- Lista de valor (Bullets) -->
+                    <ul class="list-unstyled text-secondary small">
+                      <li class="mb-2">
+                        <i class="bi bi-check2 text-success me-2"> </i>Menos
+                        ruido en tus convocatorias abiertas.
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check2 text-success me-2"></i>Due
+                        diligence más rápido con evidencias centralizadas.
+                      </li>
+                      <li class="mb-2">
+                        <i class="bi bi-check2 text-success me-2"></i>Panel de
+                        impacto de tu portafolio.
+                      </li>
+                      <br />
+                    </ul>
+                    <a
+                      href="#section-demo"
+                      class="btn btn-sm btn-colibri-outline"
+                      >Ver flujo en Demo</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Panel Público -->
+            <div class="tab-pane fade" id="pills-public" role="tabpanel">
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="glass-card p-5 text-center bg-white shadow-sm">
+                    <i class="bi bi-bank fs-1 mb-3 text-warning"></i>
+                    <h3 class="h4 mb-3">Programas Públicos (B2G / B2G2C)</h3>
+                    <p class="text-secondary mb-4">
+                      Integra Colibrí OS como requisito para fondos
+                      concursables. Obtén reportes de impacto estandarizados a
+                      nivel regional o nacional, independiente del operador que
+                      ejecute el programa.
+                    </p>
+
+                    <a
+                      href="#section-demo"
+                      class="btn btn-sm btn-colibri-outline"
+                      >Ver reportes en Demo</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Panel Universidades (Nuevo) -->
+            <div class="tab-pane fade" id="pills-uni" role="tabpanel">
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="glass-card p-5 text-center bg-white shadow-sm">
+                    <i class="bi bi-book fs-1 mb-3 text-primary"></i>
+                    <h3 class="h4 mb-3">Universidades y Centros</h3>
+                    <p class="text-secondary mb-4">
+                      Convierte tus programas en rutas N1–N3 trazables. Cada
+                      taller, mentoría y proyecto se documenta como
+                      microacciones y evidencias, visibles para fondos y
+                      aliados.
+                    </p>
+
+                    <a
+                      href="#section-demo"
+                      class="btn btn-sm btn-colibri-outline"
+                      >Ver ejemplo en Demo</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Panel Corporativos -->
+            <div class="tab-pane fade" id="pills-corp" role="tabpanel">
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="glass-card p-5 text-center bg-white shadow-sm">
+                    <i class="bi bi-buildings fs-1 mb-3 text-success"></i>
+                    <h3 class="h4 mb-3">Innovación Abierta</h3>
+                    <p class="text-secondary mb-4">
+                      Filtra startups candidatas a pilotos y desafíos
+                      corporativos usando el Índice Colibrí y los niveles de
+                      madurez (N1-N6). Menos pitch aleatorio, más encaje con tus
+                      necesidades.
+                    </p>
+
+                    <a
+                      href="#section-demo"
+                      class="btn btn-sm btn-colibri-outline"
+                      >Ver dashboard</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 11. SECCIÓN MÉTRICAS (Independiente)                                              -->
+      <!-- ================================================================================= -->
+      <section
+        id="section-metrics"
+        class="section-padding bg-primary bg-opacity-10"
+      >
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2>Resultados Esperados</h2>
+            <p class="text-secondary">
+              ¿Qué puedes esperar al implementar Colibrí OS?
+            </p>
+          </div>
+          <div
+            class="row g-4 align-items-center justify-content-center fade-in-element"
+          >
+            <!-- Métricas Clave -->
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="display-5 fw-bold text-primary">-60%</div>
+                <div class="small text-secondary">
+                  Tiempo dedicado a revisión manual de postulaciones por batch.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="display-5 fw-bold text-primary">-50%</div>
+                <div class="small text-secondary">
+                  Postulaciones que no cumplen requisitos mínimos, gracias al
+                  filtro por niveles.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="display-5 fw-bold text-primary">100%</div>
+                <div class="small text-secondary">
+                  Cada decisión (quién entra o sale) puede vincularse a
+                  evidencias concretas.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div
+                class="glass-card p-4 text-center bg-white shadow-sm h-100 d-flex flex-column justify-content-center"
+              >
+                <div class="display-6 fw-bold text-primary">1 Panel Único</div>
+                <div class="small text-secondary">
+                  Visualiza en un solo lugar el avance de N1 a N6 de todas tus
+                  startups.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 12. SECCIÓN TECNOLOGÍA (Independiente y Fiel al Brief)                            -->
+      <!-- ================================================================================= -->
+      <section id="section-tech" class="section-padding">
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2>Tecnología para credenciales e IP educativa trazable</h2>
+            <p class="text-secondary">
+              Infraestructura robusta, experiencia simple.
+            </p>
+          </div>
+
+          <div class="row g-4 fade-in-element">
+            <!-- Bloque 1 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="mb-3 text-info fs-2">
+                  <i class="bi bi-journal-code"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Story Protocol</h5>
+                <p class="small text-secondary mb-0">
+                  Registramos la IP educativa que se genera en el proceso para
+                  asegurar la trazabilidad y protección de derechos que todos
+                  los actores del proceso requieren.
+                </p>
+              </div>
+            </div>
+            <!-- Bloque 2 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="mb-3 text-primary fs-2">
+                  <i class="bi bi-link-45deg"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Blockchain EVM</h5>
+                <p class="small text-secondary mb-0">
+                  Usamos estándares abiertos para representar la trayectoria de
+                  cada startup como un NFT evolutivo, verificable y portable.
+                </p>
+              </div>
+            </div>
+            <!-- Bloque 3 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="mb-3 text-success fs-2">
+                  <i class="bi bi-bar-chart-steps"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Paneles e Infraestructura</h5>
+                <p class="small text-secondary mb-0">
+                  Todo se visualiza en el Reputation Lab, donde tu equipo puede
+                  filtrar, comparar y descargar reportes de impacto.
+                </p>
+              </div>
+            </div>
+            <!-- Bloque 4 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="glass-card p-4 text-center bg-white shadow-sm h-100">
+                <div class="mb-3 text-warning fs-2">
+                  <i class="bi bi-shield-check"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Seguridad y Privacidad</h5>
+                <p class="small text-secondary mb-0">
+                  Trabajamos con buenas prácticas de protección de datos. La
+                  información personal se trata con permisos explícitos y en
+                  cumplimiento de la normativa local.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cierre de Tecnología -->
+          <div
+            class="row justify-content-center text-center fade-in-element"
+            style="animation-delay: 0.3s"
+          >
+            <div class="col-lg-8 mt-5">
+              <p
+                class="lead fw-bold text-primary bg-white p-4 rounded-pill shadow-sm d-inline-block border border-secondary border-opacity-10"
+              >
+                Para tus equipos, Colibrí OS se siente como una plataforma de
+                credenciales y seguimiento. La complejidad tecnológica ocurre
+                por debajo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 13. SECCIÓN ECOSISTEMA (Independiente)                                            -->
+      <!-- ================================================================================= -->
+      <section id="section-ecosystem" class="section-padding bg-light">
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2>Ecosistema Colibrí: Actores y Funciones</h2>
+            <p class="text-secondary">
+              Una red colaborativa donde cada actor cumple un rol clave.
+            </p>
+          </div>
+          <div class="row g-4 fade-in-element justify-content-center">
+            <!-- Ecosistema -->
+            <div class="col-lg-10">
+              <div class="glass-card p-4 bg-white shadow-sm">
+                <div class="row g-4">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-start">
+                      <div
+                        class="me-3 bg-primary bg-opacity-10 p-2 rounded-circle text-primary"
+                      >
+                        <i class="bi bi-people fs-4"></i>
+                      </div>
+                      <div>
+                        <h5 class="fw-bold mb-1">Emprendimientos Dinámicos</h5>
+                        <p class="small text-secondary mb-0">
+                          Equipos de base tecnológica que recorren niveles N1–N6
+                          documentando sus microacciones, aprendizajes y
+                          evidencias.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-start">
+                      <div
+                        class="me-3 bg-success bg-opacity-10 p-2 rounded-circle text-success"
+                      >
+                        <i class="bi bi-bank2 fs-4"></i>
+                      </div>
+                      <div>
+                        <h5 class="fw-bold mb-1">
+                          Organizaciones Aliadas (Tú)
+                        </h5>
+                        <p class="small text-secondary mb-0">
+                          Incubadoras, aceleradoras, universidades, fondos y
+                          programas públicos que usan Colibrí OS para
+                          seleccionar y acompañar startups.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-start">
+                      <div
+                        class="me-3 bg-warning bg-opacity-10 p-2 rounded-circle text-warning"
+                      >
+                        <i class="bi bi-heart fs-4"></i>
+                      </div>
+                      <div>
+                        <h5 class="fw-bold mb-1">Mecenas y Patrocinadores</h5>
+                        <p class="small text-secondary mb-0">
+                          Empresas, fondos filantrópicos y donantes que
+                          financian becas de formación y apoyan NFTs en niveles
+                          avanzados.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-start">
+                      <div
+                        class="me-3 bg-info bg-opacity-10 p-2 rounded-circle text-info"
+                      >
+                        <i class="bi bi-building-gear fs-4"></i>
+                      </div>
+                      <div>
+                        <h5 class="fw-bold mb-1">
+                          Fundación y Empresa BIC Colibrí
+                        </h5>
+                        <p class="small text-secondary mb-0">
+                          La Fundación resguarda el propósito y metodologías. La
+                          Empresa BIC desarrolla el software y asegura
+                          sostenibilidad.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 14. SECCIÓN FILTRO (¿Es adecuado?)                                                -->
+      <!-- ================================================================================= -->
+      <section id="section-fit" class="section-padding">
+        <div class="container">
+          <div class="text-center mb-5 fade-in-element">
+            <h2>¿Para quién es Colibrí OS?</h2>
+            <p class="text-secondary">
+              Identifica si tu organización se beneficia de nuestra
+              infraestructura.
+            </p>
+          </div>
+          <div class="row justify-content-center fade-in-element">
+            <div class="col-lg-8">
+              <div class="glass-card p-5 bg-white shadow-sm text-center">
+                <h4 class="mb-4 text-primary">
+                  Si te reconoces en varios de estos puntos, probablemente
+                  Colibrí OS puede ayudarte
+                </h4>
+                <ul
+                  class="list-group list-group-flush bg-transparent text-start d-inline-block mx-auto mb-5"
+                >
+                  <li
+                    class="list-group-item bg-transparent border-0 ps-0 fs-5 d-flex align-items-center"
+                  >
+                    <i
+                      class="bi bi-check-circle-fill text-success me-3 fs-4"
+                    ></i>
+                    Gestionas convocatorias para startups y quieres mejorar la
+                    calidad del dealflow.
+                  </li>
+                  <li
+                    class="list-group-item bg-transparent border-0 ps-0 fs-5 d-flex align-items-center"
+                  >
+                    <i
+                      class="bi bi-check-circle-fill text-success me-3 fs-4"
+                    ></i>
+                    Necesitas evidencia más sólida para tomar decisiones de
+                    inversión o fondos.
+                  </li>
+                  <li
+                    class="list-group-item bg-transparent border-0 ps-0 fs-5 d-flex align-items-center"
+                  >
+                    <i
+                      class="bi bi-check-circle-fill text-success me-3 fs-4"
+                    ></i>
+                    Te cuesta reportar impacto con datos claros a sponsors o
+                    autoridades.
+                  </li>
+                  <li
+                    class="list-group-item bg-transparent border-0 ps-0 fs-5 d-flex align-items-center"
+                  >
+                    <i
+                      class="bi bi-check-circle-fill text-success me-3 fs-4"
+                    ></i>
+                    Trabajas especialmente con
+                    <strong
+                      >emprendimientos dinámicos de base tecnológica.</strong
+                    >
+                  </li>
+                </ul>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                  <a
+                    href="#section-demo"
+                    class="btn btn-colibri-primary btn-lg shadow-sm"
+                    >Ver demo</a
+                  >
+                  <a
+                    href="#section-contact"
+                    class="btn btn-colibri-outline btn-lg"
+                    >Cuéntanos sobre tu programa</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 15. FAQ                                                                           -->
+      <!-- ================================================================================= -->
+      <section id="section-faq" class="section-padding bg-light">
+        <div class="container">
+          <div class="row justify-content-center g-5">
+            <!-- FAQ -->
+            <div class="col-lg-8 fade-in-element">
+              <div class="text-center mb-5">
+                <h2>Preguntas Frecuentes de Organizaciones</h2>
+              </div>
+              <div class="accordion" id="faqAccordion">
+                <div class="accordion-item shadow-sm">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faq1"
+                    >
+                      ¿Cómo se licencia Colibrí OS para una cohorte o programa?
+                    </button>
+                  </h2>
+                  <div
+                    id="faq1"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body bg-white">
+                      Trabajamos con licencias por cohorte y/o por cantidad de
+                      emprendimientos activos en la plataforma. También podemos
+                      diseñar pilotos acotados para validar el encaje con tu
+                      organización.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item shadow-sm mt-3">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faq2"
+                    >
+                      ¿Necesitamos experiencia previa en blockchain o NFTs?
+                    </button>
+                  </h2>
+                  <div
+                    id="faq2"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body bg-white">
+                      No. Para tu equipo y para las startups, Colibrí OS se usa
+                      como cualquier plataforma de credenciales y seguimiento
+                      web 2.0. La capa Web3 ocurre por debajo.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item shadow-sm mt-3">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faq3"
+                    >
+                      ¿Cuánto tiempo lleva implementar Colibrí OS?
+                    </button>
+                  </h2>
+                  <div
+                    id="faq3"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body bg-white">
+                      Un piloto puede activarse en pocas semanas. Incluye
+                      parametrización básica, formación para tu equipo y soporte
+                      durante la primera cohorte.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item shadow-sm mt-3">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faq4"
+                    >
+                      ¿Qué datos se almacenan y cómo se protege la privacidad?
+                    </button>
+                  </h2>
+                  <div
+                    id="faq4"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body bg-white">
+                      Registramos información vinculada al progreso de los
+                      proyectos, las microacciones y las evidencias. Los datos
+                      personales se manejan con consentimiento explícito y
+                      buenas prácticas de protección de datos.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item shadow-sm mt-3">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faq5"
+                    >
+                      ¿Podemos empezar con un piloto pequeño?
+                    </button>
+                  </h2>
+                  <div
+                    id="faq5"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body bg-white">
+                      Sí. De hecho, recomendamos iniciar con una cohorte piloto
+                      para adaptar el uso de Colibrí OS a tu contexto
+                      específico.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================================= -->
+      <!-- 16. CIERRE + CONTACTO (Final CTA)                                                 -->
+      <!-- ================================================================================= -->
+      <section id="section-contact" class="section-padding text-center">
+        <div class="container">
+          <!-- Card gigante destacada para el cierre -->
+          <div
+            class="glass-card p-5 border-0 fade-in-element shadow-lg"
+            style="
+              background: linear-gradient(
+                135deg,
+                var(--colibri-white) 0%,
+                #e6f7ff 100%
+              );
+              border: 1px solid var(--colibri-turquoise);
+            "
+          >
+            <h2 class="mb-3 display-5 fw-bold text-primary">
+              Ya estás invirtiendo tiempo y recursos en convocar talento
+              emprendedor.
+            </h2>
+            <p class="lead text-secondary mb-4 mw-600 mx-auto">
+              Colibrí OS te ayuda a que cada gota cuente y quede registrada.
+              <br />Detrás de cada NFT Colibrí hay horas de trabajo real,
+              microacciones y evidencias.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+              <a
+                href="#section-demo"
+                class="btn btn-colibri-primary btn-lg px-5 shadow-md"
+                >Ver Demo de Colibrí OS</a
+              >
+              <a
+                href="#section-contact"
+                class="btn btn-colibri-outline btn-lg px-5"
+                >Agendar una Reunión para Piloto</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- 12. CIERRE + FORMULARIO DE CONTACTO (LEADS)             -->
+      <!-- ======================================================= -->
+      <section id="section-contact" class="section-padding">
+        <div class="container">
+          <!-- Encabezado de Sección -->
+          <div class="text-center mb-5">
+            <h2 class="display-5 mb-3">¿Te gustaría explorar Colibrí OS?</h2>
+            <p
+              class="lead"
+              style="
+                color: var(--text-secondary);
+                max-width: 700px;
+                margin: 0 auto;
+              "
+            >
+              Cuéntanos sobre tu organización y diseñaremos una propuesta de
+              valor adaptada a tu ecosistema.
+            </p>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8">
+              <!-- FORMULARIO CON ESTILO GLASS-CARD -->
+              <!-- Se añade 'needs-validation' para activar JS de Bootstrap y 'novalidate' para control manual -->
+              <form
+                action="https://formspree.io/f/mpwnqzjg"
+                method="POST"
+                class="glass-card p-4 p-md-5 needs-validation"
+                novalidate
+                id="contactForm"
+              >
+                <!-- Nombre y Email -->
+                <div class="row g-4">
+                  <div class="col-md-6">
+                    <label for="lead-name" class="form-label"
+                      >Nombre y apellido</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lead-name"
+                      name="name"
+                      placeholder="Ej: Jesús Díaz"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Por favor ingresa tu nombre.
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="lead-email" class="form-label"
+                      >Correo institucional</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="lead-email"
+                      name="email"
+                      placeholder="Ej: nombre@organizacion.com"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Ingresa un correo válido.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Organización y Rol -->
+                <div class="row g-4 mt-1">
+                  <div class="col-md-6">
+                    <label for="lead-organization" class="form-label"
+                      >Organización</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lead-organization"
+                      name="organization"
+                      placeholder="Ej: Aceleradora X, Ministerio Y..."
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      El nombre de la organización es obligatorio.
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="lead-role" class="form-label">Tu Rol</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lead-role"
+                      name="role"
+                      placeholder="Ej: Director de Programa"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Por favor indícanos tu cargo.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tipo y País -->
+                <div class="row g-4 mt-1">
+                  <div class="col-md-6">
+                    <label for="lead-org-type" class="form-label"
+                      >Tipo de organización</label
+                    >
+                    <select
+                      class="form-select"
+                      id="lead-org-type"
+                      name="organization_type"
+                      required
+                    >
+                      <option value="" selected disabled>
+                        Selecciona una opción...
+                      </option>
+                      <option value="aceleradora_fondo">
+                        Aceleradora / Fondo VC
+                      </option>
+                      <option value="programa_publico">
+                        Programa público / Gobierno
+                      </option>
+                      <option value="universidad_centro">
+                        Universidad / Centro de emprendimiento
+                      </option>
+                      <option value="corporativo_innovacion">
+                        Corporativo / Innovación abierta
+                      </option>
+                      <option value="otro">Otro</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Selecciona el tipo de organización.
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="lead-country" class="form-label">País</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lead-country"
+                      name="country"
+                      placeholder="Ej: Chile, México, Colombia..."
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Indícanos el país de operación principal.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Datos del Programa -->
+                <div class="row g-4 mt-1">
+                  <div class="col-md-6">
+                    <label for="lead-cohort-size" class="form-label"
+                      >Startups por año (aprox)</label
+                    >
+                    <select
+                      class="form-select"
+                      id="lead-cohort-size"
+                      name="cohort_size"
+                    >
+                      <option value="" selected disabled>
+                        Selecciona rango...
+                      </option>
+                      <option value="1-20">1 – 20 startups</option>
+                      <option value="21-50">21 – 50 startups</option>
+                      <option value="51-100">51 – 100 startups</option>
+                      <option value="100+">Más de 100 startups</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="lead-interest" class="form-label"
+                      >Objetivo principal</label
+                    >
+                    <select
+                      class="form-select"
+                      id="lead-interest"
+                      name="interest"
+                    >
+                      <option value="" selected disabled>
+                        ¿Qué buscas lograr?
+                      </option>
+                      <option value="demo_general">
+                        Ver una Demo del producto
+                      </option>
+                      <option value="piloto_cohorte">
+                        Coordinar un Piloto
+                      </option>
+                      <option value="integracion_programa">
+                        Digitalizar proceso actual
+                      </option>
+                      <option value="otra_consulta">
+                        Solo información general
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Mensaje -->
+                <div class="mt-4">
+                  <label for="lead-message" class="form-label"
+                    >Detalles adicionales</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="lead-message"
+                    name="message"
+                    rows="4"
+                    placeholder="Cuéntanos brevemente tus desafíos actuales: ¿Usan hojas de cálculo? ¿Tienen problemas de reporte?..."
+                  ></textarea>
+                </div>
+
+                <!-- Consentimiento -->
+                <div class="form-check mt-4">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="yes"
+                    id="lead-consent"
+                    name="consent"
+                    required
+                  />
+                  <label
+                    class="form-check-label small text-muted"
+                    for="lead-consent"
+                  >
+                    Acepto compartir estos datos para ser contactado por el
+                    equipo de Colibrí OS.
+                  </label>
+                  <div class="invalid-feedback">
+                    Debes aceptar para continuar.
+                  </div>
+                </div>
+
+                <!-- Campos ocultos Formspree -->
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="Nuevo Lead Web - Colibrí OS"
+                />
+
+                <!-- Footer del Formulario -->
+                <div
+                  class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-5 pt-3 border-top border-light"
+                >
+                  <!--<p class="small text-muted mb-3 mb-md-0">
+                                <i class="bi bi-clock"></i> Respuesta estimada: 24-48 horas hábiles.
+                            </p>  -->
+                  <button
+                    type="submit"
+                    class="btn btn-colibri-primary w-100 w-md-auto"
+                  >
+                    Solicitar Contacto
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================================================================================= -->
+    <!-- 17. FOOTER                                                                        -->
+    <!-- ================================================================================= -->
+    <footer class="py-5 border-top border-secondary border-opacity-10 bg-white">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4 mb-4 mb-lg-0">
+            <h5 class="fw-bold mb-3 d-flex align-items-center text-primary">
+              <i class="bi bi-stars text-info me-2"></i> Colibrí OS
+            </h5>
+            <p class="small text-secondary">
+              Infraestructura digital del Movimiento Colibrí LATAM.<br />
+              Pequeñas acciones. Grandes transformaciones.
+            </p>
+          </div>
+          <div class="col-lg-2 col-6">
+            <h6 class="mb-3 text-primary">Producto</h6>
+            <ul class="list-unstyled small text-secondary">
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Reputation Lab</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Market (Roadmap)</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Precios</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-6">
+            <h6 class="mb-3 text-primary">Ecosistema</h6>
+            <ul class="list-unstyled small text-secondary">
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Para Aceleradoras</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Para Gobiernos</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="text-decoration-none text-secondary hover-primary"
+                  >Fundación</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-4">
+            <h6 class="mb-3 text-primary">Mantente informado</h6>
+            <div class="input-group mb-3 shadow-sm">
+              <input
+                type="email"
+                class="form-control bg-light text-secondary border-secondary border-opacity-10"
+                placeholder="Tu email institucional"
+              />
+              <button class="btn btn-colibri-primary" type="button">
+                Suscribir
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row mt-5 pt-4 border-top border-secondary border-opacity-10"
+        >
+          <div class="col-md-6 text-secondary small">
+            &copy; <span id="year"></span> Colibrí OS. Todos los derechos
+            reservados.
+          </div>
+          <div class="col-md-6 text-end d-flex gap-3 justify-content-end">
+            <a href="#" class="text-secondary hover-primary"
+              ><i class="bi bi-linkedin fs-5"></i
+            ></a>
+            <a href="#" class="text-secondary hover-primary"
+              ><i class="bi bi-twitter-x fs-5"></i
+            ></a>
+            <a href="#" class="text-secondary hover-primary"
+              ><i class="bi bi-instagram fs-5"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================================================================================= -->
+    <!-- COMPONENTE MODAL (AÑADIDO AL FINAL)                                               -->
+    <!-- ================================================================================= -->
+    <div
+      class="modal fade"
+      id="marketModal"
+      tabindex="-1"
+      aria-labelledby="marketModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- Usamos glass-card para consistencia de diseño -->
+        <div
+          class="modal-content glass-card border-0"
+          style="background: rgba(255, 255, 255, 0.95)"
+        >
+          <div class="modal-header border-bottom-0 pb-0">
+            <h5 class="modal-title fw-bold text-danger" id="marketModalLabel">
+              <i class="bi bi-hexagon-fill me-2"></i>Reputation Market
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center pt-2 pb-4">
+            <p class="text-secondary mb-3">
+              Así lucirán los activos en el mercado secundario.
+            </p>
+
+            <!-- Imagen 16:9 -->
+            <div
+              class="ratio ratio-16x9 mb-4 shadow rounded-4 overflow-hidden border border-light"
+            >
+              <img
+                src="imgs/mockup_r_market.webp"
+                alt="Mockup Reputation Market"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <!-- Badge/Mensaje -->
+            <div class="d-inline-block">
+              <span
+                class="badge bg-warning text-dark fs-6 px-4 py-2 rounded-pill shadow-sm border border-warning"
+              >
+                <i class="bi bi-hourglass-split me-2"></i>Mediano plazo
+              </span>
+            </div>
+          </div>
+          <div
+            class="modal-footer border-top-0 pt-0 justify-content-center pb-4"
+          >
+            <button
+              type="button"
+              class="btn btn-colibri-outline btn-sm px-4"
+              data-bs-dismiss="modal"
+            >
+              Cerrar vista previa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS (Incluye Popper para tooltips/popovers) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script principal  -->
+    <script src="scripts.js"></script>
+  </body>
+</html>

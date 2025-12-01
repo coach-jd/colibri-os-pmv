@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Título de página alineado a la nueva narrativa -->
+  <title>Colibrí Reputation Lab · N0 Semilla de Luz</title>
+
+  <!-- 1. FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="favicon_colibri_latam_iridiscente.svg">
+
+  <!-- 2. CSS de terceros: Bootstrap + Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <!-- 3. CSS principal del Colibrí Reputation Lab -->
+  <!-- Aquí concentras todas las variables, chips, timeline, tarjetas, etc. -->
+  <link rel="stylesheet" href="styles_r_lab.css" />
+</head>
+
+<body>
+  <!-- HEADER AJUSTADO · COLIBRÍ REPUTATION LAB (Nivel inicial N1 · Semilla de Luz)
+     Este header muestra el contexto del módulo, el nivel actual del NFT Colibrí
+     y un resumen del Índice Colibrí (IC). Además, incorpora ganchos (ids, clases
+     y data-atributos) para que JavaScript pueda actualizar dinámicamente el nivel
+     y los textos cuando el NFT evolucione (por ejemplo, de N1 → N2).
+-->
+  <header class="glass-header py-2 sticky-top" id="header-reputation-lab">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- LADO IZQUIERDO · LOGO + TÍTULOS
+         Contiene la pastilla de logo del módulo y los textos principales
+         (nombre del módulo, nivel actual y subtítulo descriptivo).
+    -->
+      <div class="d-flex align-items-center gap-3">
+        <!-- Pastilla del logo (usa .logo-pill definida en styles.css)
+           Se mantiene neutra respecto al nivel; solo refuerza la identidad
+           visual de Colibrí OS · Reputation Lab.
+      -->
+        <div class="logo-pill d-flex align-items-center justify-content-center rounded-4 text-white fw-semibold"
+          style="width: 2.4rem; height: 2.4rem;">
+          <a href="index.html" class="text-decoration-none">
+          <img
+    src="imgs/avatar_colibri_os.png"
+    alt="Logo Colibrí OS"
+    class="rounded-circle"
+    style="width: 50px; height: 50px; object-fit: cover;"
+  /></a>
+          <span class="visually-hidden">Colibrí Reputation Lab</span>
+        </div>
+
+        <!-- Bloque de textos principales del header
+           - Eyebrow: contexto del módulo (Colibrí OS · Reputation Lab).
+           - Título principal: indica el nivel actual del NFT (N1 · Semilla de Luz).
+           - Subtítulo: frase de acompañamiento que explica el propósito del módulo.
+      -->
+        <div class="d-flex flex-column">
+          <!-- Eyebrow / contexto del módulo -->
+          <span class="text-uppercase fw-semibold header-eyebrow">
+            Colibrí OS · Reputation Lab
+          </span>
+
+          <!-- Título principal del panel
+             IMPORTANTE: se agrega id="header-panel-title" para que el JS pueda
+             actualizar el nivel y el nombre (por ejemplo, a N2 · Chispa Azul)
+             después de que el NFT evolucione.
+        -->
+          <span class="fw-semibold header-title" id="header-panel-title">
+            Panel de vuelo · Nivel N1 · Semilla de Luz
+          </span>
+
+          <!-- Subtítulo descriptivo (solo visible en md+)
+             Reafirma la propuesta del módulo. Si en el futuro necesitas cambiar
+             la narrativa por nivel, el JS podría también actualizar este texto.
+        -->
+          <span class="header-subtitle d-none d-md-inline">
+            Convierte tu aprendizaje real en reputación trazable.
+          </span>
+        </div>
+      </div>
+
+      <!-- LADO DERECHO · AVATAR + CHIPS DE ESTADO
+         Muestra datos del Emprendedor Colibrí (en pantallas grandes) y dos chips:
+         - Chip de nivel actual del NFT.
+         - Chip de Índice Colibrí (IC) global.
+    -->
+      <div class="d-flex align-items-center gap-3">
+        <!-- Avatar + datos del Emprendedor (oculto en pantallas pequeñas)
+           - La imagen se carga desde avatar_emprendedor.png (placeholder).
+           - id="header-ecp-avatar" permite cambiar dinámicamente el avatar.
+           - id="header-ecp-meta" permite actualizar nombre, país y vertical.
+      -->
+        <div class="d-none d-lg-flex align-items-center gap-2" id="header-ecp-block">
+          <img src="avatar_emprendedor.png" alt="Foto del Emprendedor Colibrí" class="rounded-circle border"
+            style="width: 2.4rem; height: 2.4rem; object-fit: cover; border-color: var(--color-verde-esmeralda) !important;"
+            id="header-ecp-avatar" />
+
+          <div class="d-flex flex-column text-start">
+            <span class="fw-semibold header-ecp-label">
+              Emprendedor Colibrí
+            </span>
+            <span class="header-ecp-meta" id="header-ecp-meta">
+              Jesús Díaz · AR · EdTech
+            </span>
+          </div>
+        </div>
+
+        <!-- Chips de nivel e Índice Colibrí
+           - Primer chip: nivel actual del NFT (N1 · Semilla de Luz).
+             Usa clases específicas por nivel (level-n1, level-n2, etc.) y una
+             clase auxiliar js-level-badge para facilitar su selección con JS.
+           - Segundo chip: Índice Colibrí global (IC), con spans internos para
+             el valor actual y el máximo, de modo que el JS pueda actualizarlos.
+      -->
+        <div class="d-flex flex-column flex-sm-row align-items-end align-items-sm-center gap-2">
+          <!-- Chip de nivel actual (usa .badge-chip.level-n1 como estilo base para N1)
+             data-* expone el nivel actual y el siguiente para que el JS pueda usar
+             esta información al momento de evolucionar el NFT (N1 → N2).
+        -->
+          <span class="badge-chip level-chip level-n1 js-level-badge" id="badge-level" data-current-level="1"
+            data-current-level-key="N1" data-current-level-name="Semilla de Luz" data-next-level-key="N2"
+            data-next-level-name="Chispa Azul">
+            N1 · Semilla de Luz
+          </span>
+
+          <!-- Chip de Índice Colibrí (usa .badge-chip.index-ic)
+             data-ic-max mantiene sincronizado el máximo del índice con el valor
+             mostrado. Los spans internos (#ic-current y #ic-max) se actualizan
+             cuando el usuario progresa.
+        -->
+          <span class="badge-chip index-ic" id="badge-ic" data-ic-max="100">
+            Índice Colibrí:
+            <span id="ic-current">42</span>/<span id="ic-max">100</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <main class="py-4 py-lg-5">
+    <div class="container">
+      <div class="row g-4 g-lg-5 align-items-start">
+
+        <!-- COLUMNA IZQUIERDA: "Tu Colibrí hoy" · Versión N1 en curso / N2 siguiente
+     Esta columna muestra el estado actual del NFT Colibrí asociado al emprendedor,
+     su emprendimiento (IP) vinculada, el Índice Colibrí (IC) y un resumen del
+     progreso del nivel base (N1 · Semilla de Luz), que aún NO está completado.
+     
+     NUEVA LÓGICA DE ESTADO INICIAL:
+     - El Colibrí se encuentra en N1 (Semilla de Luz), todavía sin evolucionar.
+     - Hay 18 microacciones registradas de 21 y 6 evidencias validadas de 7.
+     - La categoría 7 (Métricas y Tracción) está pendiente: al cargar sus 3
+       microacciones y su evidencia, se oficializa la evolución a N2 (Chispa Azul).
+     - data-atributos e ids permiten que el JS actualice textos, niveles e imágenes
+       cuando el NFT evolucione a N2.
+-->
+        <div class="col-lg-4" id="columna-colibri-hoy">
+          <div class="card-soft p-3 p-lg-4 mb-3" id="card-colibri-hoy">
+
+            <!-- Card principal del NFT
+         Encabezado de la tarjeta que muestra el título del panel izquierdo y
+         un badge indicando que se trata de un NFT dinámico.
+    -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h2 class="h6 mb-1">Tu Colibrí hoy</h2>
+                <small class="text-muted" style="font-size: 0.7rem;">
+                  <strong>Panel de vuelo personal</strong>
+                </small>
+              </div>
+              <span class="badge-chip status-nft text-uppercase" id="badge-nft-tipo">
+                NFT dinámico
+              </span>
+            </div>
+
+            <!-- COMPONENTE NFT (estado inicial en N1)
+         - La imagen representa el estado visual actual del NFT en N1.
+         - id="nft-image" permite que el JS cambie la imagen cuando evolucione a N2.
+         - data-current-level y data-... describen el nivel activo en este momento.
+    -->
+            <div class="nft-frame mb-3" id="nft-frame" data-current-level="1">
+              <div class="nft-inner">
+                <div class="ratio ratio-1x1">
+                  <!-- Imagen representativa del NFT N1 (Semilla de Luz) -->
+                  <img id="nft-image" src="nft_n1_semilla de luz.svg" class="object-fit-cover w-100 h-100"
+                    alt="NFT Colibrí N1 · Semilla de Luz" data-current-level="1" data-current-level-key="N1"
+                    data-current-level-name="Semilla de Luz" />
+                </div>
+              </div>
+            </div>
+            <!-- FIN COMPONENTE NFT -->
+
+            <!-- Identidad del NFT y Ficha de Emprendimiento asociada
+         - Muestra cómo se llama el NFT en su estado actual (N1).
+         - Incluye un bloque de "Emprendimiento asociado" que actúa como ficha
+           resumida de la IP vinculada al NFT (por ejemplo, Colibrí OS).
+    -->
+            <div class="mb-3" id="nft-identidad-bloque">
+              <div class="text-uppercase text-muted mb-2" style="font-size: 0.62rem; letter-spacing: 0.16em;">
+                Identidad del Colibrí
+              </div>
+
+              <!-- Nombre / Identidad del NFT en estado N1 (Semilla de Luz)
+           - Incluye número de NFT, nombre de la "aura" o estadio y el nivel.
+           - id="nft-identidad-nombre" permite actualizar este texto vía JS
+             cuando evolucione a N2.
+      -->
+              <div class="fw-semibold mb-1" style="font-size: 0.9rem; color: var(--color-titulo);"
+                id="nft-identidad-nombre">
+                Colibrí #001 · Semilla de Luz (N1)
+              </div>
+
+              <!-- FICHA DE EMPRENDIMIENTO ASOCIADA
+           - Resume el proyecto emprendedor vinculado a este NFT.
+           - Incluye nombre del emprendimiento, descripción corta, estado y un
+             enlace para ir a la ficha completa (controlado por JS).
+      -->
+              <div class="mt-2 p-2 rounded-3" style="background-color: #eef8ff; border: 1px solid #d1e9f7;"
+                id="ficha-emprendimiento-resumen">
+                <div class="text-uppercase fw-semibold mb-1"
+                  style="font-size: 0.62rem; letter-spacing: 0.16em; color: #0c4a6e;">
+                  Emprendimiento Asociado (IP)
+                </div>
+                <div class="fw-bold" style="font-size: 0.82rem; color: var(--color-titulo);"
+                  id="ficha-emprendimiento-nombre">
+                  Colibrí OS (EdTech - Argentina)
+                </div>
+                <div style="font-size: 0.7rem; color: #0c4a6e;" id="ficha-emprendimiento-descripcion">
+                  Ecosistema educativo y reputacional que convierte microacciones en evidencias
+                  verificables y habilita mecenazgo ético.
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-1" style="font-size: 0.7rem;">
+                  <span>
+                    Estado:
+                    <span class="fw-semibold" id="ficha-emprendimiento-estado">Prototipo Beta</span>
+                  </span>
+                  <!-- Enlace a la pestaña de ficha del proyecto (controlado por JS en script.js) -->
+                  <a id="btn-ver-ficha" href="#"
+                    class="badge-chip status-mecenazgo-on text-decoration-none fw-semibold js-ver-ficha"
+                    style="color: #0c4a6e;">
+                    Ver ficha
+                  </a>
+                </div>
+              </div>
+
+              <!-- Badges de estado educativo y de mecenazgo
+           - status-formativo: refleja el estado de la trayectoria educativa.
+           - status-mecenazgo-on: indica que hay mecenazgo activo (ej. Aliado Semilla).
+      -->
+              <div class="d-flex flex-wrap gap-2 mt-3" id="nft-badges-estado">
+                <span class="badge-chip status-formativo" id="badge-estado-formativo">
+                  Estado formativo · En vuelo
+                </span>
+                <span class="badge-chip status-mecenazgo-on" id="badge-estado-mecenazgo">
+                  Mecenazgo · Con Aliado Semilla
+                </span>
+              </div>
+            </div>
+
+            <!-- Índice Colibrí (IC) -->
+            <div class="rounded-4 p-3 mb-3"
+              style="background-color: var(--color-blanco-fondo); border: 1px solid var(--color-gris-borde);"
+              id="bloque-indice-colibri" data-ic-max="100">
+              <!-- Cabecera: Título y Delta -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold" style="font-size: 0.85rem; color: var(--color-titulo);">
+                  Índice Colibrí (IC)
+                </span>
+
+                <!-- Badge de cambio positivo -->
+                <span class="badge bg-opacity-10 text-success"
+                  style="background-color: #d1fae5; font-size: 0.7rem; color: var(--color-verde-esmeralda);"
+                  id="ic-delta-label">
+                  ▲ +5 pts esta semana
+                </span>
+              </div>
+
+              <!-- Contenedor Principal: Gráfico + Texto Contextual -->
+              <div class="d-flex align-items-center gap-3">
+
+                <!-- 1. Círculo de progreso del IC -->
+                <div class="position-relative flex-shrink-0" style="width: 3.5rem; height: 3.5rem;">
+
+                  <!-- SVG
+                     He eliminado el 'rotate(-90deg)' para que empiece arriba (12:00).
+                     Si quieres que empiece a la izquierda, vuelve a poner: style="transform: rotate(-90deg);"
+                -->
+                  <svg viewBox="0 0 36 36" class="w-100 h-100">
+                    <!-- Círculo de fondo -->
+                    <path class="ic-ring-bg" stroke-width="3" fill="none"
+                      d="M18 2 a16 16 0 1 1 0 32 a16 16 0 1 1 0 -32">
+                    </path>
+
+                    <!-- Círculo de progreso (primer plano) -->
+                    <path id="progress-ring" class="ic-ring-fg" stroke-width="3" fill="none"
+                      d="M18 2 a16 16 0 1 1 0 32 a16 16 0 1 1 0 -32">
+                    </path>
+                  </svg>
+
+                  <!-- Valor numérico centrado -->
+                  <div class="position-absolute top-50 start-50 translate-middle text-center" style="line-height: 1;">
+                    <div id="progress-text" class="fw-bold" style="font-size: 0.9rem; color: var(--color-titulo);">
+                      0
+                      <!-- Iniciamos en 0 para animar -->
+                    </div>
+                    <div style="font-size: 0.55rem; color: #9ca3af;">/100</div>
+                  </div>
+                </div>
+
+                <!-- Texto descriptivo del IC -->
+                <div class="flex-grow-1" id="ic-textos">
+                  <!-- Estado inicial: 6/7 evidencias del Nivel N1 validadas -->
+                  <div style="font-size: 0.72rem; color: var(--color-titulo);">
+                    Has validado
+                    <span class="fw-semibold" style="color: var(--color-verde-esmeralda);" id="ic-evidencias-resumen"
+                      data-level="1">
+                      6/7 evidencias
+                    </span>
+                    del Nivel
+                    <span class="fw-semibold" id="ic-level-label" data-level="1">N1</span>.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);" id="ic-narrativa-nivel">
+                    Cada evidencia aumenta tu IC y revela nuevas capas de tu Colibrí. Te falta
+                    documentar la <strong>Evidencia 7 (Métricas y Tracción)</strong>. Cuando completes las 7
+                    evidencias del Nivel N1 (Semilla de Luz), tu NFT estará listo para
+                    evolucionar a N2 (Chispa Azul).
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resumen de progreso N1 · Nivel en curso / N2 siguiente
+         - Resume el estado actual del nivel N1 y anuncia que el siguiente nivel
+           será N2 una vez se complete la categoría 7.
+         - Incluye conteos de evidencias y microacciones, así como la próxima ruta
+           inmediata N1 → N2.
+    -->
+            <div class="rounded-4 p-3 mb-3 resumen-nivel resumen-n1-en-curso" id="resumen-nivel-actual" data-level="1"
+              data-next-level="2">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold resumen-nivel-title" id="summary-level-title">
+                  Nivel N1 en curso · N2 siguiente
+                </span>
+                <span class="badge-chip status-clave" id="badge-ruta-pmv">Ruta PMV</span>
+              </div>
+
+              <!-- Estado inicial de evidencias y microacciones para el Nivel N1 -->
+              <div class="mb-3 resumen-nivel-stats" id="summary-level-stats" data-level="1">
+                <i class="bi bi-patch-check-fill me-1 text-success"></i>
+                Evidencias completadas:
+                <span class="fw-bold" id="level1-evidencias-count" data-level="1">
+                  6/7
+                </span>
+                <br />
+                <i class="bi bi-droplet-fill me-1 text-primary"></i>
+                Microacciones registradas:
+                <span class="fw-bold" id="level1-microacciones-count" data-level="1">
+                  18/21
+                </span>
+              </div>
+
+              <!-- Narrativa de la ruta siguiente, ahora centrada en cerrar N1 y evolucionar a N2 -->
+              <p class="mb-2 resumen-nivel-description" id="summary-level-description">
+                <strong>Próxima ruta inmediata:</strong> N1 → N2 (Chispa Azul). Te falta cargar las 3
+                microacciones y la Evidencia 7 de la categoría <em>Métricas y Tracción</em> para
+                cerrar el Nivel N1 y desbloquear la evolución de tu NFT.
+              </p>
+
+              <!-- Botón para ver la ruta completa de la transición N1 → N2
+           - En el futuro, el JS puede leer data-next-level para hacer scroll o
+             abrir una vista detallada de la ruta N1 → N2.
+      -->
+              <button class="btn btn-sm btn-studio-dark d-inline-flex align-items-center gap-1 js-ver-ruta-nivel"
+                id="btn-ver-ruta-siguiente" data-from-level="1" data-to-level="2">
+                Ver ruta N1 → N2 completa
+                <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+
+            <!-- Acciones rápidas
+         - Botones para registrar una nueva microacción y subir una nueva evidencia.
+         - Se mantienen los ids para conectar estos eventos con script.js.
+         - En el flujo PMV, ambos botones pueden llevar directamente a la
+           categoría 7 (Métricas y Tracción) dentro de la pestaña de Evidencias.
+    -->
+            <div class="d-flex flex-wrap gap-2" id="acciones-rapidas-colibri">
+              <button id="btn-register-action"
+                class="btn btn-sm flex-grow-1 btn-studio-primary js-registrar-microaccion">
+                + Registrar microacción
+              </button>
+
+              <button id="btn-upload-evidence" class="btn btn-sm flex-grow-1 btn-studio-secondary js-subir-evidencia">
+                Subir nueva evidencia
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: TABS + CONTENIDO -->
+        <div class="col-lg-8">
+          <!-- TABS CONSOLIDADAS · Navegación principal del Panel de vuelo
+     Este bloque define las pestañas superiores que permiten alternar entre
+     distintas vistas del Reputation Lab:
+     - Ficha del Proyecto (datos clave de la IP/emprendimiento asociado).
+     - Timeline (microacciones e hitos a lo largo del tiempo).
+     - Evidencias, IPs & Credenciales (marco pedagógico y de reputación).
+     - Mecenazgo (aliados, mentores y reputación asociada al NFT).
+
+     No depende directamente del nivel (N1–N6), pero se añaden ids y clases
+     auxiliares para que script.js pueda:
+     - Inicializar la pestaña activa.
+     - Activar/desactivar pestañas.
+     - Sincronizar con botones como "Ver ficha" o "Ver ruta".
+-->
+          <div class="card-soft mb-3 p-2 p-sm-3" id="tabs-consolidadas">
+            <!-- Contenedor para scroll horizontal en pantallas pequeñas
+       - Usa display flex + overflow-auto para que las pestañas se desplacen
+         horizontalmente cuando no entren en una sola línea.
+  -->
+            <div class="d-flex overflow-auto tab-scroll-container" id="tab-scroll-container">
+              <!-- La clase 'tab-buttons-wrapper' añade el padding derecho para ver el último elemento.
+         También sirve como contenedor lógico de los botones de pestañas. -->
+              <div class="d-flex gap-2 tab-buttons-wrapper" id="tab-buttons-wrapper">
+                <!-- Se eliminó la estructura row/col y se usó d-flex gap-2, junto con la nueva clase
+           .tab-pill, para lograr el scroll horizontal suave en dispositivos móviles. -->
+
+                <!-- PESTAÑA 1: Ficha del Proyecto
+           - data-tab="project-sheet" indica el id de la sección de contenido asociada.
+           - Se añade la clase js-tab-trigger para que el JS pueda enlazar fácilmente
+             estos botones con las secciones correspondientes.
+      -->
+                <button type="button" class="tab-pill js-tab-trigger" data-tab="project-sheet"
+                  id="tab-btn-project-sheet">
+                  <i class="bi bi-card-text me-2" aria-hidden="true"></i>
+                  <div>
+                    <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                      Ficha del Proyecto
+                    </div>
+                    <small class="tab-pill-subtitle">Colibrí OS</small>
+                  </div>
+                </button>
+
+                <!-- PESTAÑA 2: Timeline
+           - Muestra la secuencia de microacciones e hitos.
+           - data-tab="timeline" enlaza con la sección correspondiente.
+      -->
+                <button type="button" class="tab-pill js-tab-trigger" data-tab="timeline" id="tab-btn-timeline">
+                  <i class="bi bi-clock-history me-2" aria-hidden="true"></i>
+                  <div>
+                    <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                      Timeline
+                    </div>
+                    <small class="tab-pill-subtitle">Microacciones e hitos</small>
+                  </div>
+                </button>
+
+                <!-- PESTAÑA 3: Evidencias, IPs & Credenciales
+           - Central para el modelo educativo: aquí se visualizan las evidencias,
+             IPs registradas y credenciales obtenidas por nivel.
+           - En futuros ajustes, el contenido de esta pestaña reflejará de forma
+             explícita el paso de N1 → N2, N2 → N3, etc.
+      -->
+                <button type="button" class="tab-pill js-tab-trigger" data-tab="evidences" id="tab-btn-evidences">
+                  <i class="bi bi-patch-check me-2" aria-hidden="true"></i>
+                  <div>
+                    <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                      Evidencias, IPs &amp; Credenciales
+                    </div>
+                    <small class="tab-pill-subtitle">Marco pedagógico</small>
+                  </div>
+                </button>
+
+                <!-- PESTAÑA 4: Mecenazgo
+           - Relacionada con Aliados Semilla, Mecenas del Cambio y otros tipos de
+             padrinazgo asociados al NFT.
+           - data-tab="patronage" enlaza con la sección donde se detalla la
+             reputación de mecenazgo asociada al Colibrí.
+      -->
+                <button type="button" class="tab-pill js-tab-trigger" data-tab="patronage" id="tab-btn-patronage">
+                  <i class="bi bi-gem me-2" aria-hidden="true"></i>
+                  <div>
+                    <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                      Mecenazgo
+                    </div>
+                    <small class="tab-pill-subtitle">Aliados y reputación</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenido tabs -->
+          <div class="card-soft p-3 p-sm-4">
+
+            <!-- INICIO: TAB 0 – Ficha del Proyecto (ACTUALIZADA · Colibrí LATAM · NFT N1)
+              Esta sección corresponde a la pestaña "Ficha del Proyecto" del Reputation Lab.
+              Aquí se muestra la información estructurada del emprendimiento asociado al
+              NFT Colibrí, incluyendo:
+                - Información básica del proyecto (Colibrí LATAM).
+                - Estado de la Propiedad Intelectual (IP) y su registro en Story Protocol.
+                - Propósito, problema central y enlaces a evidencias/aliados.
+
+              AJUSTE DE NOMENCLATURA:
+              - Antes: la IP principal estaba anclada al NFT Colibrí N0 – Semilla de Luz.
+              - Ahora: se actualiza a NFT Colibrí N1 – Semilla de Luz (primer nivel del modelo).
+            -->
+            <section class="tab-section" id="tab-project-sheet">
+              <!-- Título principal de la ficha del proyecto -->
+              <h2 class="h6 mb-3" id="project-sheet-title">
+                <strong>Ficha detallada del proyecto</strong>
+              </h2>
+
+              <div class="row g-3" style="font-size: 0.8rem;" id="project-sheet-grid">
+                <!-- Columna 1: Información Básica (Actualizada) -->
+                <div class="col-md-6" id="project-basic-info-col">
+                  <div class="p-3 rounded-3 h-100 project-card project-card-basic-info"
+                    style="background-color: #f3fbff; border: 1px solid #e0f0f7;" id="project-basic-info-card">
+                    <h5 class="h6 mb-2 fw-bold project-card-title" style="font-size: 0.9rem;"
+                      id="project-basic-info-title">
+                      Información Básica
+                    </h5>
+                    <ul class="list-unstyled mb-0 project-meta-list" id="project-basic-info-list">
+                      <li class="mb-1">
+                        <span class="fw-semibold">Nombre:</span>
+                        <span id="project-name">Colibrí LATAM</span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Emprendedor:</span>
+                        <span id="project-founder">Jesús Díaz (Founder – Movimiento Colibrí LATAM)</span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Sector / Categoría:</span>
+                        <span id="project-sector">EdTech · Reputational Tech · Impact Blockchain · ReFi Humana</span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Tagline:</span>
+                        <span id="project-tagline">
+                          Ecosistema educativo y reputacional que convierte microacciones en evidencias verificables y
+                          habilita
+                          mecenazgo ético.
+                        </span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Localidad / Región:</span>
+                        <span id="project-region">Base binacional: Chile &amp; Argentina — Expansión LATAM</span>
+                      </li>
+                      <li>
+                        <span class="fw-semibold">Estado Actual:</span>
+                        <span id="project-status">Piloto de plataforma (PMV) en desarrollo + Comunidad inicial en
+                          expansión</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Columna 2: Propiedad Intelectual (IP) y Trazabilidad (Actualizada + Story Protocol) -->
+                <div class="col-md-6" id="project-ip-col">
+                  <div class="p-3 rounded-3 h-100 project-card project-card-ip"
+                    style="background-color: #f3fbff; border: 1px solid #e0f0f7;" id="project-ip-card">
+                    <h5 class="h6 mb-2 fw-bold project-card-title" style="font-size: 0.9rem;" id="project-ip-title">
+                      Propiedad Intelectual (IP) y Trazabilidad
+                    </h5>
+                    <p class="mb-1" id="project-ip-main-narrative">
+                      La IP principal está anclada al NFT Colibrí N1 – Semilla de Luz, que es el
+                      <strong>NFT Fundacional del Movimiento</strong> registrado en Story Protocol.
+                    </p>
+                    <ul class="list-unstyled mb-2 project-meta-list" id="project-ip-meta-list">
+                      <li class="mb-1">
+                        <span class="fw-semibold">Nivel NFT:</span>
+                        <span id="project-nft-level">N1 (Semilla de Luz)</span>
+                        <span class="badge-chip index-ic ms-1" style="font-size: 0.6rem;" id="project-nft-ic-badge">
+                          IC: 38
+                        </span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Total IPs registradas:</span>
+                        <span id="project-total-ips">18 Microacciones + 6 Evidencias (N1)</span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Ecosistema Central:</span>
+                        <a href="https://www.colibrilatam.com" target="_blank" class="text-decoration-none project-link"
+                          style="color: var(--color-verde-esmeralda);" id="project-main-site-link">
+                          colibrilatam.com
+                        </a>
+                      </li>
+                      <!--
+              <li>
+                <span class="fw-semibold">Repo PMV (GitHub):</span>
+                <span class="text-muted">colibri-os-buildathon</span>
+              </li>
+              -->
+                    </ul>
+
+                    <!-- Bloque NUEVO: Datos clave del registro en Story Protocol -->
+                    <h6 class="text-muted mt-2 mb-1 project-subtitle-muted"
+                      style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em;"
+                      id="story-registry-subtitle">
+                      Registro Story Protocol · NFT Fundacional
+                    </h6>
+                    <ul class="list-unstyled mb-0 project-meta-list" style="font-size: 0.75rem;"
+                      id="story-registry-meta-list">
+                      <!-- NOTA: reemplazar valores de ejemplo por los datos reales del registro Story -->
+                      <li class="mb-1">
+                        <span class="fw-semibold">Fecha de registro:</span>
+                        <span class="text-muted" id="story-registry-date">01-11-2025 (demo PMV)</span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">IP Asset ID:</span>
+                        <code class="text-muted" id="story-ip-asset-id">ip-asset-colibri-latam-n1</code>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">IP Account ID:</span>
+                        <code class="text-muted" id="story-ip-account-id">ip-account-colibri-latam-ecp</code>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">NFT asociado:</span>
+                        <span class="badge-chip index-ic" style="font-size: 0.6rem;" id="story-nft-associated">
+                          tokenId #001 · N1
+                        </span>
+                      </li>
+                      <li class="mb-1">
+                        <span class="fw-semibold">Red / chain:</span>
+                        <span class="text-muted" id="story-network">Story Protocol testnet · Polygon PoS (demo)</span>
+                      </li>
+                      <li>
+                        <span class="fw-semibold">Royalty vault / PIL:</span>
+                        <span class="text-muted" id="story-pil">
+                          PIL “Colibrí-Educational-Impact” · 10&nbsp;% regalías programables
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Columna 3: Propósito y Visión (Actualizada) -->
+                <div class="col-12" id="project-purpose-col">
+                  <div class="p-3 rounded-3 project-card project-card-purpose"
+                    style="background-color: #ecfdf5; border: 1px solid #a7f3d0;" id="project-purpose-card">
+                    <h5 class="h6 mb-2 fw-bold project-card-title"
+                      style="font-size: 0.9rem; color: var(--color-verde-esmeralda);" id="project-purpose-title">
+                      Propósito del Proyecto y Problema Central
+                    </h5>
+                    <p class="mb-1 fw-semibold" style="color: var(--color-titulo);" id="project-purpose-label">
+                      Declaración:
+                    </p>
+                    <p class="mb-3" style="font-size: 0.75rem;" id="project-purpose-text">
+                      Crear una red latinoamericana donde la educación, la reputación verificable y la acción consciente
+                      permitan
+                      que los emprendedores subestimados transformen sus microacciones en impacto colectivo.
+                    </p>
+
+                    <p class="mb-1 fw-semibold" style="color: var(--color-titulo);" id="project-problem-label">
+                      Problema:
+                    </p>
+                    <p class="mb-3" style="font-size: 0.75rem;" id="project-problem-text">
+                      Los emprendedores latinoamericanos carecen de acceso a formación relevante, redes de apoyo y
+                      mecanismos
+                      éticos de financiamiento.
+                      <strong>Sus microacciones y progreso real no se registran, no se miden y no se reconocen.</strong>
+                    </p>
+
+                    <!-- Botones de acción relacionados con evidencias y aliados
+             - Pueden disparar la apertura de modales o el scroll hacia secciones
+               específicas de la pestaña de Evidencias o Mecenazgo. -->
+                    <button class="btn btn-sm btn-studio-primary mt-2 js-ver-evidencia" id="btn-ver-evidencia-2"
+                      data-evidencia-id="2">
+                      <i class="bi bi-file-earmark-person me-1" aria-hidden="true"></i>
+                      Ver Evidencia 2: Ficha "Problema que me Duele"
+                    </button>
+                    <button class="btn btn-sm btn-studio-secondary mt-2 js-ver-aliados" id="btn-ver-aliados">
+                      <i class="bi bi-hand-thumbs-up me-1" aria-hidden="true"></i>
+                      Ver Aliados y Colaboradores
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- FIN: TAB 0 – Ficha del Proyecto -->
+
+            <!-- TAB 1 – Timeline de vuelo (ACTIVA EN JS, si no se selecciona otra)
+            Esta sección muestra la secuencia de microacciones, evidencias e hitos que
+            alimentan el NFT Colibrí asociado al proyecto.
+
+            CONTEXTO DE NIVEL (NUEVA NOMENCLATURA):
+            - Representa el recorrido del Nivel N1 · Semilla de Luz.
+            - Los eventos describen el registro de microacciones y la validación de
+              evidencias que consolidan N1 y preparan la evolución hacia N2.
+            -->
+            <section class="tab-section" id="tab-timeline">
+                  <div class="d-flex justify-content-between align-items-start mb-3" id="timeline-header">
+                    <div>
+                      <h2 class="h6 mb-1"><strong>Timeline de vuelo</strong></h2>
+                      <small style="font-size: 0.72rem; color: var(--color-texto);">
+                        Microacciones, evidencias e hitos que alimentan tu NFT Colibrí.
+                      </small>
+                    </div>
+                  </div>
+
+                    <!-- Contenedor principal del timeline vertical
+                    - Usa la clase .timeline (definida en styles.css) para dibujar la línea.
+                    - padding-left (ps-4) deja espacio para los íconos de cada evento.
+                    - id="timeline-vuelo" facilita el control desde JS (filtrar, animar, etc.).
+                    -->
+                    <div id="timeline-event-n1-cat7-ev7" class="position-relative mb-4 d-none" data-level="1"
+                      data-categoria="7" data-evidencia="7">
+                      <div class="timeline-icon icon-gota" style="background-color: var(--color-turquesa);">
+                        <i class="bi bi-graph-up"></i>
+                      </div>
+                      <div style="margin-left: 2rem;">
+                        <div class="text-uppercase fw-semibold mb-1"
+                          style="font-size: 0.65rem; letter-spacing: 0.16em; color: var(--color-turquesa);">
+                          Hoy · Microacción clave (7.1 · 7.2 · 7.3)
+                        </div>
+                        <div class="fw-medium" style="color: var(--color-titulo);">
+                          Registraste la microacción 7.1: “Planifiqué 3 microacciones semanales visibles”
+                          y consolidaste las microacciones 7.2 y 7.3 para medir y ajustar tu avance.
+                        </div>
+                        <div style="font-size: 0.7rem; color: var(--color-texto);">
+                          Se valida la <span class="fw-semibold">Evidencia 7 – Primer Panel de Tracción Personal</span> del
+                          Nivel N1.
+                          <span class="badge-chip ip-registered ms-1">
+                            <i class="bi bi-patch-check-fill"></i> 3 microacciones · 1 evidencia
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                      <!-- Resumen mensual (opcional dentro del mismo timeline)
+                - Resume el progreso acumulado (18 microacciones y 6 evidencias) para
+                  las categorías 1 a 6 del Nivel N1.
+                -->
+              <div class="position-relative mb-4 timeline-event timeline-event-resumen" data-type="summary"
+                data-period="last-month" data-level="1" data-microacciones="18" data-evidencias="6">
+                <div class="timeline-icon icon-doc">
+                  <i class="bi bi-journal-check"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 0.16em; color: #4f46e5;">
+                    Último mes · Progreso acumulado
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    A lo largo de 4 semanas registraste <strong>18 microacciones</strong> y validaste
+                    <strong>6 evidencias</strong> de las categorías 1 a 6 del Nivel N1.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                    Este progreso prepara el terreno para las microacciones de Métricas y Tracción (Categoría 7).
+                    <span class="badge-chip ip-registered ms-1">
+                      <i class="bi bi-patch-check-fill"></i> 18 IPs registradas
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 2 – Semana 4 (hace 1 semana)
+         - Consolidación de Evidencias 4, 5 y 6 del Nivel N1.
+    -->
+              <div class="position-relative mb-4 timeline-event" data-week="4" data-level="1" data-microacciones="6"
+                data-evidencias="3">
+                <div class="timeline-icon icon-doc">
+                  <i class="bi bi-calendar-check"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 0.16em; color: #6366f1;">
+                    Hace 1 semana · Semana 4 · Síntesis y planificación
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Registraste 6 microacciones enfocadas en mapa de recursos, estrategia contextual
+                    y lectura exógena del proyecto.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                    Se validan las <span class="fw-semibold">Evidencias 4, 5 y 6</span>
+                    (Mapa de Recursos, Estrategia Contextual y Lectura Exógena) del Nivel N1.
+                    <span class="badge-chip ip-registered ms-1">
+                      <i class="bi bi-patch-check-fill"></i> 6 microacciones · 3 evidencias
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 3 – Semana 3 (hace 2 semanas)
+         - Validación de la Evidencia 3 (Primer Diseño Conceptual) del Nivel N1.
+    -->
+              <div class="position-relative mb-4 timeline-event" data-week="3" data-level="1" data-microacciones="5"
+                data-evidencias="1">
+                <div class="timeline-icon icon-doc">
+                  <i class="bi bi-lightbulb"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 0.16em; color: #7c3aed;">
+                    Hace 2 semanas · Semana 3 · Diseño conceptual
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Registraste 5 microacciones para definir el flujo del usuario, el público objetivo
+                    y el primer prototipo conceptual, además de analizar timing y factores externos clave.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                    Se valida la <span class="fw-semibold">Evidencia 3 – Primer Diseño Conceptual</span> del Nivel N1.
+                    <span class="badge-chip ip-registered ms-1">
+                      <i class="bi bi-patch-check-fill"></i> 5 microacciones · 1 evidencia
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 4 – Semana 2 (hace 3 semanas)
+         - Validación de la Evidencia 2 (Problema que me Duele) del Nivel N1.
+    -->
+              <div class="position-relative mb-4 timeline-event" data-week="2" data-level="1" data-microacciones="4"
+                data-evidencias="1">
+                <div class="timeline-icon icon-doc">
+                  <i class="bi bi-search"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 0.16em; color: #0ea5e9;">
+                    Hace 3 semanas · Semana 2 · Profundización del problema
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Registraste 4 microacciones dedicadas a analizar el problema en tu región, hacer
+                    benchmark de iniciativas similares y formular tu primera hipótesis de solución.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                    Se valida la <span class="fw-semibold">Evidencia 2 – Problema que me Duele</span> del Nivel N1.
+                    <span class="badge-chip ip-registered ms-1">
+                      <i class="bi bi-patch-check-fill"></i> 4 microacciones · 1 evidencia
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 5 – Semana 1 (hace 4 semanas)
+         - Validación de la Evidencia 1 (Mapa Personal) del Nivel N1.
+    -->
+              <div class="position-relative mb-4 timeline-event" data-week="1" data-level="1" data-microacciones="3"
+                data-evidencias="1">
+                  <div class="timeline-icon icon-doc">
+                    <i class="bi bi-person-circle"></i>
+                  </div>
+                <div style="margin-left: 2rem;">
+                    <div class="text-uppercase fw-semibold mb-1"
+                      style="font-size: 0.65rem; letter-spacing: 0.16em; color: #22c55e;">
+                      Hace 4 semanas · Semana 1 · Autodiagnóstico y mapa personal
+                    </div>
+                    <div class="fw-medium" style="color: var(--color-titulo);">
+                      Registraste 3 microacciones centradas en tu historia emprendedora, motivaciones
+                      profundas y definición inicial del problema a resolver.
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--color-texto);">
+                      Se valida la <span class="fw-semibold">Evidencia 1 – Mapa Personal</span> del Nivel N1.
+                      <span class="badge-chip ip-registered ms-1">
+                        <i class="bi bi-patch-check-fill"></i> 3 microacciones · 1 evidencia
+                      </span>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Evento 6: Registro de inicio del Nivel N1
+         - Marca el inicio formal del recorrido formativo correspondiente al
+           Nivel N1 · Semilla de Luz.
+    -->
+              <div class="position-relative mb-4 timeline-event timeline-event-start" data-type="start" data-level="1">
+                <div class="timeline-icon icon-start">
+                  <i class="bi bi-flag-fill"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                    style="font-size: 0.65rem; letter-spacing: 0.16em; color: var(--color-titulo);">
+                    Hace 1 mes · Registro inicial
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Inicio formal del Nivel N1 · Semilla de Luz y del proceso formativo Colibrí.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 7: NFT (Hito de inicio on-chain)
+         - Marca el mint del NFT Colibrí en Nivel N1 como IP principal del proyecto.
+    -->
+              <div class="position-relative mb-4 timeline-event timeline-event-nft" data-type="nft-mint" data-level="1">
+                    <div class="timeline-icon icon-nft">
+                      <i class="bi bi-gem"></i>
+                    </div>
+                <div style="margin-left: 2rem;">
+                      <div class="text-uppercase fw-semibold mb-1"
+                        style="font-size: 0.65rem; letter-spacing: 0.16em; color: #0369a1;">
+                        Hace 1 mes · Mint del NFT N1
+                      </div>
+                      <div class="fw-medium" style="color: var(--color-titulo);">
+                        Se minteó tu NFT Colibrí N1 · Semilla de Luz como IP principal del proyecto.
+                      </div>
+                      <div style="font-size: 0.7rem; color: var(--color-texto);">
+                        Vinculado a Story Protocol como IP Asset fundacional.
+                        <span class="chip-soft ms-2">Story Protocol · IP Asset</span>
+                      </div>
+                </div>
+              </div>
+          
+          </section>
+
+          <!-- TAB 2 – Evidencias, IPs & Credenciales -->
+          <!-- TAB 2 – Evidencias, IPs & Credenciales (Nivel N1 · Semilla de Luz)
+     Esta sección muestra las categorías troncales del Modelo Colibrí y las
+     evidencias/IPs asociadas al Nivel N1 · Semilla de Luz.
+
+     AJUSTE DE NOMENCLATURA:
+     - Antes: texto orientado a N0 · Semilla de Luz, evolución a N1.
+     - Ahora: se explicita que las 18 microacciones y 6 evidencias corresponden
+       al Nivel N1, y que la Evidencia 7 prepara la evolución a N2 · Chispa Azul.
+
+
+
+       
+-->
+        <!-- Acá va el TAB 2 Evidencias -->
+       
+          <section class="tab-section" id="tab-evidences" data-level="1">
+            <!-- Cabecera -->
+            <div class="mb-4" id="evidences-header">
+              <h2 class="h6 mb-1" id="evidences-title">
+                <strong>Evidencias, IPs &amp; credenciales de N1 · Semilla de Luz</strong>
+              </h2>
+              
+              <small id="evidences-subtitle" style="font-size: 0.72rem; color: var(--color-texto);">
+                En este nivel se documentan tus primeras 18 microacciones (3 por categoría) y las 6 evidencias base
+                del Modelo
+                Colibrí para el Nivel N1.
+                Cuando completes también la Evidencia 7, tu Colibrí estará listo para evolucionar a N2 · Chispa Azul.
+              </small>
+            </div>
+            
+
+                    <!-- Grid de 7 categorías troncales
+              - Cada botón representa una categoría del Modelo Colibrí.
+              - data-category identifica la categoría para el master-detail.
+              - Se añade la clase js-category-trigger para facilitar el manejo con JS.
+            -->
+            <div class="row g-2 mb-4" id="categories-grid">
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="equipo" data-level="1"
+                  id="btn-category-equipo">
+                  <i class="bi bi-person-hearts"></i>
+                  <span>Equipo Emprendedor</span>
+                </button>
+              </div>
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="problema" data-level="1"
+                  id="btn-category-problema">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span>Potencial del Problema</span>
+                </button>
+              </div>
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="modelo" data-level="1"
+                  id="btn-category-modelo">
+                  <i class="bi bi-diagram-3"></i>
+                  <span>Modelo de Negocio</span>
+                </button>
+              </div>
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="finanzas" data-level="1"
+                  id="btn-category-finanzas">
+                  <i class="bi bi-coin"></i>
+                  <span>Financiamiento</span>
+                </button>
+              </div>
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="timing" data-level="1"
+                  id="btn-category-timing">
+                  <i class="bi bi-clock-history"></i>
+                  <span>Timing y Estrategia</span>
+                </button>
+              </div>
+              <div class="col-lg col-4">
+                <button class="category-grid-item js-category-trigger" data-category="factores" data-level="1"
+                  id="btn-category-factores">
+                  <i class="bi bi-globe2"></i>
+                  <span>Factores Exógenos</span>
+                </button>
+              </div>
+              <div class="col-lg col-auto">
+                <button class="category-grid-item js-category-trigger" data-category="metricas" data-level="1"
+                  id="btn-category-metricas">
+                  <i class="bi bi-bar-chart-line"></i>
+                  <span>Métricas y Tracción</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Contenido por categoría (Master-Detail)
+       A continuación se muestran los detalles para las categorías "Equipo
+       Emprendedor" y "Potencial del Problema" ya completadas en el Nivel N1.
+  -->
+
+            <!-- 5.3.1 Equipo Emprendedor (COMPLETADA · Nivel N1) -->
+            <div class="category-content" id="category-equipo" data-category="equipo" data-level="1">
+              <h4 class="h6 mb-1">
+                <i class="bi bi-person-bounding-box me-1"></i>
+                <strong>Equipo Emprendedor:</strong>
+              </h4>
+              <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+                Esta categoría aborda el autoconocimiento, la autenticidad y la capacidad de liderar con propósito.
+              </p>
+              <p class="mb-2" style="font-size: 0.8rem;">
+                <strong>Definición:</strong>
+                Invita a explorar tu historia, valores y talentos, reconociendo las experiencias que te moldearon como
+                persona y
+                emprendedor.
+              </p>
+              <p class="mb-3" style="font-size: 0.75rem;">
+                <strong>Producto final esperado:</strong>
+                Mapa visual que integra diagnóstico de fortalezas, narrativa personal y red de apoyo.
+              </p>
+
+              <h5 class="h6" style="font-size: 0.8rem;">
+                <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+              </h5>
+              <div class="d-flex flex-column gap-3 mb-3">
+                <div class="p-3 category-ip-item" data-ip="1.1">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">1.1 Diagnóstico personal</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Cuadro de fortalezas y valores (PDF o mural físico).
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+                <div class="p-3 category-ip-item" data-ip="1.2">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">1.2 "Mi historia subestimada"</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Relato breve de identidad emprendedora (texto, video o audio).
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+                <div class="p-3 category-ip-item" data-ip="1.3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">1.3 Mapa de red de apoyo</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Diagrama visual de aliados y apoyos.
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+              </div>
+
+              <!-- Evidencia registrada en Story Protocol (resumen destacado) -->
+              <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+        background: rgba(0, 153, 117, 0.06);
+        border: 1px solid rgba(0, 153, 117, 0.35);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      " data-evidencia="1" data-level="1">
+                <div>
+                  <strong>Evidencia registrada en Story Protocol:</strong><br />
+                  Mapa Personal <strong>"Mi ADN Colibrí"</strong> consolidado como IP compuesta que integra las 3
+                  microacciones
+                  validadas de esta categoría.
+                </div>
+                <span class="badge-chip evidencia-badge-registrada" style="
+          background: #003366;
+          color: #ffffff;
+          font-size: 0.7rem;
+          white-space: nowrap;
+        ">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  Evidencia IP registrada
+                </span>
+              </div>
+
+              <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+              <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+                data-category="equipo">
+                <i class="bi bi-patch-check-fill me-1"></i>
+                Badge: Equipo Emprendedor — N1
+              </span>
+            </div>
+
+            <!-- 5.3.2 Potencial del Problema (COMPLETADA · Nivel N1) -->
+            <div class="category-content" id="category-problema" data-category="problema" data-level="1">
+              <h4 class="h6 mb-1">
+                <i class="bi bi-exclamation-circle me-1"></i>
+                <strong>Potencial del Problema:</strong>
+              </h4>
+
+              <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+                Promueve la comprensión profunda de los desafíos sociales, económicos o ambientales que movilizan al
+                emprendedor.
+              </p>
+              <p class="mb-2" style="font-size: 0.8rem;">
+                <strong>Definición:</strong>
+                Ejercicio de empatía activa que transforma la observación del dolor o la carencia en oportunidad de
+                servicio.
+              </p>
+              <p class="mb-3" style="font-size: 0.75rem;">
+                <strong>Producto final esperado:</strong>
+                Ficha diagnóstica con testimonios reales, datos y reflexión personal, acompañada por evidencia
+                multimedia de las
+                entrevistas.
+              </p>
+
+              <h5 class="h6" style="font-size: 0.8rem;">
+                <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+              </h5>
+              <div class="d-flex flex-column gap-3 mb-3">
+                <div class="p-3 category-ip-item" data-ip="2.1">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">2.1 Observación de tres problemas</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Registro escrito con descripciones y fotografías.
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+
+                <div class="p-3 category-ip-item" data-ip="2.2">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">2.2 Entrevistas de validación</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Grabaciones de audio/video y notas de campo.
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+
+                <div class="p-3 category-ip-item" data-ip="2.3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="fw-semibold" style="font-size: 0.8rem;">2.3 Reflexión pública</span>
+                    <span class="badge-chip status-completada">Validado</span>
+                  </div>
+                  <p class="mb-1" style="font-size: 0.75rem;">
+                    <strong>Tipo de IP:</strong> Publicación en foro o red con el aprendizaje principal.
+                  </p>
+                  <span class="badge-chip ip-registered">
+                    <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                  </span>
+                </div>
+              </div>
+
+              <!-- Evidencia registrada en Story Protocol (bloque destacado) -->
+              <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+        background: rgba(0, 153, 117, 0.06);
+        border: 1px solid rgba(0, 153, 117, 0.35);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      " data-evidencia="2" data-level="1">
+                <div>
+                  <strong>Evidencia registrada en Story Protocol:</strong><br />
+                  Ficha diagnóstica <strong>“Problema que me Duele”</strong>, integrando observación, entrevistas y
+                  reflexión
+                  pública en un único activo de IP educativa consolidada.
+                </div>
+                <span class="badge-chip evidencia-badge-registrada" style="
+          background: #003366;
+          color: #ffffff;
+          font-size: 0.7rem;
+          white-space: nowrap;
+        ">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  Evidencia IP registrada
+                </span>
+              </div>
+
+              <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+              <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+                data-category="problema">
+                <i class="bi bi-patch-check-fill me-1"></i>
+                Badge: Potencial del Problema — N1
+              </span>
+            </div>
+          
+
+          <!-- 5.3.3 Modelo de Negocio (COMPLETADA · Nivel N1)
+     Categoría troncal que conecta problema, solución y propuesta de valor.
+     Se actualiza la credencial a N1 acorde a la nueva nomenclatura.
+-->
+          <div class="category-content" id="category-modelo" data-category="modelo" data-level="1">
+            <h4 class="h6 mb-1">
+              <i class="bi bi-easel2 me-1"></i>
+              <strong>Modelo de Negocio:</strong>
+            </h4>
+            <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+              Fomenta la capacidad de traducir ideas en modelos sostenibles que equilibren propósito, impacto y
+              sostenibilidad.
+            </p>
+            <p class="mb-2" style="font-size: 0.8rem;">
+              <strong>Definición:</strong>
+              Plasmas por primera vez la relación entre el problema y la posible solución en un lienzo sencillo y
+              accionable.
+            </p>
+            <p class="mb-3" style="font-size: 0.75rem;">
+              <strong>Producto final esperado:</strong>
+              Lienzo de propuesta de valor inicial, validado por retroalimentación del mentor o grupo.
+            </p>
+
+            <h5 class="h6" style="font-size: 0.8rem;">
+              <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+            </h5>
+            <div class="d-flex flex-column gap-3 mb-3">
+              <div class="p-3 category-ip-item" data-ip="3.1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">3.1 Mini canvas</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Plantilla completada (imagen o archivo editable).
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+              <div class="p-3 category-ip-item" data-ip="3.2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">3.2 Feedback grupal</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Acta de reunión, grabación o resumen visual del feedback.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+              <div class="p-3 category-ip-item" data-ip="3.3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">3.3 Versión ajustada</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Documento final con mejoras señaladas y firma de validación.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+            </div>
+
+            <!-- Evidencia registrada en Story Protocol (bloque destacado) -->
+            <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+      background: rgba(0, 153, 117, 0.06);
+      border: 1px solid rgba(0, 153, 117, 0.35);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    " data-evidencia="3" data-level="1">
+              <div>
+                <strong>Evidencia registrada en Story Protocol:</strong><br />
+                Lienzo <strong>“Propuesta de Valor Inicial”</strong> consolidado como IP compuesta que integra el mini
+                canvas,
+                el feedback grupal y la versión ajustada validada por mentor o grupo.
+              </div>
+              <span class="badge-chip evidencia-badge-registrada" style="
+        background: #003366;
+        color: #ffffff;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      ">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Evidencia IP registrada
+              </span>
+            </div>
+
+            <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+            <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+              data-category="modelo">
+              <i class="bi bi-patch-check-fill me-1"></i>
+              Badge: Modelo de Negocio — N1
+            </span>
+          </div>
+
+          <!-- 5.3.4 Financiamiento (COMPLETADA · Nivel N1)
+     Categoría troncal orientada a la gestión consciente de recursos.
+     Se actualiza la credencial a N1 acorde a la nueva nomenclatura.
+-->
+          <div class="category-content" id="category-finanzas" data-category="finanzas" data-level="1">
+            <h4 class="h6 mb-1">
+              <i class="bi bi-piggy-bank me-1"></i>
+              <strong>Financiamiento:</strong>
+            </h4>
+
+            <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+              Amplía la visión del financiamiento más allá del dinero, incorporando los recursos simbólicos, humanos y
+              relacionales que hacen sostenible un proyecto.
+            </p>
+
+            <p class="mb-2" style="font-size: 0.8rem;">
+              <strong>Definición:</strong>
+              Reconoces los recursos disponibles y asumes que la abundancia comienza con gratitud y gestión
+              consciente.
+            </p>
+
+            <p class="mb-3" style="font-size: 0.75rem;">
+              <strong>Producto final esperado:</strong>
+              Inventario estructurado que clasifica recursos tangibles e intangibles, acompañado de una reflexión
+              sobre el uso
+              responsable.
+            </p>
+
+            <h5 class="h6" style="font-size: 0.8rem;">
+              <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+            </h5>
+
+            <div class="d-flex flex-column gap-3 mb-3">
+              <div class="p-3 category-ip-item" data-ip="4.1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">4.1 Identificación de activos personales</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Tabla o lista digital organizada por tipo de recurso.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="4.2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">4.2 Inventario de herramientas</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Hoja de cálculo o registro fotográfico.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="4.3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">4.3 Reflexión de uso consciente</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong>
+                  Video corto o texto reflexivo titulado “Cómo multiplico mis recursos”.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+            </div>
+
+            <!-- Evidencia registrada en Story Protocol (bloque destacado) -->
+            <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+      background: rgba(0, 153, 117, 0.06);
+      border: 1px solid rgba(0, 153, 117, 0.35);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    " data-evidencia="4" data-level="1">
+              <div>
+                <strong>Evidencia registrada en Story Protocol:</strong><br />
+                Lista consolidada <strong>“Mi Capital Simbólico y Tangible”</strong>, integrando el inventario de
+                activos
+                personales, las herramientas disponibles y la reflexión de uso consciente en un único activo de IP
+                educativa
+                verificable.
+              </div>
+
+              <span class="badge-chip evidencia-badge-registrada" style="
+        background: #003366;
+        color: #ffffff;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      ">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Evidencia IP registrada
+              </span>
+            </div>
+
+            <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+            <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+              data-category="finanzas">
+              <i class="bi bi-patch-check-fill me-1"></i>
+              Badge: Financiamiento — N1
+            </span>
+          </div>
+
+          <!-- 5.3.5 Timing y Estrategia (COMPLETADA · Nivel N1)
+     Categoría troncal orientada a conectar biografía personal con misión
+     emprendedora y sentido de timing estratégico.
+     Se actualiza la credencial a N1 acorde a la nueva nomenclatura.
+-->
+          <div class="category-content" id="category-timing" data-category="timing" data-level="1">
+            <h4 class="h6 mb-1">
+              <i class="bi bi-compass me-1"></i>
+              <strong>Timing y Estrategia:</strong>
+            </h4>
+
+            <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+              Refleja la capacidad de planificar, priorizar y actuar con sentido del tiempo y visión sistémica.
+            </p>
+
+            <p class="mb-2" style="font-size: 0.8rem;">
+              <strong>Definición:</strong>
+              Promueve la reflexión biográfica, trazando los hitos que marcaron tu camino y conectándolos con tu
+              misión
+              emprendedora.
+            </p>
+
+            <p class="mb-3" style="font-size: 0.75rem;">
+              <strong>Producto final esperado:</strong>
+              Línea de tiempo ilustrada acompañada de un relato o presentación que explique la conexión entre historia
+              personal y
+              misión.
+            </p>
+
+            <h5 class="h6" style="font-size: 0.8rem;">
+              <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+            </h5>
+
+            <div class="d-flex flex-column gap-3 mb-3">
+              <div class="p-3 category-ip-item" data-ip="5.1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">5.1 Elaboración de línea temporal</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Cronograma visual o pieza de storytelling digital.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="5.2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">5.2 Identificación de aprendizajes</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Cuadro de síntesis o audio explicativo.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="5.3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">5.3 Conexión con misión</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong>
+                  Presentación breve o documento reflexivo que une biografía y misión.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+            </div>
+
+            <!-- Evidencia registrada en Story Protocol (bloque destacado) -->
+            <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+      background: rgba(0, 153, 117, 0.06);
+      border: 1px solid rgba(0, 153, 117, 0.35);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    " data-evidencia="5" data-level="1">
+              <div>
+                <strong>Evidencia registrada en Story Protocol:</strong><br />
+                Línea de tiempo <strong>“De la Herida a la Misión”</strong>, consolidada como IP educativa que integra
+                la
+                elaboración cronológica, la síntesis de aprendizajes y la conexión explícita entre biografía y misión
+                emprendedora.
+              </div>
+
+              <span class="badge-chip evidencia-badge-registrada" style="
+        background: #003366;
+        color: #ffffff;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      ">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Evidencia IP registrada
+              </span>
+            </div>
+
+            <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+            <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+              data-category="timing">
+              <i class="bi bi-patch-check-fill me-1"></i>
+              Badge: Timing y Estrategia — N1
+            </span>
+          </div>
+
+          <!-- 5.3.6 Factores Exógenos (COMPLETADA · Nivel N1)
+     Categoría troncal centrada en la lectura del entorno y el ecosistema.
+     Se actualiza la credencial a N1 acorde a la nueva nomenclatura.
+-->
+          <div class="category-content" id="category-factores" data-category="factores" data-level="1">
+            <h4 class="h6 mb-1">
+              <i class="bi bi-radar me-1"></i>
+              <strong>Factores Exógenos:</strong>
+            </h4>
+
+            <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+              Fomenta la comprensión del ecosistema donde se desarrolla el emprendimiento: comunidad, territorio,
+              políticas,
+              cultura y medio ambiente.
+            </p>
+
+            <p class="mb-2" style="font-size: 0.8rem;">
+              <strong>Definición:</strong>
+              Representa tu mirada estratégica del entorno, integrando oportunidades, riesgos y aliados potenciales.
+            </p>
+
+            <p class="mb-3" style="font-size: 0.75rem;">
+              <strong>Producto final esperado:</strong>
+              Mapa de análisis contextual que integra oportunidades, amenazas y acciones estratégicas.
+            </p>
+
+            <h5 class="h6" style="font-size: 0.8rem;">
+              <strong>Microacciones / IPs asociadas (3/3 completadas):</strong>
+            </h5>
+
+            <div class="d-flex flex-column gap-3 mb-3">
+              <div class="p-3 category-ip-item" data-ip="6.1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">6.1 Mapeo de oportunidades</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Listado o mapa visual georreferenciado.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="6.2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">6.2 Identificación de obstáculos</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Matriz de análisis FODA o infografía.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+
+              <div class="p-3 category-ip-item" data-ip="6.3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">6.3 Acción transformadora</span>
+                  <span class="badge-chip status-completada">Validado</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong>
+                  Registro de una acción concreta con evidencia fotográfica o testimonio.
+                </p>
+                <span class="badge-chip ip-registered">
+                  <i class="bi bi-check-circle-fill"></i> IP Registrada en Story Protocol
+                </span>
+              </div>
+            </div>
+
+            <!-- Evidencia registrada en Story Protocol (bloque destacado) -->
+            <div class="mb-3 p-3 rounded-3 evidencia-resumen" style="
+      background: rgba(0, 153, 117, 0.06);
+      border: 1px solid rgba(0, 153, 117, 0.35);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+    " data-evidencia="6" data-level="1">
+              <div>
+                <strong>Evidencia registrada en Story Protocol:</strong><br />
+                Radar de contexto <strong>“Oportunidades y Obstáculos”</strong>, consolidado como IP educativa que
+                integra el
+                mapeo de oportunidades, el análisis de obstáculos y la acción transformadora registrada con evidencia.
+              </div>
+
+              <span class="badge-chip evidencia-badge-registrada" style="
+        background: #003366;
+        color: #ffffff;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      ">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Evidencia IP registrada
+              </span>
+            </div>
+
+            <h5 class="h6" style="font-size: 0.8rem;">Credencial Obtenida:</h5>
+            <span class="badge-chip status-completada credential-badge" style="font-size: 0.75rem;" data-level="1"
+              data-category="factores">
+              <i class="bi bi-patch-check-fill me-1"></i>
+              Badge: Factores Exógenos — N1
+            </span>
+          </div>
+
+          <!-- 5.3.7 Métricas y Tracción (FOCO PMV - Simulación · Nivel N1 → N2)
+     Esta categoría puentea el cierre del Nivel N1 · Semilla de Luz y la
+     preparación de la evolución a N2 · Chispa Azul.
+     - Simula la carga de las 3 microacciones (7.1, 7.2, 7.3).
+     - Al completar las 3, se habilita el registro de la Evidencia 7 como IP
+       compuesta en Story Protocol.
+-->
+          <div class="category-content" id="category-metricas" data-category="metricas" data-level="1">
+            <!-- Aviso FOCO PMV -->
+            <div class="mb-3 p-3 rounded-3 border border-success" style="background-color: #ecfdf5;"
+              id="metricas-foco-pmv">
+              <i class="bi bi-star-fill text-success me-1"></i>
+              <span class="fw-bold text-success" style="font-size: 0.75rem;">FOCO PMV:</span>
+              <span style="font-size: 0.75rem; color: #064e3b;">
+                Esta categoría está conectada al PMV. Usa los botones para
+                <strong>simular la carga de las 3 microacciones</strong>
+                y luego registrar la Evidencia 7 como IP compuesta en Story Protocol. Al completarla, cerrarás tu
+                Nivel N1 y
+                habilitarás la evolución a N2 · Chispa Azul.
+              </span>
+            </div>
+
+            <h4 class="h6 mb-1">
+              <i class="bi bi-graph-up-arrow me-1"></i>
+              <strong>Métricas y Tracción:</strong>
+            </h4>
+            <p class="category-description mb-2" style="font-size: 0.78rem; color: var(--color-texto);">
+              Introduce la importancia de medir, registrar y comunicar los avances como parte del proceso de
+              aprendizaje.
+            </p>
+            <p class="mb-2" style="font-size: 0.8rem;">
+              <strong>Definición:</strong>
+              Convierte la constancia en símbolo: planificas y registras tus primeras microacciones visibles,
+              comprendiendo que
+              cada paso cuenta.
+            </p>
+            <p class="mb-3" style="font-size: 0.75rem;">
+              <strong>Producto final esperado:</strong>
+              Tablero de seguimiento visual donde se documentan microacciones, avances, resultados y aprendizajes,
+              acompañado de
+              una publicación de impacto.
+            </p>
+
+            <!-- Resumen de progreso de microacciones de Métricas (simulación) -->
+            <h5 class="h6" style="font-size: 0.8rem;">
+              <strong>
+                Microacciones / IPs asociadas
+                (<span id="metricas-progress-count">0/3 completadas · simulación</span>):
+              </strong>
+            </h5>
+
+            <div class="d-flex flex-column gap-3 mb-3" id="metricas-microacciones-list">
+              <!-- 7.1 -->
+              <div class="p-3 category-ip-item" data-ip="7.1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">7.1 Planificación de microacciones</span>
+                  <span id="badge-metricas-71" class="badge-chip status-pendiente">Pendiente</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Tabla o calendario de tareas con objetivos semanales.
+                </p>
+                <button id="btn-open-planificacion" class="btn btn-sm btn-studio-secondary mt-2 js-metricas-action"
+                  style="font-size: 0.65rem;" data-bs-toggle="modal" data-bs-target="#modal-planificacion"
+                  data-ip="7.1">
+                  <i class="bi bi-upload me-1"></i>
+                  Cargar planificación (simulación)
+                </button>
+              </div>
+
+              <!-- 7.2 -->
+              <div class="p-3 category-ip-item" data-ip="7.2">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">7.2 Registro de avances</span>
+                  <span id="badge-metricas-72" class="badge-chip status-pendiente">Pendiente</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Bitácora digital con evidencias (fotografía, audio o texto).
+                </p>
+                <button id="btn-open-avances" class="btn btn-sm btn-studio-secondary mt-2 js-metricas-action"
+                  style="font-size: 0.65rem;" data-bs-toggle="modal" data-bs-target="#modal-avances" data-ip="7.2">
+                  <i class="bi bi-upload me-1"></i>
+                  Subir evidencia de avance (simulación)
+                </button>
+              </div>
+
+              <!-- 7.3 -->
+              <div class="p-3 category-ip-item" data-ip="7.3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <span class="fw-semibold" style="font-size: 0.8rem;">7.3 Difusión pública (#EfectoColibrí)</span>
+                  <span id="badge-metricas-73" class="badge-chip status-pendiente">Pendiente</span>
+                </div>
+                <p class="mb-1" style="font-size: 0.75rem;">
+                  <strong>Tipo de IP:</strong> Post, reel o testimonio publicado con el hashtag #EfectoColibrí.
+                </p>
+                <button id="btn-open-difusion" class="btn btn-sm btn-studio-secondary mt-2 js-metricas-action"
+                  style="font-size: 0.65rem;" data-bs-toggle="modal" data-bs-target="#modal-difusion" data-ip="7.3">
+                  <i class="bi bi-share-fill me-1"></i>
+                  Vincular publicación (simulación)
+                </button>
+              </div>
+            </div>
+
+            <!-- Evidencia en Story Protocol (simulación)
+       - Esta tarjeta representa la Evidencia 7/7 que cierra el Nivel N1 y
+         prepara la evolución del NFT a N2 · Chispa Azul.
+  -->
+            <div class="mb-3 p-3 rounded-3" style="
+      background: #fff7ed;
+      border: 1px dashed rgba(249, 115, 22, 0.7);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+    " id="metricas-evidencia-card" data-evidencia="7" data-level="1">
+              <div>
+                <strong>Evidencia en Story Protocol (simulación):</strong><br />
+                El Mini Tablero <strong>“Mis Primeras Gotas”</strong> se registrará como IP educativa compuesta cuando
+                completes
+                la planificación, el registro de avances y la difusión pública con #EfectoColibrí.
+                Será la Evidencia 7/7 que cierre tu Nivel N1 y habilite la evolución a N2 · Chispa Azul.
+                <div class="mt-2">
+                  <button id="btn-registrar-story" class="btn btn-sm btn-outline-warning js-registrar-story"
+                    type="button" data-bs-toggle="modal" data-bs-target="#modal-story-evidencia" disabled>
+                    <i class="bi bi-shield-lock me-1"></i>
+                    Registrar en Story Protocol (simulación)
+                  </button>
+                </div>
+              </div>
+
+              <span id="badge-metricas-evidencia" class="badge-chip status-pendiente evidencia-badge-pendiente" style="
+        background: #f97316;
+        color: #ffffff;
+        font-size: 0.7rem;
+        white-space: nowrap;
+      " data-evidencia="7" data-level="1">
+                <i class="bi bi-hourglass-split me-1"></i>
+                Evidencia IP pendiente
+              </span>
+            </div>
+
+            <h5 class="h6" style="font-size: 0.8rem;">Credencial:</h5>
+            <span id="badge-metricas-credential" class="badge-chip status-pendiente credential-badge"
+              style="font-size: 0.75rem;" data-level="1" data-category="metricas">
+              <i class="bi bi-patch-check me-1"></i>
+              Badge: Métricas y Tracción — N1 (Pendiente)
+            </span>
+          </div>
+          <!-- MODALES DE SIMULACIÓN MÉTRICAS Y TRACCIÓN · NIVEL N1 → N2
+     Estos modales permiten simular la carga de IPs primarias (7.1, 7.2, 7.3)
+     y el registro de la Evidencia 7/7 en Story Protocol, que cierra el Nivel
+     N1 · Semilla de Luz y prepara la evolución a N2 · Chispa Azul.
+-->
+
+          <!-- Modal 7.1 Planificación (IP primaria 7.1 · Nivel N1) -->
+          <div class="modal fade modal-ip-metricas" id="modal-planificacion" tabindex="-1"
+            aria-labelledby="modalPlanificacionLabel" aria-hidden="true" data-ip="7.1" data-level="1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title h6" id="modalPlanificacionLabel">
+                    <i class="bi bi-clipboard-check me-1 text-success"></i>
+                    Simular carga de IP — 7.1 Planificación de microacciones
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.78rem;">
+                  <p class="mb-2">
+                    Aquí simulas que subes tu tabla o calendario de microacciones. En el PMV real, este archivo se
+                    convertirá en
+                    <strong>IP primaria</strong> y se registrará mediante Story Protocol.
+                  </p>
+
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <div class="border rounded-3 p-3 h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">1) Carga en Colibrí Reputation Lab</h6>
+                        <div class="mb-2">
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Nombre de la
+                            planificación</label>
+                          <input type="text" class="form-control form-control-sm"
+                            placeholder="Ej: Tablero semanal 'Mis primeras gotas'" />
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Archivo o enlace</label>
+                          <input type="file" class="form-control form-control-sm" />
+                          <small class="text-muted d-block mt-1" style="font-size: 0.7rem;">
+                            Puedes simular un .xlsx, .pdf o enlace de Notion / Miro.
+                          </small>
+                        </div>
+                        <div>
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Descripción breve</label>
+                          <textarea class="form-control form-control-sm" rows="2"
+                            placeholder="Qué estás planificando, con qué objetivos y durante qué semanas."></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="border rounded-3 p-3 bg-light h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">2) Simulación Story Protocol</h6>
+                        <p class="mb-2">
+                          El sistema empaqueta este recurso como IP primaria y prepara el registro on-chain.
+                        </p>
+                        <ul class="mb-2 ps-3" style="font-size: 0.72rem;">
+                          <li>Creación de <strong>IP Asset</strong> para la planificación.</li>
+                          <li>Asociación al <strong>IP Account</strong> de tu NFT Colibrí.</li>
+                          <li>Generación de hash preliminar (preview).</li>
+                        </ul>
+                        <div class="small text-muted">
+                          <span class="d-block">Hash preliminar (simulado):</span>
+                          <code style="font-size: 0.7rem;">0xplan-71-metricas-xxxxx</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button"
+                    class="btn btn-studio-primary btn-sm btn-mark-ip-complete js-btn-mark-ip-complete"
+                    data-badge-id="badge-metricas-71" data-modal-id="modal-planificacion" data-ip="7.1">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Marcar IP como cargada (simulación)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal 7.2 Avances (IP primaria 7.2 · Nivel N1) -->
+          <div class="modal fade modal-ip-metricas" id="modal-avances" tabindex="-1" aria-labelledby="modalAvancesLabel"
+            aria-hidden="true" data-ip="7.2" data-level="1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title h6" id="modalAvancesLabel">
+                    <i class="bi bi-journal-text me-1 text-primary"></i>
+                    Simular carga de IP — 7.2 Registro de avances
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.78rem;">
+                  <p class="mb-2">
+                    Simula que registras tu bitácora digital con fotografías, audios o texto de avance.
+                  </p>
+
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <div class="border rounded-3 p-3 h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">1) Bitácora en Colibrí Reputation Lab</h6>
+                        <div class="mb-2">
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Título del avance</label>
+                          <input type="text" class="form-control form-control-sm"
+                            placeholder="Ej: Semana 2 — Validación de primeras métricas" />
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Archivo o enlace</label>
+                          <input type="file" class="form-control form-control-sm" />
+                        </div>
+                        <div>
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Resumen del avance</label>
+                          <textarea class="form-control form-control-sm" rows="2"
+                            placeholder="Qué mediste, qué aprendiste y qué ajustarás."></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="border rounded-3 p-3 bg-light h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">2) Simulación Story Protocol</h6>
+                        <p class="mb-2">
+                          Este registro se vincula como <strong>IP primaria</strong> con foco en evidencia de
+                          progreso.
+                        </p>
+                        <ul class="mb-2 ps-3" style="font-size: 0.72rem;">
+                          <li>Hash de la bitácora almacenado.</li>
+                          <li>Asociación al mismo tablero de planificación.</li>
+                        </ul>
+                        <div class="small text-muted">
+                          <span class="d-block">Hash preliminar (simulado):</span>
+                          <code style="font-size: 0.7rem;">0xlog-72-metricas-yyyyy</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button"
+                    class="btn btn-studio-primary btn-sm btn-mark-ip-complete js-btn-mark-ip-complete"
+                    data-badge-id="badge-metricas-72" data-modal-id="modal-avances" data-ip="7.2">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Marcar IP como cargada (simulación)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal 7.3 Difusión (IP primaria 7.3 · Nivel N1) -->
+          <div class="modal fade modal-ip-metricas" id="modal-difusion" tabindex="-1"
+            aria-labelledby="modalDifusionLabel" aria-hidden="true" data-ip="7.3" data-level="1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title h6" id="modalDifusionLabel">
+                    <i class="bi bi-megaphone me-1 text-danger"></i>
+                    Simular carga de IP — 7.3 Difusión pública #EfectoColibrí
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.78rem;">
+                  <p class="mb-2">
+                    Simula que vinculas la publicación donde compartiste tu avance usando el hashtag
+                    <strong>#EfectoColibrí</strong>.
+                  </p>
+
+                  <div class="row g-3">
+                    <div class="col-md-7">
+                      <div class="border rounded-3 p-3 h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">1) Enlace a la publicación</h6>
+                        <div class="mb-2">
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">URL del post / reel /
+                            testimonio</label>
+                          <input type="url" class="form-control form-control-sm"
+                            placeholder="https://www.instagram.com/p/..." />
+                        </div>
+                        <div>
+                          <label class="form-label mb-1" style="font-size: 0.75rem;">Mensaje clave del post</label>
+                          <textarea class="form-control form-control-sm" rows="2"
+                            placeholder="Qué contaste y qué métricas compartiste."></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+                      <div class="border rounded-3 p-3 bg-light h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">2) Simulación Story Protocol</h6>
+                        <p class="mb-2">
+                          La URL se registra como <strong>IP primaria de difusión</strong> conectada al tablero de
+                          métricas.
+                        </p>
+                        <ul class="mb-2 ps-3" style="font-size: 0.72rem;">
+                          <li>Registro de impacto público.</li>
+                          <li>Vinculación al hashtag #EfectoColibrí.</li>
+                        </ul>
+                        <div class="small text-muted">
+                          <span class="d-block">Hash preliminar (simulado):</span>
+                          <code style="font-size: 0.7rem;">0xshare-73-metricas-zzzzz</code>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button"
+                    class="btn btn-studio-primary btn-sm btn-mark-ip-complete js-btn-mark-ip-complete"
+                    data-badge-id="badge-metricas-73" data-modal-id="modal-difusion" data-ip="7.3">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Marcar IP como cargada (simulación)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Registro Story Protocol (Evidencia 7/7 · Cierre Nivel N1) -->
+          <div class="modal fade modal-evidencia-story" id="modal-story-evidencia" tabindex="-1"
+            aria-labelledby="modalStoryEvidenciaLabel" aria-hidden="true" data-evidencia="7" data-level="1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title h6" id="modalStoryEvidenciaLabel">
+                    <i class="bi bi-shield-lock-fill me-1 text-warning"></i>
+                    Registrar Evidencia 7/7 en Story Protocol (simulación · cierre Nivel N1)
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.78rem;">
+                  <p class="mb-3">
+                    Al confirmar, el sistema simula la creación de una <strong>IP educativa compuesta</strong>
+                    “Mis Primeras Gotas” que agrupa las tres microacciones de Métricas y Tracción.
+                  </p>
+
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="border rounded-3 p-3 h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">1) Composición de IP educativa</h6>
+                        <ul class="mb-2 ps-3" style="font-size: 0.72rem;">
+                          <li>7.1 Planificación de microacciones (IP primaria).</li>
+                          <li>7.2 Registro de avances (IP primaria).</li>
+                          <li>7.3 Difusión pública #EfectoColibrí (IP primaria).</li>
+                        </ul>
+                        <p class="small text-muted mb-0">
+                          Story Protocol las combina en un único <strong>IP Asset compuesto</strong> asociado a tu NFT
+                          Colibrí.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="border rounded-3 p-3 bg-light h-100">
+                        <h6 class="h6 mb-2" style="font-size: 0.78rem;">2) Registro en Story Protocol</h6>
+                        <p class="mb-2">
+                          Se genera el hash final de la evidencia y se actualizan los metadatos del NFT (N1 →
+                          preparación para
+                          N2).
+                        </p>
+                        <div class="mb-2">
+                          <span class="d-block small text-muted">Hash final (simulado):</span>
+                          <code id="story-hash-preview" style="font-size: 0.7rem;">0x...</code>
+                        </div>
+                        <p class="small text-muted mb-0">
+                          En el PMV real este hash sería verificable on-chain desde el Colibrí Reputation Market.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" id="btn-confirm-story" class="btn btn-studio-primary btn-sm js-confirm-story"
+                    data-evidencia="7" data-level="1">
+                    <i class="bi bi-check-shield me-1"></i>
+                    Confirmar registro (simulación)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal de evolución de NFT · Cierre Nivel N1 → Evolución a N2 · Chispa Azul
+     Este modal se muestra cuando el emprendedor completa las 7/7 evidencias y
+     21 microacciones del Nivel N1 · Semilla de Luz. Desde aquí se oficializa la
+     evolución del NFT al Nivel N2 · Chispa Azul.
+-->
+          <div class="modal fade modal-evolution-level" id="modal-evolution-n1" tabindex="-1"
+            aria-labelledby="modalEvolutionN1Label" aria-hidden="true" data-level-from="1" data-level-to="2">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title h6" id="modalEvolutionN1Label">
+                    <i class="bi bi-stars me-1 text-info"></i>
+                    ¡Nivel completado! Tu Colibrí puede evolucionar a N2 · Chispa Azul
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.78rem;">
+                  <p class="mb-2">
+                    Has completado las <strong>7/7 evidencias</strong> y las <strong>21 microacciones</strong> de
+                    <strong>N1 · Semilla de Luz</strong>.
+                  </p>
+                  <p class="mb-3">
+                    Al oficializar la evolución, tu NFT actualizará su imagen y metadatos internos para reflejar el
+                    nuevo nivel
+                    <strong>N2 · Chispa Azul</strong>. En el PMV real, este cambio quedará registrado en la capa
+                    on-chain.
+                  </p>
+
+                  <div class="p-3 rounded-3" style="background:#ecfdf5; border:1px solid #a7f3d0; font-size:0.75rem;">
+                    <strong>Resumen de logro N1:</strong>
+                    <ul class="mb-0 mt-1 ps-3">
+                      <li>7 evidencias validadas en Story Protocol (incluida Métricas y Tracción).</li>
+                      <li>Microacciones registradas y trazables como IP educativa.</li>
+                      <li>Listo para iniciar el camino de N2 · <em>Chispa Azul</em>.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                    Más tarde
+                  </button>
+                  <button type="button" id="btn-confirm-evolution"
+                    class="btn btn-studio-primary btn-sm js-confirm-evolution" data-level-from="1" data-level-to="2">
+                    <i class="bi bi-arrow-up-right-circle me-1"></i>
+                    Oficializar evolución a N2
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </section>
+
+        
+
+          <!-- TAB 3 – Mecenazgo (actualizado a nomenclatura N1–N6)
+     Muestra cómo este NFT se conecta con Aliados Semilla, Mentores Colibrí
+     y futuros Mecenas del Cambio. Todo el texto refleja ahora que el nivel
+     base es N1 · Semilla de Luz y que la ruta hacia el mecenazgo avanzado
+     pasa por N2, N3 y N4 (Eco Carmesí).
+-->
+          <section class="tab-section" id="tab-patronage" data-tab-context="mecenazgo">
+            <!-- Cabecera -->
+            <div class="d-flex justify-content-between align-items-start mb-3" id="patronage-header">
+              <div>
+                <h2 class="h6 mb-1">
+                  <strong>Mecenazgo &amp; reputación asociada a este NFT</strong>
+                </h2>
+                <small style="font-size: 0.72rem; color: var(--color-texto);">
+                  Visibilidad para Aliados Semilla, Mentores Colibrí y Mecenas del Cambio.
+                </small>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4" style="font-size: 0.75rem;">
+              <!-- Aliado Semilla (Icono y contenido actualizado a N1–N2) -->
+              <div class="col-md-6">
+                <div class="p-3 rounded-4 h-100 card-aliado d-flex flex-column" data-role="aliado-semilla"
+                  data-level-apoyo="1-2">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <!-- Ícono con fondo circular (definido en styles.css como .icon-aliado) -->
+                    <i class="bi bi-heart-fill icon-aliado fs-4" aria-hidden="true"></i>
+                    <h3 class="h6 mb-0 text-titulo">
+                      <strong>Aliado Semilla</strong>
+                    </h3>
+                  </div>
+
+                  <div class="fw-semibold" style="font-size: 0.86rem; color: var(--color-titulo);">
+                    Fundación Raíces de Luz
+                  </div>
+                  <div class="mt-1" style="font-size: 0.72rem; color: #064e3b;">
+                    <strong>Tipo de apoyo:</strong>
+                    Beca completa <strong>N1–N2</strong> (desde Semilla de Luz hasta Chispa Azul).
+                  </div>
+                  <div class="mt-2 p-2 rounded-2" style="font-size: 0.7rem; color: #064e3b; background-color: #d1fae5;">
+                    <i class="bi bi-gem me-1" aria-hidden="true"></i>
+                    Este Aliado queda <strong>permanentemente asociado</strong> a la financiación inicial de tu NFT
+                    <strong>N1 · Semilla de Luz</strong>.
+                  </div>
+                  <button class="btn btn-sm btn-studio-secondary mt-3 js-btn-thank-ally" type="button"
+                    style="background-color: #a7f3d0; color: #047857;">
+                    Enviar agradecimiento
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mentor Colibrí (actualizado a rol sobre evidencias de N1) -->
+              <div class="col-md-6">
+                <div class="p-3 rounded-4 h-100 card-mentor" data-role="mentor-colibri" data-level-foco="1">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-person-check-fill icon-mentor fs-4" aria-hidden="true"></i>
+                    <h3 class="h6 mb-0 text-titulo">
+                      <strong>Mentor Colibrí</strong>
+                    </h3>
+                  </div>
+                  <div class="fw-semibold" style="font-size: 0.86rem; color: var(--color-titulo);">
+                    Mentor asignado: Ana Sofía Valdez
+                  </div>
+                  <div class="mt-1" style="font-size: 0.72rem; color: #1e3a8a;">
+                    <strong>Rol:</strong> Validar tus evidencias clave de <strong>N1 · Semilla de Luz</strong>.
+                  </div>
+                  <div class="mt-1" style="font-size: 0.7rem; color: #1e3a8a;">
+                    <strong>Impacto:</strong> +10 pts IC esta semana (revisión Evidencia 1).
+                  </div>
+                  <button class="btn btn-sm btn-studio-secondary mt-3 js-btn-message-mentor" type="button">
+                    Enviar mensaje
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mecenas del Cambio (elegibilidad futura a partir de N4 · Eco Carmesí) -->
+              <div class="col-12">
+                <div class="p-3 rounded-4 card-mecenas" data-role="mecenas-cambio" data-level-min="4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-star-fill icon-mecenas fs-4" aria-hidden="true"></i>
+                    <h3 class="h6 mb-0 text-titulo">
+                      <strong>Mecenas del Cambio</strong>
+                    </h3>
+                  </div>
+                  <div class="fw-semibold" style="font-size: 0.86rem; color: var(--color-titulo);">
+                    Aún no eres elegible para este mecenazgo
+                  </div>
+                  <div class="mt-1" style="font-size: 0.72rem; color: #78350f;">
+                    Completa tu ruta y evoluciona hasta <strong>N4 · Eco Carmesí</strong> para ser visible en el
+                    <strong>Reputation Market</strong> y optar a Mecenas del Cambio.
+                  </div>
+
+                  <!-- Indicador de ruta de evolución hacia el mecenazgo avanzado -->
+                  <div class="mt-3 d-flex align-items-center flex-wrap gap-1"
+                    aria-label="Ruta de evolución hacia Mecenas">
+                    <span class="evolution-step" data-level="1">
+                      <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                      N1 Semilla de Luz
+                    </span>
+                    <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+                    <span class="evolution-step evolution-step-next" data-level="2" style="color: #713f12;">
+                      <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>
+                      N2 Chispa Azul (Siguiente hito)
+                    </span>
+                    <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+                    <span class="evolution-step evolution-step-locked" data-level="3-4" style="color: #9ca3af;">
+                      <i class="bi bi-lock me-1" aria-hidden="true"></i>
+                      N3 Ala Dorada / N4 Eco Carmesí (Bloqueado)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque de Confianza Colibrí (actualizado a N1) -->
+            <div class="trust-block" data-level="1">
+              <h3 class="h6" style="font-size: 0.8rem;">
+                Bloque de Confianza Colibrí (N1 · Semilla de Luz)
+              </h3>
+              <div class="progress" style="height: 12px; border-radius: 999px;">
+                <!-- Para el ejemplo: 7/7 evidencias completadas = 100% -->
+                <div class="progress-bar progress-bar-verde trust-progress-bar" role="progressbar" style="width: 100%;"
+                  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" data-evidencias-current="7"
+                  data-evidencias-total="7"></div>
+              </div>
+              <small class="trust-block-text" style="font-size: 0.72rem; color: var(--color-texto);" data-level="1"
+                data-evidencias="7/7">
+                Progreso de validación (<strong>7/7</strong> completadas · Nivel N1 cerrado). Lo que aprendes hoy se
+                convertirá mañana en reputación verificable y habilitará nuevos niveles de mecenazgo.
+              </small>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </main>
+
+  <!-- Bootstrap 5 JS Bundle (modales, offcanvas, tooltips, etc.) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+
+  <!-- Lógica de interacción del Colibrí Reputation Lab -->
+  <!-- ⚠️ Nota: actualmente script.js tiene código duplicado y restos de <script>.
+       Déjalo comentado hasta que lo limpiemos por completo. -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

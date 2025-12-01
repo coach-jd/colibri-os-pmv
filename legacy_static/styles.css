@@ -1,0 +1,484 @@
+/* ================================================================================= 
+    3. ESTILOS PERSONALIZADOS (CSS) - LIGHT MODE IRIDISCENTE                          
+   =================================================================================  */
+    
+        /* DEFINICIÓN DE VARIABLES CSS (:root)
+           Centralizamos los colores para facilitar cambios globales y mantener consistencia 
+           con el Manual de Marca Colibrí.
+        */
+        :root {
+            /* --- Paleta Oficial Colibrí --- */
+            --colibri-emerald: #009975;
+            /* Verde Esmeralda */
+            --colibri-turquoise: #00CFCF;
+            /* Turquesa */
+            --colibri-nectar: #FFD166;
+            /* Amarillo Néctar */
+            --colibri-magenta: #FF4D6D;
+            /* Rosa Magenta */
+            --colibri-blue: #003366;
+            /* Azul Profundo (Acento oscuro) */
+            --colibri-white: #FFF8F2;
+            /* Blanco Crema (Fondo principal) */
+
+            /* --- Tema Claro Iridiscente --- */
+            --bg-light: var(--colibri-white);
+            /* Fondo principal claro */
+            --bg-card: rgba(255, 255, 255, 0.7);
+            /* Fondo base para tarjetas */
+            --text-primary: var(--colibri-blue);
+            /* Texto principal oscuro */
+            --text-secondary: #000000;
+            /* Texto secundario gris oscuro */
+            --accent-glow: rgba(0, 207, 207, 0.3);
+            /* Resplandor general */
+        }
+
+        /* Estilos Generales */
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            /* Previene scroll horizontal indeseado por animaciones */
+        }
+
+        /* Títulos con Montserrat (Identidad visual fuerte) */
+       h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: var(--colibri-blue);
+}
+        /* =========================================
+           NAVBAR & HEADER (CORRECCIONES AQUÍ)
+           ========================================= */
+        
+        .navbar {
+            /* Fondo inicial semitransparente (Glassmorphism) */
+            background: rgba(255, 248, 242, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        /* FIX: Clase que se añadirá vía JS cuando el menú móvil esté ABIERTO.
+           Esto asegura que el fondo sea sólido y el texto legible. */
+        .navbar.mobile-open {
+            background-color: var(--colibri-white) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        /* FIX: Clase para cuando se hace scroll */
+        .navbar.scrolled {
+            background: rgba(255, 248, 242, 0.98) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--colibri-blue) !important;
+        }
+
+        /* Icono del Toggler personalizado */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 51, 102, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* FIX: Asegurar visibilidad del botón toggler al hacer focus */
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 207, 207, 0.25);
+        }
+
+        /* FONDO IRIDISCENTE ANIMADO - VERSIÓN CLARA
+           Crea el efecto de "ambiente vivo" con blobs de colores de la marca moviéndose suavemente.
+           Son más sutiles para no competir con el contenido sobre fondo claro.
+        */
+        .iridescent-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Se asegura que quede detrás de todo el contenido */
+            background: var(--bg-light);
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            /* Desenfoque alto para efecto difuso */
+            opacity: 0.3;
+            /* Opacidad reducida para light mode */
+            animation: float 10s infinite ease-in-out;
+            /* Animación de flotación */
+        }
+
+        /* Definición de los blobs de color - Colores más claros */
+        .blob-1 {
+            width: 50vw;
+            height: 50vw;
+            top: -10%;
+            left: -10%;
+            background: var(--colibri-turquoise);
+        }
+
+        .blob-2 {
+            width: 40vw;
+            height: 40vw;
+            top: 20%;
+            right: -10%;
+            background: var(--colibri-magenta);
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            width: 30vw;
+            height: 30vw;
+            bottom: -10%;
+            left: 20%;
+            background: var(--colibri-nectar);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30px, 50px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* COMPONENTE: GLASS CARD (Efecto Vidrio Luminoso)
+           Clase utilitaria clave para contenedores. Aplica transparencia blanca, desenfoque de fondo (backdrop-filter)
+           y bordes sutiles.
+        */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            /* Transparente blanco */
+            backdrop-filter: blur(16px);
+            /* Efecto vidrio esmerilado */
+            -webkit-backdrop-filter: blur(16px);
+            /* Soporte Safari */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Borde blanco sutil */
+            border-radius: 24px;
+            /* Bordes muy redondeados estilo app móvil */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+        }
+
+        /* Efecto Hover en Tarjetas: Se "elevan" y brillan un poco */
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 207, 207, 0.25);
+            background: rgba(255, 255, 255, 0.6);
+            border-color: var(--colibri-turquoise);
+        }
+
+        /* NAVBAR PERSONALIZADO - LIGHT MODE
+           Transición de transparente a blanco sólido al hacer scroll.
+        */
+        .navbar {
+            background: rgba(255, 248, 242, 0.8);
+            /* Blanco crema semitransparente */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--colibri-blue) !important;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 51, 102, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* BOTONES PERSONALIZADOS
+           Diseñados para resaltar sobre fondos claros.
+        */
+        .btn-colibri-primary {
+            background-color: var(--colibri-turquoise);
+            color: var(--colibri-blue);
+            /* Texto oscuro para contraste con turquesa */
+            font-weight: 800;
+            border-radius: 50px;
+            /* Botones píldora */
+            padding: 12px 30px;
+            border: none;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 4px 6px -1px rgba(0, 207, 207, 0.3);
+        }
+
+        .btn-colibri-primary:hover {
+            background-color: var(--colibri-blue);
+            color: var(--colibri-white);
+            box-shadow: 0 6px 10px -1px rgba(0, 51, 102, 0.3);
+            transform: scale(1.05);
+        }
+
+        .btn-colibri-outline {
+            background: transparent;
+            color: var(--colibri-blue);
+            border: 2px solid var(--colibri-blue);
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-colibri-outline:hover {
+            background-color: var(--colibri-blue);
+            color: var(--colibri-white);
+            transform: scale(1.05);
+        }
+
+        /* Utilidad de espaciado consistente */
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .hero-title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    
+    /* 1. Color de respaldo: Si el navegador no soporta clips, el texto será azul sólido */
+    color: var(--colibri-blue); 
+
+    /* 2. Definición del fondo */
+    background: linear-gradient(90deg, var(--colibri-blue), var(--colibri-turquoise));
+    
+    /* 3. Propiedades de recorte (Standard + Vendor Prefix) */
+    -webkit-background-clip: text; /* Para Chrome, Safari, Edge */
+            background-clip: text; /* Estándar oficial (Firefox y futuro) */
+    
+    /* 4. Relleno transparente (Standard + Vendor Prefix) */
+    -webkit-text-fill-color: transparent;
+    
+    /* Opcional: Esto asegura que el "color" base no tape el gradiente en algunos navegadores */
+    /* color: transparent;  <-- Solo úsalo si tienes un feature query (@supports) */
+}
+
+        /* TIMELINE VERTICAL (Ruta N1-N6) - ACTUALIZADO PARA IMÁGENES
+           Diseño personalizado para mostrar la evolución con Thumbnails NFT.
+        */
+        .timeline-step {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 50px;
+            /* Más espacio para acomodar la imagen */
+        }
+
+        /* Línea conectora */
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: -50px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--colibri-turquoise), rgba(0, 0, 0, 0.05));
+        }
+
+        .timeline-step:last-child::before {
+            display: none;
+            /* Ocultar línea en el último elemento */
+        }
+
+        /* Punto (Dot) del timeline */
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            /* Alineado al top para coincidir con el inicio de la card */
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            border: 2px solid var(--colibri-turquoise);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--colibri-turquoise);
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(0, 207, 207, 0.2);
+        }
+
+       /* Estilo para la Miniatura del NFT */
+.nft-thumb {
+  width: 160px;
+  height: 160px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  overflow: hidden; /* Opcional: recorta sobrante */
+}
+
+/* La imagen se ajusta al contenedor */
+.nft-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* o 'cover' si quieres que llene todo */
+  display: block;
+}
+
+        .nft-thumb:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+
+        /* Tabs (Pills) Personalizados - LIGHT MODE */
+        .nav-pills .nav-link {
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.05);
+            margin: 0 5px 10px 0;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--colibri-magenta);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        /* Acordeón Personalizado (FAQ) - LIGHT MODE */
+        .accordion-item {
+            background: transparent;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-button {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--colibri-blue);
+            border-radius: 15px !important;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: rgba(0, 207, 207, 0.1);
+            color: var(--colibri-blue);
+            box-shadow: none;
+            border-color: var(--colibri-turquoise);
+        }
+
+        .accordion-body {
+            color: var(--text-secondary);
+            padding-top: 15px;
+            padding-left: 20px;
+            border-left: 2px solid var(--colibri-turquoise);
+            margin-left: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DEL FORMULARIO (Nuevos) --- */
+        /* Inputs con estilo "Soft UI" para combinar con el Glassmorphism */
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 51, 102, 0.1);
+            border-radius: 12px; /* Bordes más suaves */
+            padding: 12px 15px;
+            color: var(--colibri-blue);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-color: var(--colibri-turquoise);
+            box-shadow: 0 0 0 4px rgba(0, 207, 207, 0.15); /* Glow turquesa suave */
+            color: var(--colibri-blue);
+        }
+
+        .form-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--colibri-blue);
+        }
+
+        .form-text {
+            color: rgba(0, 51, 102, 0.6);
+        }
+
+        /* Placeholder styling */
+        ::placeholder {
+            color: rgba(0, 51, 102, 0.4) !important;
+        }
+
+        /* Estilo para el Checkbox */
+        .form-check-input {
+            border-color: rgba(0, 51, 102, 0.2);
+            width: 1.2em;
+            height: 1.2em;
+        }
+        .form-check-input:checked {
+            background-color: var(--colibri-turquoise);
+            border-color: var(--colibri-turquoise);
+        }
+        
+        /* Ajuste de espaciado en sección */
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        /* Ajustes Responsivos (Mobile) */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .blob {
+                opacity: 0.3;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .glass-card {
+                padding: 1.5rem !important;
+            }
+        }
+    

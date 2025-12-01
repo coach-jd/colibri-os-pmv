@@ -1,0 +1,713 @@
+/* styles.css
+   Estilos principales del Colibrí Reputation Lab (Panel de vuelo · Niveles N1–N6)
+   -----------------------------------------------------------------------------
+   Este archivo concentra todos los estilos CSS que antes estaban incrustados
+   en el HTML (etiqueta <style>). Se organiza por bloques lógicos para facilitar
+   su lectura y mantenimiento.
+
+   NOTA: La nomenclatura de niveles se actualiza a:
+   N1 (Semilla de Luz)
+   N2 (Chispa Azul)
+   N3 (Ala Dorada)
+   N4 (Eco Carmesí)
+   N5 (Iridiscente)
+   N6 (Colibrí del Cambio)
+
+   En la demo actual, el NFT está en N1 y puede evolucionar a N2.
+*/
+
+/* ===============================================================
+   1. PALETA, TIPOGRAFÍA Y FONDO GLOBAL
+   =============================================================== */
+
+:root {
+  /* Colores base de la identidad Colibrí (versión diurna iridiscente) */
+  --color-verde-esmeralda: #009975;
+  --color-turquesa: #00CFCF;
+  --color-amarillo-nectar: #FFD166;
+  --color-titulo: #03223A;
+  --color-texto: #505667;
+  --color-blanco-fondo: #F6F7FB;
+  --color-verde-claro: #78D9B4;
+
+  /* Paleta sugerida para cada nivel (para chips de nivel) */
+  --nivel-n1-bg: linear-gradient(135deg, #78D9B4, #E4FFF3);      /* Semilla de Luz  */
+  --nivel-n2-bg: linear-gradient(135deg, #3B82F6, #E0F2FE);      /* Chispa Azul     */
+  --nivel-n3-bg: linear-gradient(135deg, #F59E0B, #FEF3C7);      /* Ala Dorada      */
+  --nivel-n4-bg: linear-gradient(135deg, #EF4444, #FEE2E2);      /* Eco Carmesí     */
+  --nivel-n5-bg: linear-gradient(135deg, #8B5CF6, #EDE9FE);      /* Iridiscente     */
+  --nivel-n6-bg: linear-gradient(135deg, #0F766E, #CCFBF1);      /* Colibrí Cambio  */
+
+  --font-principal: 'Inter', sans-serif;
+}
+
+/* Fondo general con gradientes que evocan el brillo iridiscente del colibrí. */
+body {
+  font-family: var(--font-principal);
+  /* Fondo "Colibrí diurno iridiscente" */
+  background:
+    radial-gradient(circle at 10% 15%, rgba(0, 207, 207, 0.35) 0, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(255, 77, 109, 0.30) 0, transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(120, 217, 180, 0.45) 0, transparent 55%),
+    radial-gradient(circle at 85% 80%, rgba(255, 209, 102, 0.35) 0, transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #fdf5e7 40%, #f9fbff 100%);
+  background-attachment: fixed;
+  color: var(--color-texto);
+  min-height: 100vh;
+}
+
+/* ===============================================================
+   2. CABECERA, TIPOGRAFÍA Y CONTENEDORES BASE
+   =============================================================== */
+
+/* Cabecera con efecto de cristal (glassmorphism). */
+.glass-header {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.header-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--color-verde-esmeralda);
+}
+
+.header-title {
+  font-size: 0.85rem;
+  color: var(--color-titulo);
+}
+
+.header-subtitle {
+  font-size: 0.7rem;
+  color: var(--color-texto);
+}
+
+.header-ecp-label {
+  font-size: 0.7rem;
+  color: var(--color-titulo);
+}
+
+.header-ecp-meta {
+  font-size: 0.72rem;
+  color: var(--color-texto);
+}
+
+/* Ajuste suave para móviles */
+@media (max-width: 575.98px) {
+  .glass-header {
+    padding-inline: 0.5rem;
+  }
+}
+
+/* Títulos globales: color y peso coherentes con la identidad. */
+h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6 {
+  color: var(--color-titulo);
+  font-weight: 700;
+}
+
+/* Pastilla del logo en el header (ícono infinito). */
+.logo-pill {
+  background: linear-gradient(135deg, var(--color-verde-esmeralda), var(--color-turquesa));
+  box-shadow: 0 6px 18px rgba(0, 207, 207, 0.35);
+}
+
+/* Tarjeta base suave para paneles principales. */
+.card-soft {
+  background: linear-gradient(145deg, #ffffff, #f9faff);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Marco del NFT con borde degradado (simula el brillo del colibrí). */
+.nft-frame {
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-turquesa), #FF4D6D, #FFD166);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+/* Interior del NFT: fondo oscuro con halo turquesa para resaltar la imagen. */
+.nft-inner {
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 30% 0%, rgba(0, 207, 207, 0.3), transparent 60%),
+    var(--color-titulo);
+  width: 100%;
+  display: block;
+}
+
+/* Círculo de fondo del indicador de Índice Colibrí (IC). */
+.ic-ring-bg {
+  stroke: #e5e7eb;
+}
+
+/* Círculo de progreso del IC (anillo verde animado). */
+.ic-ring-fg {
+  stroke: var(--color-verde-esmeralda);
+  stroke-linecap: round;
+  stroke-dasharray: 100;   /* longitud virtual del perímetro */
+  stroke-dashoffset: 62;   /* 100 - 38 => 38 % visible */
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.fade-in-timeline {
+  animation: fadeInUp 0.45s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* ===============================================================
+   3. BADGES / CHIPS DE ESTADO Y NIVEL
+   =============================================================== */
+
+/* Estilo base de todas las chips (badges en formato píldora). */
+.badge-chip {
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none;
+}
+
+/* Chips de nivel (N1–N6). 
+   - level-n1: Semilla de Luz (nuevo nivel base)
+   - level-n2: Chispa Azul (nivel inmediatamente superior)
+   - level-n3: Ala Dorada
+   - level-n4: Eco Carmesí
+   - level-n5: Iridiscente
+   - level-n6: Colibrí del Cambio
+
+   NOTA DE COMPATIBILIDAD: level-n0 se mantiene como alias visual de level-n1
+   para no romper versiones antiguas del HTML. */
+
+/* Nivel base educativo: N1 (Semilla de Luz) y alias histórico N0 */
+.badge-chip.level-n0,
+.badge-chip.level-n1 {
+  background: var(--nivel-n1-bg);
+  color: var(--color-titulo);
+}
+
+/* Nivel N2 · Chispa Azul */
+.badge-chip.level-n2 {
+  background: var(--nivel-n2-bg);
+  color: #0f172a;
+}
+
+/* Nivel N3 · Ala Dorada */
+.badge-chip.level-n3 {
+  background: var(--nivel-n3-bg);
+  color: #78350f;
+}
+
+/* Nivel N4 · Eco Carmesí */
+.badge-chip.level-n4 {
+  background: var(--nivel-n4-bg);
+  color: #7f1d1d;
+}
+
+/* Nivel N5 · Iridiscente */
+.badge-chip.level-n5 {
+  background: var(--nivel-n5-bg);
+  color: #312e81;
+}
+
+/* Nivel N6 · Colibrí del Cambio */
+.badge-chip.level-n6 {
+  background: var(--nivel-n6-bg);
+  color: #022c22;
+}
+
+/* Chip para el Índice Colibrí. */
+.badge-chip.index-ic {
+  background: var(--color-titulo);
+  color: #FFFDF8;
+}
+
+/* Chip asociado a estado de mecenazgo activo. */
+.badge-chip.status-mecenazgo-on {
+  background: #ecfdf5;
+  color: #064e3b;
+  border: 1px solid #a7f3d0;
+}
+
+/* Chips para estados de avance de microacciones/evidencias. */
+.badge-chip.status-completada {
+  background-color: #D6FFFB;
+  color: #004d3b;
+}
+
+.badge-chip.status-progreso {
+  background: #FEF9C3;
+  color: #713f12;
+}
+
+.badge-chip.status-pendiente {
+  background-color: var(--color-blanco-fondo);
+  color: var(--color-texto);
+  border: 1px solid #e5e7eb;
+}
+
+/* Badge clave (por ejemplo "Ruta PMV"). */
+.badge-chip.status-clave {
+  background: #0f172a;
+  color: #fefce8;
+}
+
+/* Indicador especial para IP registrada (estado final verde con ícono). */
+.badge-chip.ip-registered {
+  background-color: #d1fae5;
+  color: #065f46;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.badge-chip.ip-registered .bi {
+  font-size: 0.9rem;
+  margin-right: 0.2rem;
+}
+
+/* Badge de evidencia consolidada (bloques "Evidencia IP registrada"). */
+.evidencia-badge-registrada {
+  box-shadow: 0 4px 10px rgba(3, 7, 18, 0.25);
+}
+
+/* Credenciales de categoría (se apoyan en .badge-chip). */
+.credential-badge {
+  letter-spacing: 0.05em;
+}
+
+/* ===============================================================
+   4. BOTONES ESPECÍFICOS DEL REPUTATION LAB
+   =============================================================== */
+
+/* Botones principales del panel (primario y secundario).
+   Se usan junto a clases de Bootstrap (btn, btn-sm) pero dan
+   el look & feel Colibrí. */
+.btn-studio-primary,
+.btn-studio-secondary {
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+}
+
+/* Botón primario (degradado esmeralda-turquesa). */
+.btn-studio-primary {
+  background: linear-gradient(135deg, #009975, #00cfcf);
+  color: #ffffff;
+}
+
+.btn-studio-primary:hover {
+  background: linear-gradient(135deg, #00b689, #00e0e0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 191, 166, 0.32);
+}
+
+/* Botón secundario (blanco con borde turquesa). */
+.btn-studio-secondary {
+  background: #ffffff;
+  color: #009975;
+  border: 2px solid #00cfcf;
+}
+
+.btn-studio-secondary:hover {
+  background: rgba(0, 207, 207, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 207, 207, 0.25);
+}
+
+/* Efecto de "clic" (reducción ligera de escala). */
+.btn-studio-primary:active,
+.btn-studio-secondary:active {
+  transform: scale(0.97);
+}
+
+/* Botón oscuro utilizado en algunos resúmenes (por ejemplo, "Ver ruta N1 → N2"). */
+.btn-studio-dark {
+  background: #0f172a;
+  color: #f9fafb;
+}
+
+.btn-studio-dark:hover {
+  background: #020617;
+  color: #f9fafb;
+}
+
+/* ===============================================================
+   5. TABS PRINCIPALES Y ANIMACIONES DE SECCIÓN
+   =============================================================== */
+
+/* Cada sección de tab se oculta por defecto y se muestra cuando
+   recibe la clase .active. La animación suaviza el cambio. */
+.tab-section {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+/* Alinea visualmente las cabeceras de las tabs para que
+   el bloque blanco parezca una sola tarjeta continua */
+#evidences-header,
+#patronage-header,
+#timeline-header,
+#project-sheet-title {
+  margin-top: 0;
+}
+
+
+/* styles.css
+   Correcciones visuales para el Dashboard Colibrí
+   ------------------------------------------------
+   Este archivo soluciona el problema del fondo cortado y
+   maneja los estados de los botones.
+*/
+
+/* 1. SOLUCIÓN AL CORTE DEL FONDO BLANCO */
+/* Al aplicar esta clase al div que envuelve tu sección,
+   el padding y el overflow aseguran que el contenido no se salga. */
+.main-card-wrapper {
+    background-color: #ffffff;
+    border-radius: 16px; /* Ajusta según tu diseño */
+    padding: 2rem;       /* Espacio interno clave para que no se corte */
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;    /* Corta cualquier hijo que intente salirse */
+    height: auto;        /* Permite crecer según el contenido */
+    display: block;      /* Asegura comportamiento de bloque */
+}
+
+/* 2. ESTADOS DE VISIBILIDAD DE PESTAÑAS */
+/* Es crucial usar d-none para que el elemento oculto NO ocupe espacio
+   ni genere conflictos de altura con el contenedor padre. */
+.category-content.d-none {
+    display: none !important;
+}
+
+.category-content {
+    /* Animación suave al aparecer */
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. ESTILOS DE BOTONES (Si no los tienes definidos en otro lado) */
+.category-grid-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-grid-item.active {
+    background-color: #003366 !important; /* Azul Colibrí */
+    color: #ffffff !important;
+    border-color: #003366 !important;
+}
+
+.category-grid-item.active i {
+    color: #ffffff !important;
+}
+
+/* Badges de estado */
+.status-completada {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+}
+
+.status-pendiente {
+    background-color: #ffedd5 !important;
+    color: #9a3412 !important;
+}
+
+/*
+Correcciones visuales para el Dashboard Colibrí
+   ------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* Animación de aparición vertical con ligera traslación. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botones tipo "pill" para las pestañas principales (scrollables). */
+.tab-pill {
+  border-radius: 1.25rem;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  background: transparent;
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  color: var(--color-texto);
+  flex-shrink: 0;
+  min-width: 150px; /* ancho mínimo para buena legibilidad */
+}
+
+/* Estado activo de la pestaña (fondo oscuro y sombra marcada). */
+.tab-pill.active {
+  background: var(--color-titulo);
+  color: #FFFDF8;
+  border-color: var(--color-titulo);
+  box-shadow: 0 12px 24px rgba(3, 34, 58, 0.35);
+}
+
+/* Contenedor scrollable de las pestañas en móvil.
+   Se oculta la barra de scroll visual para un acabado más limpio. */
+.tab-scroll-container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.tab-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Padding extra al final de la fila de botones para que el último
+   tab no quede cortado al hacer scroll. */
+.tab-buttons-wrapper {
+  padding-right: 1.5rem;
+}
+
+/* ===============================================================
+   6. TIMELINE DE VUELO (HITOS Y MICROACCIONES)
+   =============================================================== */
+
+/* Línea vertical que une los eventos del timeline. */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.8rem;
+  top: 0.2rem;
+  bottom: 0.4rem;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-verde-claro), #C5F4FF);
+}
+
+/* Ícono circular que marca cada evento del timeline. */
+.timeline-icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  position: absolute;
+  left: 0rem;
+  top: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+/* Variantes de color según el tipo de hito. */
+.timeline-icon.icon-gota {
+  background-color: var(--color-verde-esmeralda);
+  color: white;
+}
+
+.timeline-icon.icon-doc {
+  background-color: #6366f1; /* hitos masivos / documentación */
+  color: white;
+}
+
+.timeline-icon.icon-nft {
+  background-color: var(--color-turquesa);
+  color: white;
+}
+
+.timeline-icon.icon-start {
+  background-color: var(--color-titulo);
+  color: white;
+}
+
+/* ===============================================================
+   7. GRID DE CATEGORÍAS Y DETALLE DE EVIDENCIAS
+   =============================================================== */
+
+/* Botón/cuadro para cada categoría troncal (Equipo, Problema, etc.). */
+.category-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: var(--color-blanco-fondo);
+  border: 1px solid #e5e7eb;
+}
+
+/* Estado activo resalta la categoría seleccionada. */
+.category-grid-item.active {
+  background: var(--color-titulo);
+  color: #FFFDF8;
+  border-color: var(--color-titulo);
+  box-shadow: 0 10px 20px rgba(3, 34, 58, 0.3);
+}
+
+/* Contenedor del detalle de cada categoría (se muestra por JS). */
+.category-content {
+  display: none;
+  animation: fadeIn 0.5s;
+}
+
+.category-content.active {
+  display: block;
+}
+
+/* Tarjeta base para cada microacción/IP dentro de una categoría. */
+.category-ip-item {
+  background-color: var(--color-blanco-fondo);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* Bloques resaltados de evidencia consolidada. */
+.evidencia-resumen {
+  border-radius: 0.75rem;
+}
+
+/* ===============================================================
+   8. TARJETAS DE MECENAZGO (ALIADO, MENTOR, MECENAS)
+   =============================================================== */
+
+/* Tarjeta para el Aliado Semilla (mecenazgo formativo N1–N2). */
+.card-aliado {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+/* Ícono destacado del Aliado Semilla (corazón con fondo circular). */
+.card-aliado .icon-aliado {
+  color: var(--color-verde-esmeralda);
+  background-color: #d1fae5;
+  border-radius: 50%;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 10px rgba(0, 153, 117, 0.2);
+}
+
+/* Tarjeta para Mentor Colibrí. */
+.card-mentor {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.card-mentor .icon-mentor {
+  color: #1d4ed8;
+  background-color: #dbeafe;
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+/* Tarjeta para Mecenas del Cambio (mecenazgo en Reputation Market). */
+.card-mecenas {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+.card-mecenas .icon-mecenas {
+  color: #f97316;
+  background-color: #ffedd5;
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+/* Barra de progreso del Bloque de Confianza Colibrí (nivel formativo base). */
+.progress-bar-verde {
+  background-color: var(--color-verde-esmeralda) !important;
+}
+
+/* Color específico del ícono de check en el paso de evolución. */
+.evolution-step .bi-check-circle-fill {
+  color: var(--color-verde-esmeralda);
+}
+
+/* Pequeños chips suaves para referencias (ej: Story Protocol · IP Asset). */
+.chip-soft {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  font-size: 0.68rem;
+  color: #0f172a;
+}
+
+/* ===============================================================
+   9. BLOQUES DE RESUMEN DE NIVEL
+   =============================================================== */
+
+/* Bloque de resumen de nivel formativo base (N1 en la demo).
+   Se mantiene la clase .resumen-n0 por compatibilidad histórica
+   pero su significado ahora es "nivel base completado / siguiente activo". */
+.resumen-n0 {
+  background: linear-gradient(90deg, #ecfdf5, #eff6ff, #fffbeb);
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+}
+
+.resumen-n0-title {
+  font-size: 0.78rem;
+  color: var(--color-titulo);
+}
+
+.resumen-n0-stats {
+  font-size: 0.72rem;
+  color: var(--color-titulo);
+}
+
+.resumen-n0-description {
+  font-size: 0.72rem;
+  color: var(--color-texto);
+}

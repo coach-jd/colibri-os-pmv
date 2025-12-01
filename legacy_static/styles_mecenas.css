@@ -1,0 +1,326 @@
+/* styles_mecenas.css · Versión optimizada para colibri_r_lab_mecenas.html
+   ----------------------------------------------------------------------
+   Este archivo contiene solo los estilos necesarios para renderizar
+   el Panel de vuelo del Mecenas (Aliado Semilla).
+
+   Estructura de bloques:
+   1) Paleta, tipografía y fondo global
+   2) Cabecera, textos y contenedores base
+   3) Badges / chips de estado
+   4) Botones Colibrí Studio
+   5) Tabs superiores del Mecenas
+   6) Timeline de mecenazgo
+   7) Progreso de becas
+*/
+
+/* ===============================================================
+   1. PALETA, TIPOGRAFÍA Y FONDO GLOBAL
+   =============================================================== */
+
+:root {
+  --color-verde-esmeralda: #009975;
+  --color-turquesa: #00CFCF;
+  --color-amarillo-nectar: #FFD166;
+  --color-titulo: #03223A;
+  --color-texto: #505667;
+  --color-blanco-fondo: #F6F7FB;
+  --color-verde-claro: #78D9B4;
+
+  --font-principal: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-principal);
+  background:
+    radial-gradient(circle at 10% 15%, rgba(0, 207, 207, 0.35) 0, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(255, 77, 109, 0.30) 0, transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(120, 217, 180, 0.45) 0, transparent 55%),
+    radial-gradient(circle at 85% 80%, rgba(255, 209, 102, 0.35) 0, transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #fdf5e7 40%, #f9fbff 100%);
+  background-attachment: fixed;
+  color: var(--color-texto);
+  min-height: 100vh;
+}
+
+h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6 {
+  color: var(--color-titulo);
+  font-weight: 700;
+}
+
+/* ===============================================================
+   2. CABECERA, TIPOGRAFÍA Y CONTENEDORES BASE
+   =============================================================== */
+
+.glass-header {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.header-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--color-verde-esmeralda);
+}
+
+.header-title {
+  font-size: 0.85rem;
+  color: var(--color-titulo);
+}
+
+.header-subtitle {
+  font-size: 0.7rem;
+  color: var(--color-texto);
+}
+
+.header-ecp-label {
+  font-size: 0.7rem;
+  color: var(--color-titulo);
+}
+
+.header-ecp-meta {
+  font-size: 0.72rem;
+  color: var(--color-texto);
+}
+
+@media (max-width: 575.98px) {
+  .glass-header {
+    padding-inline: 0.5rem;
+  }
+}
+
+.logo-pill {
+  background: linear-gradient(135deg, var(--color-verde-esmeralda), var(--color-turquesa));
+  box-shadow: 0 6px 18px rgba(0, 207, 207, 0.35);
+}
+
+.card-soft {
+  background: linear-gradient(145deg, #ffffff, #f9faff);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ===============================================================
+   3. BADGES / CHIPS DE ESTADO
+   =============================================================== */
+
+.badge-chip {
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.badge-chip.index-ic {
+  background: var(--color-titulo);
+  color: #FFFDF8;
+}
+
+.badge-chip.status-mecenazgo-on {
+  background: #ecfdf5;
+  color: #064e3b;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-chip.status-clave {
+  background: #0f172a;
+  color: #fefce8;
+}
+
+/* Chips temáticos usados en el portafolio y el perfil */
+.badge-chip.status-formativo {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* Estados adicionales reutilizables */
+.badge-chip.status-completada {
+  background-color: #D6FFFB;
+  color: #004d3b;
+}
+
+.badge-chip.status-pendiente {
+  background-color: var(--color-blanco-fondo);
+  color: var(--color-texto);
+  border: 1px solid #e5e7eb;
+}
+
+/* Reconocimiento especial para IPs o logros consolidados (si se usan) */
+.badge-chip.ip-registered {
+  background-color: #d1fae5;
+  color: #065f46;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.badge-chip.ip-registered .bi {
+  font-size: 0.9rem;
+  margin-right: 0.2rem;
+}
+
+/* ===============================================================
+   4. BOTONES ESPECÍFICOS DEL REPUTATION LAB
+   =============================================================== */
+
+.btn-studio-primary,
+.btn-studio-secondary {
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+}
+
+.btn-studio-primary {
+  background: linear-gradient(135deg, #009975, #00cfcf);
+  color: #ffffff;
+}
+
+.btn-studio-primary:hover {
+  background: linear-gradient(135deg, #00b689, #00e0e0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 191, 166, 0.32);
+}
+
+.btn-studio-secondary {
+  background: #ffffff;
+  color: #009975;
+  border: 2px solid #00cfcf;
+}
+
+.btn-studio-secondary:hover {
+  background: rgba(0, 207, 207, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 207, 207, 0.25);
+}
+
+.btn-studio-primary:active,
+.btn-studio-secondary:active {
+  transform: scale(0.97);
+}
+
+.btn-studio-dark {
+  background: #0f172a;
+  color: #f9fafb;
+}
+
+.btn-studio-dark:hover {
+  background: #020617;
+  color: #f9fafb;
+}
+
+/* ===============================================================
+   5. TABS SUPERIORES DEL MECENAS
+   =============================================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-pill {
+  border-radius: 1.25rem;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  background: transparent;
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  color: var(--color-texto);
+  flex-shrink: 0;
+  min-width: 150px;
+}
+
+.tab-pill.active {
+  background: var(--color-titulo);
+  color: #FFFDF8;
+  border-color: var(--color-titulo);
+  box-shadow: 0 12px 24px rgba(3, 34, 58, 0.35);
+}
+
+.tab-scroll-container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.tab-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-buttons-wrapper {
+  padding-right: 1.5rem;
+}
+
+/* Secciones de contenido de tabs (aplican sólo una animación de entrada).
+   El control principal de visibilidad se maneja con .d-none de Bootstrap
+   desde script_mecenas.js. */
+.tab-section-mecenas {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ===============================================================
+   6. TIMELINE DE MECENAZGO
+   =============================================================== */
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.8rem;
+  top: 0.2rem;
+  bottom: 0.4rem;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-verde-claro), #C5F4FF);
+}
+
+.timeline-icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  position: absolute;
+  left: 0rem;
+  top: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.timeline-icon.icon-gota {
+  background-color: var(--color-verde-esmeralda);
+  color: white;
+}
+
+.timeline-icon.icon-doc {
+  background-color: #6366f1;
+  color: white;
+}
+
+/* ===============================================================
+   7. PROGRESO DE BECAS (BLOQUE DE IMPACTO COLIBRÍ)
+   =============================================================== */
+
+.progress-bar-verde {
+  background-color: var(--color-verde-esmeralda) !important;
+}

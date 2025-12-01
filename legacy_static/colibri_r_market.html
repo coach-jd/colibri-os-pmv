@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colibrí OS · Reputation Market</title>
+
+    <!-- 1. TIPOGRAFÍA: Inter (para coincidir con la estética moderna del Lab) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 2. FRAMEWORK: Bootstrap 5 (CDN) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- 3. ÍCONOS: Bootstrap Icons (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+
+    <!-- 4. ESTILOS PERSONALIZADOS (Integración de styles_r_lab.css + Ajustes Market) -->
+    <style>
+      /* =========================================
+           VARIABLES DE DISEÑO (ADN COLIBRÍ)
+           ========================================= */
+      :root {
+        /* Paleta Principal - Colibrí Diurno Iridiscente */
+        --color-verde-esmeralda: #009975;
+        --color-turquesa: #00cfcf;
+        --color-amarillo-nectar: #ffd166;
+        --color-titulo: #03223a;
+        --color-texto: #505667;
+        --color-blanco-fondo: #f6f7fb;
+
+        /* Gradientes de Nivel (Chips) */
+        --nivel-n1-bg: linear-gradient(135deg, #78d9b4, #e4fff3);
+        --nivel-n2-bg: linear-gradient(135deg, #3b82f6, #e0f2fe);
+
+        /* Configuración UI */
+        --font-principal: "Inter", sans-serif;
+        --card-radius: 24px;
+        --btn-radius: 12px;
+        --shadow-soft: 0 18px 40px rgba(0, 34, 58, 0.08);
+        --border-soft: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      /* =========================================
+           BASE Y FONDO
+           ========================================= */
+      body {
+        font-family: var(--font-principal);
+        color: var(--color-texto);
+        min-height: 100vh;
+        /* Fondo Iridiscente animado (tomado de styles_r_lab.css) */
+        background: radial-gradient(
+            circle at 10% 15%,
+            rgba(0, 207, 207, 0.25) 0,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 90% 10%,
+            rgba(255, 77, 109, 0.2) 0,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 15% 85%,
+            rgba(120, 217, 180, 0.35) 0,
+            transparent 55%
+          ),
+          linear-gradient(180deg, #ffffff 0%, #fdf5e7 40%, #f9fbff 100%);
+        background-attachment: fixed;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--color-titulo);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      /* =========================================
+           HEADER (Glassmorphism)
+           ========================================= */
+      .glass-header {
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        z-index: 1030; /* Sticky top de bootstrap */
+      }
+
+      .header-eyebrow {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-verde-esmeralda);
+        font-weight: 600;
+      }
+
+      .header-subtitle {
+        font-size: 0.85rem;
+        color: var(--color-texto);
+        opacity: 0.9;
+      }
+
+      .logo-pill {
+        background: linear-gradient(
+          135deg,
+          var(--color-verde-esmeralda),
+          var(--color-turquesa)
+        );
+        box-shadow: 0 6px 18px rgba(0, 207, 207, 0.35);
+        border-radius: 1rem;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      /* =========================================
+           COMPONENTES: TARJETAS (Cards)
+           ========================================= */
+      .card-soft {
+        background: rgba(255, 255, 255, 0.75); /* Ligeramente más translúcido */
+        border-radius: var(--card-radius);
+        box-shadow: var(--shadow-soft);
+        border: var(--border-soft);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(5px);
+      }
+
+      .card-soft:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 22px 45px rgba(0, 34, 58, 0.12);
+      }
+
+      /* =========================================
+           COMPONENTES: BADGES & CHIPS
+           ========================================= */
+      .badge-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .badge-chip.index-ic {
+        background: var(--color-titulo);
+        color: #fffdf8;
+        box-shadow: 0 4px 10px rgba(3, 34, 58, 0.2);
+      }
+
+      .badge-chip.level-n1 {
+        background: var(--nivel-n1-bg);
+        color: #065f46;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .chip-soft {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        font-size: 0.75rem;
+        color: var(--color-texto);
+        font-weight: 500;
+      }
+
+      /* =========================================
+           COMPONENTES: BOTONES (Studio Style)
+           ========================================= */
+      .btn-studio-secondary {
+        border-radius: var(--btn-radius);
+        border: 2px solid var(--color-turquesa);
+        background: transparent;
+        color: var(--color-verde-esmeralda);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.4rem 1.2rem;
+        transition: all 0.25s ease;
+      }
+
+      .btn-studio-secondary:hover {
+        background: rgba(0, 207, 207, 0.1);
+        transform: translateY(-2px);
+        color: #007e60;
+        box-shadow: 0 4px 12px rgba(0, 207, 207, 0.15);
+      }
+
+      /* =========================================
+           COMPONENTES ESPECÍFICOS: COMPARADOR
+           ========================================= */
+      .startup-icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px; /* Squircle moderno */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        transition: transform 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .border-top-soft {
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+      }
+
+      .small-muted {
+        font-size: 0.75rem;
+        color: var(--color-texto);
+        opacity: 0.8;
+        font-weight: 500;
+      }
+
+      /* Ajustes Form Select para que parezca un componente UI moderno */
+      .form-select-custom {
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 12px;
+        font-size: 0.85rem;
+        color: var(--color-titulo);
+        background-color: rgba(255, 255, 255, 0.5);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .form-select-custom:focus {
+        border-color: var(--color-turquesa);
+        box-shadow: 0 0 0 3px rgba(0, 207, 207, 0.15);
+      }
+
+      /* Contenedor del Radar */
+      #radar-wrapper {
+        position: relative;
+        min-height: 350px;
+        padding: 1rem;
+      }
+
+      @media (min-width: 992px) {
+        #radar-wrapper {
+          min-height: 420px;
+        }
+      }
+
+      /* Leyenda de categorías */
+      .categories-legend i {
+        color: var(--color-verde-esmeralda);
+      }
+      .categories-legend span {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--color-texto);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER FLOTANTE (Glassmorphism) -->
+    <header class="glass-header sticky-top py-3 mb-4 mb-lg-5">
+      <div class="container-fluid" style="max-width: 1280px">
+        <div
+          class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3"
+        >
+          <!-- Identidad del Módulo -->
+          <div class="d-flex align-items-center gap-3">
+            <a href="index.html" class="text-decoration-none">
+  <div class="logo-pill">
+    <img
+      src="imgs/avatar_colibri_os.png"
+      alt="Logo Colibrí OS"
+      class="rounded-circle"
+      style="width: 50px; height: 50px; object-fit: cover"
+    />
+  </div>
+</a>
+            <div>
+              <div class="header-eyebrow mb-0">
+                Colibrí OS · Reputation Market
+              </div>
+              <h1 class="h5 mb-0">Comparativa de Startups</h1>
+            </div>
+          </div>
+
+          <!-- Acciones / Filtros -->
+          <div class="d-flex align-items-center gap-3">
+            <button
+              class="btn btn-studio-secondary d-flex align-items-center gap-2"
+            >
+              <i class="bi bi-funnel"></i>
+              <span class="d-none d-sm-inline">Filtro de portafolio</span>
+            </button>
+            <!-- Avatar Usuario (Decorativo) -->
+            <div
+              class="rounded-circle border border-2 border-white shadow-sm"
+              style="width: 36px; height: 36px; overflow: hidden"
+            >
+              <img
+                src="https://ui-avatars.com/api/?name=User+Colibri&background=009975&color=fff"
+                alt="User"
+                class="w-100 h-100 object-fit-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container-fluid pb-5" style="max-width: 1280px">
+      <!-- INTRODUCCIÓN CONTEXTUAL -->
+      <div class="row mb-4">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="header-subtitle mb-0">
+            Explora y contrasta el potencial de dos
+            <strong>Startups Colibrí</strong> en paralelo. Los datos
+            visualizados provienen directamente de su historial validado en el
+            <em>Reputation Lab</em>.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECCIÓN PRINCIPAL: COMPARADOR -->
+      <!-- Envolvemos todo en una tarjeta "padre" suave -->
+      <section class="card-soft p-3 p-md-4 p-lg-5">
+        <div class="row g-4 align-items-stretch">
+          <!-- =============================================
+                     COLUMNA IZQUIERDA: STARTUP 1 (AZUL / TURQUESA)
+                     ============================================= -->
+          <div class="col-lg-3 order-2 order-lg-1">
+            <article class="h-100 d-flex flex-column gap-3">
+              <!-- Selector de Startup 1 -->
+              <div class="p-3 bg-white rounded-4 shadow-sm border border-light">
+                <label class="small-muted text-uppercase mb-1 d-block"
+                  >Seleccionar Startup A</label
+                >
+                <select
+                  id="startup1-select"
+                  class="form-select form-select-custom"
+                ></select>
+              </div>
+
+              <!-- Tarjeta de Detalles Startup 1 -->
+              <div
+                class="card-soft h-100 p-4 d-flex flex-column position-relative overflow-hidden"
+                style="
+                  background: linear-gradient(160deg, #ffffff 0%, #f0f9ff 100%);
+                "
+              >
+                <!-- Decoración de fondo -->
+                <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                  <i class="bi bi-grid-3x3-gap-fill fs-1 text-primary"></i>
+                </div>
+
+                <div
+                  class="d-flex align-items-center gap-3 mb-4 position-relative"
+                >
+                  <div class="startup-icon-circle bg-white text-primary">
+                    <i class="bi bi-credit-card-2-front fs-4"></i>
+                  </div>
+                  <div>
+                    <span
+                      class="badge bg-primary bg-opacity-10 text-primary mb-1"
+                      style="font-size: 0.65rem"
+                      >FINTECH</span
+                    >
+                    <h2 class="h6 mb-0 fw-bold" id="startup1-name-label">
+                      Cargando...
+                    </h2>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <h3 class="small-muted text-uppercase mb-2">Descripción</h3>
+                  <p
+                    class="small mb-0 text-secondary"
+                    id="startup1-description"
+                    style="line-height: 1.6"
+                  >
+                    ...
+                  </p>
+                </div>
+
+                <div class="mt-auto pt-3 border-top-soft">
+                  <!-- Métricas Clave -->
+                  <div
+                    class="d-flex align-items-center justify-content-between mb-3"
+                  >
+                    <div>
+                      <div class="small-muted mb-1">Índice Colibrí</div>
+                      <span class="badge-chip index-ic" id="startup1-ic-badge"
+                        >IC: --</span
+                      >
+                    </div>
+                    <div class="text-end">
+                      <div class="small-muted mb-1">Nivel NFT</div>
+                      <span class="badge-chip level-n1" id="startup1-level-chip"
+                        >N1</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Metadata extra -->
+                  <div class="d-flex flex-column gap-2">
+                    <div
+                      class="chip-soft w-100 justify-content-center bg-white"
+                    >
+                      <i class="bi bi-people-fill text-primary"></i>
+                      <span id="startup1-team-size">--</span>
+                    </div>
+                    <div
+                      class="chip-soft w-100 justify-content-center bg-white"
+                    >
+                      <i class="bi bi-geo-alt-fill text-danger"></i>
+                      <span id="startup1-location">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- =============================================
+                     COLUMNA CENTRAL: RADAR CHART
+                     ============================================= -->
+          <div class="col-lg-6 order-1 order-lg-2">
+            <article class="card-soft h-100 p-4 d-flex flex-column bg-white">
+              <!-- Encabezado del Radar -->
+              <div class="text-center mb-4">
+                <h2 class="h5 mb-1">Mapa de Reputación Comparada</h2>
+                <p class="small-muted mb-3">
+                  Análisis multidimensional basado en las 7 categorías troncales
+                  del modelo.
+                </p>
+
+                <!-- Leyenda Visual -->
+                <div class="d-flex justify-content-center gap-4 small">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="rounded-circle d-inline-block shadow-sm"
+                      style="
+                        width: 12px;
+                        height: 12px;
+                        background: var(--color-turquesa);
+                      "
+                    ></span>
+                    <span class="fw-semibold text-secondary"
+                      >Startup 1 (Turquesa)</span
+                    >
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="rounded-circle d-inline-block shadow-sm"
+                      style="
+                        width: 12px;
+                        height: 12px;
+                        background: var(--color-verde-esmeralda);
+                      "
+                    ></span>
+                    <span class="fw-semibold text-secondary"
+                      >Startup 2 (Esmeralda)</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Canvas del Gráfico -->
+              <div
+                id="radar-wrapper"
+                class="flex-grow-1 d-flex align-items-center justify-content-center"
+              >
+                <canvas id="radar-startups"></canvas>
+              </div>
+
+              <!-- Footer con Iconos de Categorías -->
+              <footer class="mt-4 pt-3 border-top-soft">
+                <div
+                  class="categories-legend d-flex flex-wrap align-items-center justify-content-center gap-3 opacity-75"
+                >
+                  <div class="d-flex align-items-center gap-1" title="Timing">
+                    <i class="bi bi-alarm"></i> <span>Timing</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1" title="Equipo">
+                    <i class="bi bi-people"></i> <span>Equipo</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1" title="Problema">
+                    <i class="bi bi-lightbulb"></i> <span>Problema</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1" title="Modelo">
+                    <i class="bi bi-graph-up"></i> <span>Modelo</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1" title="Finanzas">
+                    <i class="bi bi-cash-coin"></i> <span>Finanzas</span>
+                  </div>
+                  <div
+                    class="d-flex align-items-center gap-1"
+                    title="Factores Exógenos"
+                  >
+                    <i class="bi bi-cloud-rain"></i> <span>Entorno</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-1" title="Métricas">
+                    <i class="bi bi-bar-chart-line"></i> <span>Tracción</span>
+                  </div>
+                </div>
+              </footer>
+            </article>
+          </div>
+
+          <!-- =============================================
+                     COLUMNA DERECHA: STARTUP 2 (VERDE ESMERALDA)
+                     ============================================= -->
+          <div class="col-lg-3 order-3 order-lg-3">
+            <article class="h-100 d-flex flex-column gap-3">
+              <!-- Selector de Startup 2 -->
+              <div class="p-3 bg-white rounded-4 shadow-sm border border-light">
+                <label class="small-muted text-uppercase mb-1 d-block"
+                  >Seleccionar Startup B</label
+                >
+                <select
+                  id="startup2-select"
+                  class="form-select form-select-custom"
+                ></select>
+              </div>
+
+              <!-- Tarjeta de Detalles Startup 2 -->
+              <div
+                class="card-soft h-100 p-4 d-flex flex-column position-relative overflow-hidden"
+                style="
+                  background: linear-gradient(160deg, #ffffff 0%, #ecfdf5 100%);
+                "
+              >
+                <!-- Decoración de fondo -->
+                <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                  <i class="bi bi-flower1 fs-1 text-success"></i>
+                </div>
+
+                <div
+                  class="d-flex align-items-center gap-3 mb-4 position-relative"
+                >
+                  <div class="startup-icon-circle bg-white text-success">
+                    <i class="bi bi-bank2 fs-4"></i>
+                  </div>
+                  <div>
+                    <span
+                      class="badge bg-success bg-opacity-10 text-success mb-1"
+                      style="font-size: 0.65rem"
+                      >IMPACTO</span
+                    >
+                    <h2 class="h6 mb-0 fw-bold" id="startup2-name-label">
+                      Cargando...
+                    </h2>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <h3 class="small-muted text-uppercase mb-2">Descripción</h3>
+                  <p
+                    class="small mb-0 text-secondary"
+                    id="startup2-description"
+                    style="line-height: 1.6"
+                  >
+                    ...
+                  </p>
+                </div>
+
+                <div class="mt-auto pt-3 border-top-soft">
+                  <!-- Métricas Clave -->
+                  <div
+                    class="d-flex align-items-center justify-content-between mb-3"
+                  >
+                    <div>
+                      <div class="small-muted mb-1">Índice Colibrí</div>
+                      <span class="badge-chip index-ic" id="startup2-ic-badge"
+                        >IC: --</span
+                      >
+                    </div>
+                    <div class="text-end">
+                      <div class="small-muted mb-1">Nivel NFT</div>
+                      <span class="badge-chip level-n1" id="startup2-level-chip"
+                        >N1</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Metadata extra -->
+                  <div class="d-flex flex-column gap-2">
+                    <div
+                      class="chip-soft w-100 justify-content-center bg-white"
+                    >
+                      <i class="bi bi-people-fill text-success"></i>
+                      <span id="startup2-team-size">--</span>
+                    </div>
+                    <div
+                      class="chip-soft w-100 justify-content-center bg-white"
+                    >
+                      <i class="bi bi-geo-alt-fill text-danger"></i>
+                      <span id="startup2-location">--</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 5. SCRIPTS: Bootstrap Bundle y Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- 6. LÓGICA DE NEGOCIO (Vanilla JS) -->
+    <script>
+      /**
+       * LÓGICA DEL REPUTATION MARKET
+       * Mantiene la funcionalidad original pero adapta los colores del gráfico
+       * para coincidir con la nueva paleta CSS definida en :root.
+       */
+
+      // Datos simulados (mismo dataset original)
+      const startups = {
+        andesPay: {
+          id: "andesPay",
+          nombre: "AndesPay · Pagos Cross‑border",
+          descripcion:
+            "Fintech B2B que facilita pagos transfronterizos entre pymes de Chile, Argentina y Perú, reduciendo comisiones.",
+          ic: 38,
+          nivel: "N1 · Semilla de Luz",
+          teamSize: "3 Fundadores",
+          location: "Chile / Argentina",
+          // Datos del radar para las 7 categorías
+          radar: [72, 78, 85, 80, 62, 55, 48],
+        },
+        qhapaqFinance: {
+          id: "qhapaqFinance",
+          nombre: "Qhapaq Finance · Créditos",
+          descripcion:
+            "Plataforma de créditos productivos que usa datos alternativos para financiar emprendedores rurales.",
+          ic: 42,
+          nivel: "N1 · Semilla de Luz",
+          teamSize: "4 (2 Tech, 2 Impacto)",
+          location: "Perú / Bolivia",
+          radar: [68, 82, 90, 75, 70, 60, 54],
+        },
+        // Agregamos una tercera opción para probar la dinamicidad
+        ecoLogistica: {
+          id: "ecoLogistica",
+          nombre: "EcoLogística · Last Mile",
+          descripcion:
+            "Solución de última milla con flota eléctrica y optimización de rutas mediante IA para reducir huella de carbono.",
+          ic: 55,
+          nivel: "N2 · Chispa Azul",
+          teamSize: "5 Personas",
+          location: "Colombia / México",
+          radar: [50, 88, 65, 85, 80, 75, 90],
+        },
+      };
+
+      const categorias = [
+        "Timing",
+        "Equipo",
+        "Problema",
+        "Modelo",
+        "Finanzas",
+        "Exógenos",
+        "Métricas",
+      ];
+
+      // Referencias al DOM
+      const s1Select = document.getElementById("startup1-select");
+      const s2Select = document.getElementById("startup2-select");
+      let radarChart;
+
+      // Colores de la marca obtenidos de estilos CSS para JS (aproximación manual para Chart.js)
+      const COLOR_S1_BORDER = "rgba(0, 207, 207, 1)"; // Turquesa Colibrí
+      const COLOR_S1_BG = "rgba(0, 207, 207, 0.25)";
+
+      const COLOR_S2_BORDER = "rgba(0, 153, 117, 1)"; // Verde Esmeralda
+      const COLOR_S2_BG = "rgba(0, 153, 117, 0.25)";
+
+      /**
+       * Llena los selectores con las opciones de startups disponibles.
+       */
+      function popularSelects() {
+        // Limpiar opciones previas si las hubiera
+        s1Select.innerHTML = "";
+        s2Select.innerHTML = "";
+
+        Object.values(startups).forEach((s) => {
+          // Opción para Select 1
+          const opt1 = document.createElement("option");
+          opt1.value = s.id;
+          opt1.textContent = s.nombre;
+          s1Select.appendChild(opt1);
+
+          // Opción para Select 2
+          const opt2 = document.createElement("option");
+          opt2.value = s.id;
+          opt2.textContent = s.nombre;
+          s2Select.appendChild(opt2);
+        });
+
+        // Establecer valores iniciales por defecto
+        s1Select.value = "andesPay";
+        s2Select.value = "qhapaqFinance";
+      }
+
+      /**
+       * Actualiza la información visual de una tarjeta de startup.
+       * @param {Object} startup - Objeto de datos de la startup.
+       * @param {String} prefix - Prefijo del ID en el HTML ('startup1' o 'startup2').
+       */
+      function aplicarStartupAPanel(startup, prefix) {
+        // Animación simple de opacidad para indicar cambio
+        const card = document
+          .getElementById(prefix + "-name-label")
+          .closest(".card-soft");
+        card.style.opacity = "0.5";
+
+        setTimeout(() => {
+          document.getElementById(prefix + "-name-label").textContent =
+            startup.nombre;
+          document.getElementById(prefix + "-description").textContent =
+            startup.descripcion;
+          document.getElementById(prefix + "-ic-badge").textContent =
+            "IC: " + startup.ic + "/100";
+
+          // Actualizar chip de nivel y color si es N2 (lógica simple de ejemplo)
+          const levelChip = document.getElementById(prefix + "-level-chip");
+          levelChip.textContent = startup.nivel.split(" · ")[0]; // Solo muestra "N1" o "N2"
+
+          // Actualizar metadata
+          document.getElementById(prefix + "-team-size").textContent =
+            startup.teamSize;
+          document.getElementById(prefix + "-location").textContent =
+            startup.location;
+
+          card.style.opacity = "1";
+        }, 150);
+      }
+
+      /**
+       * Inicializa el gráfico de radar usando Chart.js con la estética Colibrí.
+       */
+      function crearRadar() {
+        const ctx = document.getElementById("radar-startups");
+        const s1 = startups[s1Select.value];
+        const s2 = startups[s2Select.value];
+
+        // Configuración de fuentes para ChartJS
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = "#505667";
+
+        radarChart = new Chart(ctx, {
+          type: "radar",
+          data: {
+            labels: categorias,
+            datasets: [
+              {
+                label: "Startup A",
+                data: s1.radar,
+                fill: true,
+                backgroundColor: COLOR_S1_BG,
+                borderColor: COLOR_S1_BORDER,
+                pointBackgroundColor: COLOR_S1_BORDER,
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: COLOR_S1_BORDER,
+                pointRadius: 4,
+                borderWidth: 2,
+                tension: 0.3, // Curvas suaves
+              },
+              {
+                label: "Startup B",
+                data: s2.radar,
+                fill: true,
+                backgroundColor: COLOR_S2_BG,
+                borderColor: COLOR_S2_BORDER,
+                pointBackgroundColor: COLOR_S2_BORDER,
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: COLOR_S2_BORDER,
+                pointRadius: 4,
+                borderWidth: 2,
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }, // Ocultamos leyenda default para usar la nuestra HTML
+              tooltip: {
+                backgroundColor: "rgba(3, 34, 58, 0.9)",
+                titleColor: "#FFD166",
+                bodyColor: "#fff",
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function (ctx) {
+                    return (
+                      " " + ctx.dataset.label + ": " + ctx.parsed.r + " pts"
+                    );
+                  },
+                },
+              },
+            },
+            scales: {
+              r: {
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks: {
+                  stepSize: 20,
+                  display: false, // Ocultar números del eje radial para limpieza
+                },
+                grid: {
+                  color: "rgba(148, 163, 184, 0.2)", // Líneas de grilla sutiles
+                  circular: true, // Grilla circular para estilo más orgánico
+                },
+                angleLines: {
+                  color: "rgba(148, 163, 184, 0.2)",
+                },
+                pointLabels: {
+                  font: {
+                    size: 11,
+                    weight: "600",
+                  },
+                  color: "#03223A", // Color título
+                },
+              },
+            },
+          },
+        });
+      }
+
+      /**
+       * Actualiza los datos del gráfico cuando cambian los selectores.
+       */
+      function actualizarRadar() {
+        if (!radarChart) return;
+
+        const s1 = startups[s1Select.value];
+        const s2 = startups[s2Select.value];
+
+        radarChart.data.datasets[0].data = s1.radar;
+        radarChart.data.datasets[1].data = s2.radar;
+
+        radarChart.update();
+      }
+
+      /**
+       * Función maestra de inicialización.
+       */
+      function inicializarPaneles() {
+        const s1 = startups[s1Select.value];
+        const s2 = startups[s2Select.value];
+        aplicarStartupAPanel(s1, "startup1");
+        aplicarStartupAPanel(s2, "startup2");
+      }
+
+      // Evento principal: Carga del DOM
+      document.addEventListener("DOMContentLoaded", () => {
+        popularSelects();
+        inicializarPaneles();
+        crearRadar();
+
+        // Listeners para cambios en selectores
+        s1Select.addEventListener("change", () => {
+          const s = startups[s1Select.value];
+          aplicarStartupAPanel(s, "startup1");
+          actualizarRadar();
+        });
+
+        s2Select.addEventListener("change", () => {
+          const s = startups[s2Select.value];
+          aplicarStartupAPanel(s, "startup2");
+          actualizarRadar();
+        });
+      });
+    </script>
+  </body>
+</html>

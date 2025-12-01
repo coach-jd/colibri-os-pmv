@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Título de página alineado a la nueva narrativa -->
+  <title>Colibrí Reputation Lab · N0 Semilla de Luz</title>
+
+  <!-- 1. FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="favicon_colibri_latam_iridiscente.svg">
+
+  <!-- 2. CSS de terceros: Bootstrap + Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <!-- 3. CSS principal (Incrustado completo de styles_mecenas.css) -->
+  <style>
+    /* styles_mecenas.css · Versión completa restaurada
+       ----------------------------------------------------------------------
+       Estructura de bloques:
+       1) Paleta, tipografía y fondo global
+       2) Cabecera, textos y contenedores base
+       3) Badges / chips de estado
+       4) Botones Colibrí Studio
+       5) Tabs superiores del Mecenas
+       6) Timeline de mecenazgo
+       7) Progreso de becas
+       8) Estilos adicionales para Modales y NFTs (Nuevos)
+    */
+
+    /* ===============================================================
+       1. PALETA, TIPOGRAFÍA Y FONDO GLOBAL
+       =============================================================== */
+
+    :root {
+      --color-verde-esmeralda: #009975;
+      --color-turquesa: #00CFCF;
+      --color-amarillo-nectar: #FFD166;
+      --color-titulo: #03223A;
+      --color-texto: #505667;
+      --color-blanco-fondo: #F6F7FB;
+      --color-verde-claro: #78D9B4;
+
+      --font-principal: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-principal);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(0, 207, 207, 0.35) 0, transparent 50%),
+        radial-gradient(circle at 90% 10%, rgba(255, 77, 109, 0.30) 0, transparent 50%),
+        radial-gradient(circle at 15% 85%, rgba(120, 217, 180, 0.45) 0, transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(255, 209, 102, 0.35) 0, transparent 50%),
+        linear-gradient(180deg, #ffffff 0%, #fdf5e7 40%, #f9fbff 100%);
+      background-attachment: fixed;
+      color: var(--color-texto);
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--color-titulo);
+      font-weight: 700;
+    }
+
+    /* ===============================================================
+       2. CABECERA, TIPOGRAFÍA Y CONTENEDORES BASE
+       =============================================================== */
+
+    .glass-header {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      z-index: 1020;
+    }
+
+    .header-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--color-verde-esmeralda);
+    }
+
+    .header-title {
+      font-size: 0.85rem;
+      color: var(--color-titulo);
+    }
+
+    .header-subtitle {
+      font-size: 0.7rem;
+      color: var(--color-texto);
+    }
+
+    .header-ecp-label {
+      font-size: 0.7rem;
+      color: var(--color-titulo);
+    }
+
+    .header-ecp-meta {
+      font-size: 0.72rem;
+      color: var(--color-texto);
+    }
+
+    @media (max-width: 575.98px) {
+      .glass-header {
+        padding-inline: 0.5rem;
+      }
+    }
+
+    .logo-pill {
+      background: linear-gradient(135deg, var(--color-verde-esmeralda), var(--color-turquesa));
+      box-shadow: 0 6px 18px rgba(0, 207, 207, 0.35);
+    }
+
+    .card-soft {
+      background: linear-gradient(145deg, #ffffff, #f9faff);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* ===============================================================
+       3. BADGES / CHIPS DE ESTADO
+       =============================================================== */
+
+    .badge-chip {
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      display: inline-block;
+    }
+
+    .badge-chip.index-ic {
+      background: var(--color-titulo);
+      color: #FFFDF8;
+    }
+
+    .badge-chip.status-mecenazgo-on {
+      background: #ecfdf5;
+      color: #064e3b;
+      border: 1px solid #a7f3d0;
+    }
+
+    .badge-chip.status-clave {
+      background: #0f172a;
+      color: #fefce8;
+    }
+
+    /* Chips temáticos usados en el portafolio y el perfil */
+    .badge-chip.status-formativo {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    /* Estados adicionales reutilizables */
+    .badge-chip.status-completada {
+      background-color: #D6FFFB;
+      color: #004d3b;
+    }
+
+    .badge-chip.status-pendiente {
+      background-color: var(--color-blanco-fondo);
+      color: var(--color-texto);
+      border: 1px solid #e5e7eb;
+    }
+
+    /* Reconocimiento especial para IPs o logros consolidados */
+    .badge-chip.ip-registered {
+      background-color: #d1fae5;
+      color: #065f46;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: none;
+    }
+
+    .badge-chip.ip-registered .bi {
+      font-size: 0.9rem;
+      margin-right: 0.2rem;
+    }
+
+    /* ===============================================================
+       4. BOTONES ESPECÍFICOS DEL REPUTATION LAB
+       =============================================================== */
+
+    .btn-studio-primary,
+    .btn-studio-secondary {
+      border-radius: 10px;
+      padding: 0.55rem 1rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      transition: all 0.25s ease;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    }
+
+    .btn-studio-primary {
+      background: linear-gradient(135deg, #009975, #00cfcf);
+      color: #ffffff;
+    }
+
+    .btn-studio-primary:hover {
+      background: linear-gradient(135deg, #00b689, #00e0e0);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 191, 166, 0.32);
+      color: #ffffff;
+    }
+
+    .btn-studio-secondary {
+      background: #ffffff;
+      color: #009975;
+      border: 2px solid #00cfcf;
+    }
+
+    .btn-studio-secondary:hover {
+      background: rgba(0, 207, 207, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 207, 207, 0.25);
+      color: #009975;
+    }
+
+    .btn-studio-primary:active,
+    .btn-studio-secondary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-studio-dark {
+      background: #0f172a;
+      color: #f9fafb;
+    }
+
+    .btn-studio-dark:hover {
+      background: #020617;
+      color: #f9fafb;
+    }
+
+    /* ===============================================================
+       5. TABS SUPERIORES DEL MECENAS
+       =============================================================== */
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tab-pill {
+      border-radius: 1.25rem;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      background: transparent;
+      padding: 0.65rem 0.9rem;
+      text-align: left;
+      color: var(--color-texto);
+      flex-shrink: 0;
+      min-width: 150px;
+      cursor: pointer;
+    }
+
+    .tab-pill.active {
+      background: var(--color-titulo);
+      color: #FFFDF8;
+      border-color: var(--color-titulo);
+      box-shadow: 0 12px 24px rgba(3, 34, 58, 0.35);
+    }
+
+    .tab-pill-subtitle {
+      display: block;
+      font-size: 0.65rem;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .tab-scroll-container {
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+
+    .tab-scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-buttons-wrapper {
+      padding-right: 1.5rem;
+    }
+
+    /* Secciones de contenido de tabs (animación de entrada) */
+    .tab-section-mecenas {
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    /* ===============================================================
+       6. TIMELINE DE MECENAZGO
+       =============================================================== */
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.8rem;
+      top: 0.2rem;
+      bottom: 0.4rem;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--color-verde-claro), #C5F4FF);
+    }
+
+    .timeline-icon {
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      position: absolute;
+      left: 0rem;
+      top: 0.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      z-index: 2; /* Asegurar visibilidad sobre la línea */
+    }
+
+    .timeline-icon.icon-gota {
+      background-color: var(--color-verde-esmeralda);
+      color: white;
+    }
+
+    .timeline-icon.icon-doc {
+      background-color: #6366f1;
+      color: white;
+    }
+
+    /* ===============================================================
+       7. PROGRESO DE BECAS (BLOQUE DE IMPACTO COLIBRÍ)
+       =============================================================== */
+
+    .progress-bar-verde {
+      background-color: var(--color-verde-esmeralda) !important;
+    }
+    
+    .trust-block-text {
+        display: block;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+
+    /* ===============================================================
+       8. AGREGADOS PARA NUEVA FUNCIONALIDAD (MODALES & NFT)
+       =============================================================== */
+    
+    .img-nft-mecenas {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border: 4px solid white; /* Borde blanco grueso estilo 'sticker' o tarjeta */
+    }
+
+    /* Estilos suaves para los modales demo */
+    .modal-content {
+        border: none;
+        background: linear-gradient(145deg, #ffffff, #f9faff);
+    }
+  </style>
+</head>
+
+<body>
+  
+<!-- =====================================================
+  PANEL DE VUELO · MECENAS "ALIADO SEMILLA"
+  Caso demo: Fundación Raíces de Luz · 10 NFTs N1 patrocinados
+  Estructura inspirada en colibri_r_lab.html
+===================================================== -->
+
+<!-- HEADER · CONTEXTO MECENAS -->
+<header class="glass-header py-2 sticky-top" id="header-reputation-lab-mecenas">
+  <div class="container d-flex justify-content-between align-items-center">
+    <!-- Lado izquierdo: logo + títulos -->
+    <div class="d-flex align-items-center gap-3">
+      <div class="logo-pill d-flex align-items-center justify-content-center rounded-4 text-white fw-semibold"
+           style="width: 2.4rem; height: 2.4rem;">
+        <a href="index.html" class="text-decoration-none">
+  <div class="logo-pill">
+    <img
+      src="imgs/avatar_colibri_os.png"
+      alt="Logo Colibrí OS"
+      class="rounded-circle"
+      style="width: 50px; height: 50px; object-fit: cover"
+    />
+  </div>
+</a>
+        <span class="visually-hidden">Colibrí Reputation Lab</span>
+      </div>
+
+      <div class="d-flex flex-column">
+        <!-- Eyebrow -->
+        <span class="text-uppercase fw-semibold header-eyebrow">
+          Colibrí OS · Reputation Lab
+        </span>
+
+        <!-- Título principal adaptado a rol de mecenas -->
+        <span class="fw-semibold header-title" id="header-mecenas-title">
+          Panel de vuelo del Mecenas · Aliado Semilla
+        </span>
+
+        <!-- Subtítulo -->
+        <span class="header-subtitle d-none d-md-inline" id="header-mecenas-subtitle">
+          Acompaña 10 Emprendedores Colibrí y convierte tu apoyo en impacto trazable.
+        </span>
+      </div>
+    </div>
+
+    <!-- Lado derecho: avatar institución + chips de estado -->
+    <div class="d-flex align-items-center gap-3">
+      <!-- Avatar Fundación (solo en lg+) -->
+      <div class="d-none d-lg-flex align-items-center gap-2" id="header-mecenas-block">
+        <img src="base_aliado_semilla.svg"
+             alt="Logo Fundación Raíces de Luz"
+             class="rounded-circle border"
+             style="width: 2.4rem; height: 2.4rem; object-fit: cover; border-color: var(--color-verde-esmeralda) !important;"
+             id="header-mecenas-avatar" />
+
+        <div class="d-flex flex-column text-start">
+          <span class="fw-semibold header-ecp-label">
+            Aliado Semilla
+          </span>
+          <span class="header-ecp-meta" id="header-mecenas-meta">
+            Fundación Raíces de Luz · LATAM
+          </span>
+        </div>
+      </div>
+
+      <!-- Chips: rol y “score” de impacto -->
+      <div class="d-flex flex-column flex-sm-row align-items-end align-items-sm-center gap-2">
+        <!-- ACTUALIZADO: Texto refleja estado "3 Activos" -->
+        <span class="badge-chip status-mecenazgo-on" id="badge-mecenas-role">
+          Aliado Semilla · 3 Activos
+        </span>
+
+        <span class="badge-chip index-ic" id="badge-mecenas-impact" data-ic-max="100">
+          Índice de Impacto Colibrí:
+          <!-- ACTUALIZADO: Valor simulado más bajo por inicio (28) -->
+          <span id="ic-mecenas-current">28</span>/<span id="ic-mecenas-max">100</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- BODY -->
+<main class="py-4 py-lg-5" id="main-mecenas">
+  <div class="container">
+    <div class="row g-4 g-lg-5 align-items-start">
+
+      <!-- ===========================================
+        COLUMNA IZQUIERDA · “Tu impacto hoy”
+        Resumen del portafolio del Aliado Semilla
+      ============================================ -->
+      <div class="col-lg-4" id="columna-mecenas-hoy">
+        <div class="card-soft p-3 p-lg-4 mb-3" id="card-mecenas-hoy">
+
+          <!-- Encabezado -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h2 class="h6 mb-1">Tu impacto como Aliado</h2>
+              <small class="text-muted" style="font-size: 0.7rem;">
+                <strong>Panel de vuelo de Fundación Raíces de Luz</strong>
+              </small>
+            </div>
+            <span class="badge-chip status-nft text-uppercase" style="background:#eee; color:#333;" id="badge-mecenas-tipo">
+              Portafolio NFT
+            </span>
+          </div>
+
+          <!-- NUEVO: Imagen NFT Aliado Semilla (200px) -->
+          <div class="text-center mb-4">
+             <img src="base_aliado_semilla.svg" 
+                 alt="NFT Aliado Semilla - Fundación Raíces de Luz" 
+                 class="rounded-circle img-nft-mecenas"
+                 id="mecenas-nft-image">
+             <div class="mt-2 text-muted fst-italic" style="font-size: 0.7rem;">
+                NFT ID: #MEC-001 · Semilla de Luz
+             </div>
+          </div>
+
+          <!-- Resumen principal del portafolio (ACTUALIZADO 3/10) -->
+          <div class="mb-3" id="mecenas-portfolio-summary">
+            <div class="text-uppercase text-muted mb-2" style="font-size: 0.62rem; letter-spacing: 0.16em;">
+              Portafolio de Colibrís
+            </div>
+
+            <ul class="list-unstyled mb-2" style="font-size: 0.78rem;">
+              <li class="mb-1">
+                <span class="fw-semibold">NFTs adquiridos:</span>
+                <span id="mecenas-total-nfts">10 NFTs Totales</span>
+              </li>
+              <li class="mb-1">
+                <span class="fw-semibold">Becas Activadas:</span>
+                <span class="text-success fw-bold">03 personas becadas</span>
+              </li>
+               <li class="mb-1">
+                <span class="fw-semibold">Becas Pendientes:</span>
+                <span class="text-muted">07 por asignar</span>
+              </li>
+              <li class="mb-1">
+                <span class="fw-semibold">Ruta de apoyo:</span>
+                <span id="mecenas-ruta-niveles">Desde N1 · Semilla de Luz</span>
+              </li>
+              <li class="mb-1">
+                <span class="fw-semibold">Región foco:</span>
+                <span id="mecenas-region">Argentina, Chile y LATAM</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Mini grid de “top 3” Colibrís (Se mantiene, coincide con los 3 activos) -->
+          <div class="mb-3" id="mecenas-highlighted-nfts">
+            <div class="text-uppercase text-muted mb-2" style="font-size: 0.62rem; letter-spacing: 0.16em;">
+              Colibrís Activos
+            </div>
+
+            <div class="d-flex flex-column gap-2" style="font-size: 0.74rem;">
+              <!-- Item 1 -->
+              <div class="d-flex justify-content-between align-items-center p-2 rounded-3"
+                   style="background-color: #eef8ff; border: 1px solid #d1e9f7;">
+                <div>
+                  <div class="fw-semibold" style="color: var(--color-titulo);">
+                    Colibrí #001 · EdTech
+                  </div>
+                  <div class="text-muted">
+                    Nivel actual: N1 · IC 38
+                  </div>
+                </div>
+                <span class="badge-chip status-formativo">En vuelo</span>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="d-flex justify-content-between align-items-center p-2 rounded-3"
+                   style="background-color: #fefce8; border: 1px solid #fde68a;">
+                <div>
+                  <div class="fw-semibold" style="color: var(--color-titulo);">
+                    Colibrí #002 · Salud
+                  </div>
+                  <div class="text-muted">
+                    Nivel actual: N1 · IC 26
+                  </div>
+                </div>
+                <span class="badge-chip status-clave">En progreso</span>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="d-flex justify-content-between align-items-center p-2 rounded-3"
+                   style="background-color: #ecfdf5; border: 1px solid #a7f3d0;">
+                <div>
+                  <div class="fw-semibold" style="color: var(--color-titulo);">
+                    Colibrí #003 · Climate
+                  </div>
+                  <div class="text-muted">
+                    Nivel actual: N1 · IC 32
+                  </div>
+                </div>
+                <span class="badge-chip status-mecenazgo-on">Impacto alto</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini bloque de indicador de impacto tipo “Confianza Colibrí” -->
+          <div class="trust-block" id="trust-block-mecenas">
+            <h3 class="h6" style="font-size: 0.8rem;">
+              Bloque de Impacto Colibrí · Aliado Semilla
+            </h3>
+            <div class="progress" style="height: 12px; border-radius: 999px; background-color: #e9ecef;">
+              <!-- ACTUALIZADO: Barra al 30% (3/10) -->
+              <div class="progress-bar progress-bar-verde trust-progress-bar"
+                   role="progressbar"
+                   style="width: 30%;"
+                   aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
+                   data-becas-current="3" data-becas-total="10"></div>
+            </div>
+            <!-- ACTUALIZADO: Texto 03/10 -->
+            <small class="trust-block-text" style="font-size: 0.72rem; color: var(--color-texto);">
+              Has activado <strong>03/10 becas Semilla de Luz</strong>. Aún tienes 7 oportunidades para impulsar el cambio en la región y aumentar tu reputación.
+            </small>
+          </div>
+        </div>
+
+        <!-- Botones de acción para el Aliado -->
+        <div class="d-grid gap-2">
+          <button class="btn btn-studio-primary btn-sm" type="button" id="btn-ver-colibris-becados">
+            Ver portafolio activo
+          </button>
+          <!-- ACTUALIZADO: Abre Modal -->
+          <button class="btn btn-outline-secondary btn-sm" type="button" id="btn-exportar-reporte-mecenas">
+            Exportar reporte de impacto (demo)
+          </button>
+        </div>
+      </div>
+
+      <!-- ===========================================
+        COLUMNA DERECHA · TABS DEL MECENAS
+        Portafolio, Timeline, Impacto, Perfil
+      ============================================ -->
+      <div class="col-lg-8">
+        <!-- Tabs superiores (reutiliza estilo .tab-pill) -->
+        <div class="card-soft mb-3 p-2 p-sm-3" id="tabs-mecenas">
+          <div class="d-flex overflow-auto tab-scroll-container" id="tab-scroll-container-mecenas">
+            <div class="d-flex gap-2 tab-buttons-wrapper" id="tab-buttons-wrapper-mecenas">
+              <!-- TAB 1: Portafolio -->
+              <button type="button"
+                      class="tab-pill js-tab-trigger-mecenas active"
+                      data-tab="portfolio"
+                      id="tab-btn-portfolio"
+                      aria-selected="true">
+                <i class="bi bi-grid-3x3-gap me-2" aria-hidden="true"></i>
+                <div>
+                  <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                    Portafolio
+                  </div>
+                  <small class="tab-pill-subtitle">
+                    3 Activos / 7 Pendientes
+                  </small>
+                </div>
+              </button>
+
+              <!-- TAB 2: Timeline de mecenazgo -->
+              <button type="button"
+                      class="tab-pill js-tab-trigger-mecenas"
+                      data-tab="mecenas-timeline"
+                      id="tab-btn-mecenas-timeline"
+                      aria-selected="false">
+                <i class="bi bi-clock-history me-2" aria-hidden="true"></i>
+                <div>
+                  <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                    Timeline de apoyo
+                  </div>
+                  <small class="tab-pill-subtitle">
+                    Hitos recientes
+                  </small>
+                </div>
+              </button>
+
+              <!-- TAB 3: Impacto & reputación -->
+              <button type="button"
+                      class="tab-pill js-tab-trigger-mecenas"
+                      data-tab="impacto"
+                      id="tab-btn-impacto"
+                      aria-selected="false">
+                <i class="bi bi-bar-chart-line me-2" aria-hidden="true"></i>
+                <div>
+                  <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                    Impacto &amp; reputación
+                  </div>
+                  <small class="tab-pill-subtitle">
+                    Métricas iniciales
+                  </small>
+                </div>
+              </button>
+
+              <!-- TAB 4: Perfil de la fundación -->
+              <button type="button"
+                      class="tab-pill js-tab-trigger-mecenas"
+                      data-tab="perfil"
+                      id="tab-btn-perfil"
+                      aria-selected="false">
+                <i class="bi bi-building-heart me-2" aria-hidden="true"></i>
+                <div>
+                  <div class="text-uppercase fw-semibold" style="font-size: 0.66rem; letter-spacing: 0.12em;">
+                    Perfil del Aliado
+                  </div>
+                  <small class="tab-pill-subtitle">
+                    Datos y preferencias
+                  </small>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTENIDO DE CADA TAB (MECENAS) -->
+        <div class="card-soft p-3 p-sm-4" id="tabs-content-mecenas">
+
+          <!-- TAB PORTAFOLIO -->
+          <section class="tab-section-mecenas" id="tab-portfolio">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h2 class="h6 mb-1">
+                  <strong>Portafolio de Colibrís becados</strong>
+                </h2>
+                <small style="font-size: 0.72rem; color: var(--color-texto);">
+                  Visualiza los 3 NFTs activados. Los 7 restantes se mostrarán aquí una vez asignados.
+                </small>
+              </div>
+            </div>
+
+            <!-- Tabla simple de portafolio (SOLO 3 ITEMS) -->
+            <div class="table-responsive" style="font-size: 0.75rem;">
+              <table class="table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Colibrí / Proyecto</th>
+                    <th>Emprendedor</th>
+                    <th>Nivel NFT</th>
+                    <th>IC</th>
+                    <th>Estado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-portafolio-mecenas">
+                  <!-- Fila 1 -->
+                  <tr>
+                    <td>
+                      <strong>Colibrí #001</strong><br>
+                      <span class="text-muted">Colibrí OS · EdTech</span>
+                    </td>
+                    <td>Jesús Díaz · AR</td>
+                    <td>N1 · Semilla de Luz</td>
+                    <td>38/100</td>
+                    <td>
+                      <span class="badge-chip status-formativo">En vuelo</span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-link btn-sm text-decoration-none js-ver-panel-emprendedor">
+                        Ver panel
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 2 -->
+                  <tr>
+                    <td>
+                      <strong>Colibrí #002</strong><br>
+                      <span class="text-muted">Demo Salud Regenerativa</span>
+                    </td>
+                    <td>Cocreador Demo · CL</td>
+                    <td>N1 · Semilla de Luz</td>
+                    <td>26/100</td>
+                    <td>
+                      <span class="badge-chip status-clave">En progreso</span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-link btn-sm text-decoration-none js-ver-panel-emprendedor">
+                        Ver panel
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 3 -->
+                  <tr>
+                    <td>
+                      <strong>Colibrí #003</strong><br>
+                      <span class="text-muted">Demo Climate Tech</span>
+                    </td>
+                    <td>Emprendedor Demo · PE</td>
+                    <td>N1 · Semilla de Luz</td>
+                    <td>32/100</td>
+                    <td>
+                      <span class="badge-chip status-mecenazgo-on">Impacto alto</span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-link btn-sm text-decoration-none js-ver-panel-emprendedor">
+                        Ver panel
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="p-3 text-center text-muted border-top bg-light rounded-bottom">
+                  <small><em>Las 7 becas restantes están pendientes de asignación en la próxima convocatoria.</em></small>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB TIMELINE MECENAZGO (NUEVA NARRATIVA) -->
+          <section class="tab-section-mecenas d-none" id="tab-mecenas-timeline">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h2 class="h6 mb-1"><strong>Timeline de mecenazgo</strong></h2>
+                <small style="font-size: 0.72rem; color: var(--color-texto);">
+                  Hitos clave: Firma, Adquisición de activos y Activación de becas.
+                </small>
+              </div>
+            </div>
+
+            <div class="timeline ps-4" id="timeline-mecenas">
+              <!-- Evento 1: Activación parcial -->
+              <div class="position-relative mb-4 timeline-event" data-type="milestone">
+                <div class="timeline-icon icon-gota">
+                  <i class="bi bi-gem"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                       style="font-size: 0.65rem; letter-spacing: 0.16em; color: var(--color-verde-esmeralda);">
+                    Hace 2 días · Activación de Becas
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                     Activación de <strong>3 de las 10 becas</strong> disponibles.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                    Has dado luz verde a los primeros 3 emprendedores. Quedan <strong>7 becas restantes</strong> en tu cartera.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 2: Compra de NFTs -->
+              <div class="position-relative mb-4 timeline-event" data-type="purchase">
+                <div class="timeline-icon icon-doc" style="background-color: #0ea5e9;">
+                  <i class="bi bi-cart-check"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                       style="font-size: 0.65rem; letter-spacing: 0.16em; color: #0ea5e9;">
+                    Hace 1 semana · Adquisición de Activos
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Compra de <strong>10 NFTs Colibrí (Nivel N1)</strong>.
+                  </div>
+                  <div style="font-size: 0.7rem; color: var(--color-texto);">
+                     Confirmación de la transacción en blockchain y asignación de los 10 activos digitales a la wallet de la Fundación.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Evento 3: Firma de convenio -->
+              <div class="position-relative mb-4 timeline-event" data-type="agreement">
+                <div class="timeline-icon icon-doc">
+                  <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <div style="margin-left: 2rem;">
+                  <div class="text-uppercase fw-semibold mb-1"
+                       style="font-size: 0.65rem; letter-spacing: 0.16em; color: #6366f1;">
+                    Hace 3 semanas · Acuerdo Marco
+                  </div>
+                  <div class="fw-medium" style="color: var(--color-titulo);">
+                    Firma del convenio entre Fundación Raíces de Luz y Colibrí LATAM.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB IMPACTO (NÚMEROS AJUSTADOS 3/10) -->
+          <section class="tab-section-mecenas d-none" id="tab-impacto">
+            <div class="mb-3">
+              <h2 class="h6 mb-1"><strong>Impacto &amp; reputación (Inicial)</strong></h2>
+              <small style="font-size: 0.72rem; color: var(--color-texto);">
+                Métricas agregadas de microacciones, evidencias e IPs generadas por los 3 Colibrís activos.
+              </small>
+            </div>
+
+            <div class="row g-3" style="font-size: 0.78rem;">
+              <!-- Métrica 1 -->
+              <div class="col-md-4">
+                <div class="p-3 rounded-3 h-100" style="background-color: #f3fbff; border: 1px solid #dbeafe;">
+                  <div class="fw-semibold mb-1">Microacciones financiadas</div>
+                  <!-- Ajustado a 58 -->
+                  <div class="display-6 fw-bold" style="font-size: 1.6rem;" id="metric-microacciones">
+                    58
+                  </div>
+                  <p class="mb-0 text-muted">
+                    Suma de microacciones de tus 3 becarios.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Métrica 2 -->
+              <div class="col-md-4">
+                <div class="p-3 rounded-3 h-100" style="background-color: #ecfdf5; border: 1px solid #a7f3d0;">
+                  <div class="fw-semibold mb-1">Evidencias validadas</div>
+                  <!-- Ajustado a 12 -->
+                  <div class="display-6 fw-bold" style="font-size: 1.6rem;" id="metric-evidencias">
+                    12
+                  </div>
+                  <p class="mb-0 text-muted">
+                    Evidencias pedagógicas avaladas con sello Aliado.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Métrica 3 -->
+              <div class="col-md-4">
+                <div class="p-3 rounded-3 h-100" style="background-color: #fff7ed; border: 1px solid #fed7aa;">
+                  <div class="fw-semibold mb-1">IPs registradas</div>
+                  <!-- Ajustado a 5 -->
+                  <div class="display-6 fw-bold" style="font-size: 1.6rem;" id="metric-ips">
+                    05
+                  </div>
+                  <p class="mb-0 text-muted">
+                    Activos intelectuales vinculados a los proyectos.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row g-3" style="font-size: 0.78rem;">
+              <div class="col-md-12">
+                <h3 class="h6 mb-2">IPs educativas destacadas</h3>
+                <ul class="list-unstyled mb-0">
+                  <li class="mb-2">
+                    <span class="badge-chip index-ic me-1">IP-001</span>
+                    <strong>Mapa personal “Mi ADN Colibrí”</strong>
+                  </li>
+                  <li class="mb-2">
+                    <span class="badge-chip index-ic me-1">IP-014</span>
+                    <strong>Ficha “Problema que me Duele”</strong>
+                  </li>
+                  <li>
+                    <span class="badge-chip index-ic me-1">IP-021</span>
+                    <strong>Guía rápida de Métricas N1</strong>
+                  </li>
+                </ul>
+                <div class="mt-3 alert alert-light border small">
+                  <i class="bi bi-info-circle me-1"></i> Tus métricas crecerán exponencialmente cuando asignes las 7 becas restantes.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB PERFIL (NUEVO: IMAGEN NFT + MODALES) -->
+          <section class="tab-section-mecenas d-none" id="tab-perfil">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h2 class="h6 mb-1"><strong>Perfil de la Fundación Raíces de Luz</strong></h2>
+                <small style="font-size: 0.72rem; color: var(--color-texto);">
+                  Datos básicos, foco de impacto y preferencias para futuras convocatorias.
+                </small>
+              </div>
+              <!-- Imagen NFT pequeña -->
+              <img src="base_aliado_semilla.svg" 
+                   alt="NFT Avatar" class="rounded-circle border" style="width: 60px; height: 60px; object-fit: cover;">
+            </div>
+
+            <div class="row g-3" style="font-size: 0.78rem;">
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 border h-100 bg-white">
+                  <h3 class="h6 mb-2">Información general</h3>
+                  <ul class="list-unstyled mb-0">
+                    <li class="mb-1">
+                      <span class="fw-semibold">Tipo de organización:</span>
+                      Fundación sin fines de lucro.
+                    </li>
+                    <li class="mb-1">
+                      <span class="fw-semibold">Región foco:</span>
+                      Argentina, Chile y LATAM.
+                    </li>
+                    <li class="mb-1">
+                      <span class="fw-semibold">Tesis de impacto:</span>
+                      Educación, salud integral y clima.
+                    </li>
+                    <li>
+                      <span class="fw-semibold">Contacto referencial:</span>
+                      impacto@raicesdeluz.org
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 border h-100 bg-white">
+                  <h3 class="h6 mb-2">Preferencias de mecenazgo</h3>
+                  <p class="text-muted mb-2">
+                    Criterios para las <strong>7 becas pendientes</strong>.
+                  </p>
+                  <ul class="list-unstyled mb-0">
+                    <li class="mb-1">
+                      <span class="badge-chip status-clave me-1">N1–N2</span>
+                      Validaciones iniciales.
+                    </li>
+                    <li class="mb-1">
+                      <span class="badge-chip status-formativo me-1">EdTech</span>
+                      <span class="badge-chip status-formativo me-1">ClimateTech</span>
+                    </li>
+                    <li>
+                      <span class="fw-semibold">Modalidad:</span>
+                      Becas completas.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+              <div style="font-size: 0.78rem;">
+                <strong>Próximo paso sugerido:</strong>
+                Configurar la asignación automática.
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <!-- Botones conectados a Modales -->
+                <button type="button" class="btn btn-studio-primary btn-sm" id="btn-agendar-reunion">
+                  Agendar reunión
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-editar-preferencias">
+                  Editar preferencias
+                </button>
+              </div>
+            </div>
+          </section>
+
+        </div> <!-- /card-soft tabs-content-mecenas -->
+      </div> <!-- /col-lg-8 -->
+    </div> <!-- /row -->
+  </div> <!-- /container -->
+</main> <!-- /main-mecenas -->
+
+
+<!-- ==========================================
+     MODALES (Simulación de Funcionalidades)
+     ========================================== -->
+
+<!-- Modal 1: Exportar Reporte -->
+<div class="modal fade" id="modalExportar" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body text-center p-4">
+        <div class="mb-3 text-success"><i class="bi bi-file-earmark-pdf" style="font-size: 3rem;"></i></div>
+        <h5 class="fw-bold mb-2">Generando Reporte de Impacto...</h5>
+        <p class="text-muted small">El sistema está recopilando la data de tus 3 becarios activos y el estado de tus 7 NFTs pendientes.</p>
+        <div class="progress mb-3" style="height: 6px;">
+          <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%"></div>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cerrar simulación</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Ver Panel Emprendedor -->
+<div class="modal fade" id="modalVerPanel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fs-6 fw-bold">Detalle del Becario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 text-center">
+        <div class="mb-3 text-primary"><i class="bi bi-window-stack" style="font-size: 2.5rem;"></i></div>
+        <p class="mb-2"><strong>Redireccionando al Panel Individual...</strong></p>
+        <p class="small text-muted">Mediante este enlace, accedes a la vista detallada en tiempo real de las evidencias, métricas de confianza y validaciones del emprendedor seleccionado.</p>
+        <button type="button" class="btn btn-sm btn-studio-primary mt-2" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 3: Agendar Reunión -->
+<div class="modal fade" id="modalAgendar" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body text-center p-4">
+        <div class="mb-3" style="color: #6366f1;"><i class="bi bi-calendar-event" style="font-size: 2.5rem;"></i></div>
+        <h5 class="fw-bold">Agendar Reunión</h5>
+        <p class="text-muted small">Aquí se despliega el calendario (Calendly/Google Calendar) para coordinar una sesión de seguimiento con el equipo de Colibrí LATAM.</p>
+        <button type="button" class="btn btn-studio-primary btn-sm w-100" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 4: Editar Preferencias -->
+<div class="modal fade" id="modalPreferencias" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body p-4">
+        <h5 class="fw-bold mb-3">Editar Preferencias de Mecenazgo</h5>
+        <p class="text-muted small mb-3">Ajusta tus criterios para la asignación automática de las <strong>7 becas restantes</strong>.</p>
+        
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Verticales de interés</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" checked> <label class="form-check-label small">EdTech</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" checked> <label class="form-check-label small">Climate</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox"> <label class="form-check-label small">FinTech</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="d-grid">
+          <button type="button" class="btn btn-studio-primary btn-sm" data-bs-dismiss="modal">Guardar Cambios (Simulado)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle (modales, offcanvas, tooltips, etc.) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+
+<!-- Lógica de interacción del Colibrí Reputation Lab -->
+<script>
+// script_mecenas.js · Lógica completa integrada
+// Incluye tabs, cálculo de IC, bloques de becas y gestión de modales.
+
+document.addEventListener('DOMContentLoaded', function () {
+  
+  // ---------------------------------------------------------------------------
+  // 1) SISTEMA DE TABS DEL MECENAS (Lógica Original Robusta)
+  // ---------------------------------------------------------------------------
+  var mecenasTabButtons = document.querySelectorAll('.js-tab-trigger-mecenas');
+  var mecenasTabSections = document.querySelectorAll('.tab-section-mecenas');
+  var tabsContentMecenas = document.getElementById('tabs-content-mecenas');
+
+  /**
+   * Activa una pestaña del panel del Mecenas.
+   * Gestiona clases 'active' y atributos ARIA para accesibilidad.
+   * @param {string} tabName - Nombre de pestaña según data-tab.
+   */
+  function activateMecenasTab(tabName) {
+    if (!tabName) return;
+
+    // 1. Desactivar todos los botones y secciones.
+    mecenasTabButtons.forEach(function (btn) {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+
+    mecenasTabSections.forEach(function (section) {
+      section.classList.add('d-none');
+      section.setAttribute('aria-hidden', 'true');
+    });
+
+    // 2. Activar el botón correspondiente.
+    var targetButton = document.querySelector(
+      '.js-tab-trigger-mecenas[data-tab="' + tabName + '"]'
+    );
+    if (targetButton) {
+      targetButton.classList.add('active');
+      targetButton.setAttribute('aria-selected', 'true');
+    }
+
+    // 3. Mostrar la sección correspondiente.
+    var targetSection = document.getElementById('tab-' + tabName);
+    if (targetSection) {
+      targetSection.classList.remove('d-none');
+      targetSection.setAttribute('aria-hidden', 'false');
+    }
+
+    // 4. Scroll suave en móvil si es necesario
+    if (tabsContentMecenas && window.innerWidth < 768) {
+      var rect = tabsContentMecenas.getBoundingClientRect();
+      if (rect.top < 0) {
+        window.scrollTo({
+          top: window.pageYOffset + rect.top - 80, 
+          behavior: 'smooth',
+        });
+      }
+    }
+  }
+
+  // Listeners para cada pestaña.
+  mecenasTabButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var tabName = button.getAttribute('data-tab');
+      activateMecenasTab(tabName);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // 2) ÍNDICE DE IMPACTO COLIBRÍ (chip del header)
+  // ---------------------------------------------------------------------------
+  var badgeMecenasImpact = document.getElementById('badge-mecenas-impact');
+  var icMecenasCurrentSpan = document.getElementById('ic-mecenas-current');
+  var icMecenasMaxSpan = document.getElementById('ic-mecenas-max');
+
+  /**
+   * Actualiza el Índice de Impacto Colibrí.
+   * @param {number} value - Nuevo valor de IC.
+   */
+  function updateMecenasIC(value) {
+    if (!badgeMecenasImpact) return;
+    var max = 100;
+    var datasetMax = badgeMecenasImpact.getAttribute('data-ic-max');
+    if (datasetMax) max = parseInt(datasetMax, 10) || 100;
+    var safeValue = Math.max(0, Math.min(value, max));
+
+    if (icMecenasCurrentSpan) icMecenasCurrentSpan.textContent = String(safeValue);
+    if (icMecenasMaxSpan) icMecenasMaxSpan.textContent = String(max);
+    
+    // Gestión de clases visuales por nivel
+    badgeMecenasImpact.classList.remove('ic-low', 'ic-medium', 'ic-high');
+    var ratio = safeValue / max;
+    if (ratio < 0.34) badgeMecenasImpact.classList.add('ic-low');
+    else if (ratio < 0.67) badgeMecenasImpact.classList.add('ic-medium');
+    else badgeMecenasImpact.classList.add('ic-high');
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3) BLOQUE DE IMPACTO COLIBRÍ (BECAS ACTIVAS)
+  // ---------------------------------------------------------------------------
+  var trustProgressBar = document.querySelector('.trust-progress-bar');
+  
+  // Nota: El texto se actualiza manualmente en el HTML para este caso específico 3/10
+  // pero mantenemos la lógica de la barra.
+
+  function updateTrustBlock() {
+    if (!trustProgressBar) return;
+    var current = parseInt(trustProgressBar.getAttribute('data-becas-current') || '0', 10);
+    var total = parseInt(trustProgressBar.getAttribute('data-becas-total') || '0', 10);
+    if (isNaN(total) || total <= 0) total = 1;
+    var percentage = Math.max(0, Math.min((current / total) * 100, 100));
+
+    trustProgressBar.style.width = percentage + '%';
+    trustProgressBar.setAttribute('aria-valuenow', String(Math.round(percentage)));
+  }
+
+  // ---------------------------------------------------------------------------
+  // 4) GESTIÓN DE MODALES Y ACCIONES (NUEVO)
+  // ---------------------------------------------------------------------------
+
+  // A. Exportar Reporte
+  const btnExport = document.getElementById('btn-exportar-reporte-mecenas');
+  const modalExport = new bootstrap.Modal(document.getElementById('modalExportar'));
+  if(btnExport) {
+    btnExport.addEventListener('click', function() {
+        modalExport.show();
+    });
+  }
+
+  // B. Ver Panel Emprendedor (Múltiples botones)
+  const btnsVerPanel = document.querySelectorAll('.js-ver-panel-emprendedor');
+  const modalPanel = new bootstrap.Modal(document.getElementById('modalVerPanel'));
+  btnsVerPanel.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modalPanel.show();
+    });
+  });
+
+  // C. Agendar Reunión
+  const btnAgenda = document.getElementById('btn-agendar-reunion');
+  const modalAgenda = new bootstrap.Modal(document.getElementById('modalAgendar'));
+  if(btnAgenda) {
+    btnAgenda.addEventListener('click', function() {
+        modalAgenda.show();
+    });
+  }
+
+  // D. Editar Preferencias
+  const btnPref = document.getElementById('btn-editar-preferencias');
+  const modalPref = new bootstrap.Modal(document.getElementById('modalPreferencias'));
+  if(btnPref) {
+    btnPref.addEventListener('click', function() {
+        modalPref.show();
+    });
+  }
+  
+  // E. Botón "Ver Portafolio" (Panel izquierdo) -> Tab Portafolio
+  const btnVerPortafolio = document.getElementById('btn-ver-colibris-becados');
+  if(btnVerPortafolio) {
+      btnVerPortafolio.addEventListener('click', function() {
+          activateMecenasTab('portfolio');
+      });
+  }
+
+  // ---------------------------------------------------------------------------
+  // 5) INICIALIZACIONES
+  // ---------------------------------------------------------------------------
+  activateMecenasTab('portfolio');
+  updateTrustBlock();
+  
+  var initialIC = 0;
+  if (icMecenasCurrentSpan && icMecenasCurrentSpan.textContent) {
+    initialIC = parseInt(icMecenasCurrentSpan.textContent, 10) || 0;
+  }
+  updateMecenasIC(initialIC);
+
+});
+</script>
+
+</body>
+</html>
