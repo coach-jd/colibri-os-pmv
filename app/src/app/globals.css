@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 🌌 Fondo global estilo Colibrí OS */
+
+body {
+  @apply bg-slate-950 text-slate-100;
+}
+
+/* Fondo degradado suave tipo "espacio Colibrí" */
+.colibri-bg {
+  background: radial-gradient(circle at top left, #22d3ee33 0, transparent 55%),
+              radial-gradient(circle at bottom right, #a855f733 0, transparent 55%),
+              radial-gradient(circle at top right, #0ea5e933 0, transparent 45%),
+              #020617;
+}
+
+/* Contenedor tipo panel de vuelo (glassmorphism) */
+.colibri-panel {
+  background: radial-gradient(circle at top left, #22d3ee11 0, transparent 55%),
+              radial-gradient(circle at bottom right, #a855f711 0, transparent 55%),
+              rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(18px);
+}
+
