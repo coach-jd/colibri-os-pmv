@@ -1,17 +1,20 @@
 // src/app/page.tsx
 
+import Link from "next/link";
+
 /**
  * Página principal (landing mínima) del PMV.
  *
  * Objetivo:
- * - Reemplazar la pantalla de "Hello Next" por una vista que
- *   represente el onboarding de Colibrí OS.
+ * - Representar el onboarding de Colibrí OS.
  * - Permitir que el usuario elija su rol:
- *   Emprendedor · Mecenas · Jurado
+ *   Emprendedor · Mecenas · Jurado.
  *
- * Más adelante:
- * - Cada botón redirigirá a su respectivo Panel:
- *   /r-lab, /r-lab-mecenas, /r-market
+ * Nota importante del modelo:
+ * - El emprendedor recibe su NFT Colibrí en estado Torpor (estado inicial).
+ * - Cuando completa las 21 microacciones + 7 evidencias (3 microacciones + 1
+ *   evidencia por cada una de las 7 categorías), el NFT evoluciona a
+ *   Semilla de Luz (N1).
  */
 export default function HomePage() {
   return (
@@ -29,26 +32,45 @@ export default function HomePage() {
             </h1>
             <p className="mt-2 max-w-xl text-sm text-slate-300 md:text-base">
               Esta es la versión PMV del ecosistema Colibrí OS. Aquí simulamos
-              cómo un NFT Colibrí evoluciona gracias a microacciones y evidencias
-              educativas registradas como Propiedad Intelectual.
+              cómo un NFT Colibrí nace en estado{" "}
+              <span className="font-semibold text-cyan-300">Torpor</span> y
+              evoluciona gracias a microacciones y evidencias educativas
+              registradas como Propiedad Intelectual.
             </p>
           </div>
 
-          {/* Chip que representa el estado del NFT de demostración */}
-          <div className="inline-flex items-center gap-3 rounded-2xl border border-slate-600/60 bg-slate-900/60 px-4 py-3 text-xs shadow-glass">
-            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-cyan-400 to-fuchsia-500 p-[2px]">
+          {/* 
+            Chip que representa el estado del NFT de demostración.
+            En el modelo Colibrí:
+            - Torpor = estado inicial del NFT (antes de N1).
+            - Al completar 21 microacciones + 7 evidencias, evoluciona a Semilla de Luz (N1).
+          */}
+          <div className="inline-flex max-w-xs items-center gap-3 rounded-2xl border border-slate-600/60 bg-slate-900/60 px-4 py-3 text-xs shadow-glass">
+            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-slate-500 to-slate-300 p-[2px]">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-950">
-                <span className="text-[10px] font-semibold text-cyan-300">
-                  N0
+                {/* No usamos N0 para evitar confusiones; mostramos directamente 'Torpor' */}
+                <span className="text-[9px] font-semibold text-slate-200">
+                  Torpor
                 </span>
               </div>
             </div>
-            <div>
+            <div className="space-y-0.5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                 NFT Colibrí · Demo
               </p>
               <p className="text-xs text-slate-200">
-                Estado actual: <span className="font-semibold text-cyan-300">Torpor</span>
+                Estado actual:{" "}
+                <span className="font-semibold text-slate-100">
+                  Torpor (estado inicial)
+                </span>
+              </p>
+              <p className="text-[10px] text-slate-400">
+                Al completar 21 microacciones + 7 evidencias, este NFT
+                evoluciona a{" "}
+                <span className="font-semibold text-cyan-300">
+                  Semilla de Luz (N1)
+                </span>
+                .
               </p>
             </div>
           </div>
@@ -64,38 +86,39 @@ export default function HomePage() {
             <p className="text-sm leading-relaxed text-slate-200 md:text-[15px]">
               Colibrí OS convierte tu aprendizaje emprendedor en una narrativa
               verificable. Cada pequeña acción se traduce en evidencia, y cada
-              evidencia impulsa la evolución de tu NFT Colibrí y tu Índice Colibrí (IC).
+              evidencia impulsa la evolución de tu NFT Colibrí y tu Índice
+              Colibrí (IC).
             </p>
             <p className="text-sm leading-relaxed text-slate-300">
-              En esta versión PMV puedes explorar el sistema desde tres perspectivas:
+              En esta versión PMV puedes explorar el sistema desde tres
+              perspectivas:
             </p>
             <ul className="space-y-2 text-sm text-slate-300">
               <li>
                 <span className="font-semibold text-c1">Emprendedor/a:</span>{" "}
-                observa tu propio Panel de Vuelo y cómo evoluciona tu NFT.
+                observa tu propio Panel de Vuelo y cómo tu NFT pasa de Torpor a
+                Semilla de Luz (N1).
               </li>
               <li>
-                <span className="font-semibold text-c6">Mecenas / Aliado Semilla:</span>{" "}
-                mira el impacto de tus becas y tu portafolio de Colibrís apoyados.
+                <span className="font-semibold text-c6">
+                  Mecenas / Aliado Semilla:
+                </span>{" "}
+                mira el impacto de tus becas y tu portafolio de Colibrís
+                apoyados.
               </li>
               <li>
                 <span className="font-semibold text-c7">Jurado / Evaluador:</span>{" "}
-                compara startups en el Reputation Market usando las 7 categorías troncales.
+                compara startups en el Reputation Market usando las 7 categorías
+                troncales.
               </li>
             </ul>
           </div>
 
           {/* Columna derecha: tarjetas de selección de rol */}
           <div className="space-y-3">
-            {/* 
-              Nota: por ahora estos botones no navegan.
-              En la siguiente fase los conectaremos con:
-              - /r-lab
-              - /r-lab-mecenas
-              - /r-market
-            */}
-            <button
-              type="button"
+            {/* Rol Emprendedor → /r-lab */}
+            <Link
+              href="/r-lab"
               className="group flex w-full flex-col items-start rounded-2xl border border-emerald-500/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-emerald-400 hover:bg-slate-900/90"
             >
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300/90">
@@ -105,13 +128,15 @@ export default function HomePage() {
                 Explorar mi Panel de Vuelo
               </span>
               <span className="mt-1 text-xs text-slate-300">
-                Verás tu NFT Colibrí, tu Índice Colibrí (IC) y las evidencias
-                que impulsan tu evolución educativa.
+                Verás tu NFT Colibrí en estado Torpor, tu Índice Colibrí (IC) y
+                las evidencias que impulsan su evolución hacia Semilla de Luz
+                (N1).
               </span>
-            </button>
+            </Link>
 
-            <button
-              type="button"
+            {/* Rol Mecenas → /r-lab-mecenas */}
+            <Link
+              href="/r-lab-mecenas"
               className="group flex w-full flex-col items-start rounded-2xl border border-cyan-400/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-cyan-300 hover:bg-slate-900/90"
             >
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">
@@ -121,13 +146,14 @@ export default function HomePage() {
                 Ver portafolio de Colibrís apoyados
               </span>
               <span className="mt-1 text-xs text-slate-300">
-                Verás cuántas becas has activado, en qué nivel están tus Colibrís
-                y qué impacto educativo has generado.
+                Verás cuántas becas has activado, en qué nivel están tus
+                Colibrís y qué impacto educativo has generado.
               </span>
-            </button>
+            </Link>
 
-            <button
-              type="button"
+            {/* Rol Jurado → /r-market */}
+            <Link
+              href="/r-market"
               className="group flex w-full flex-col items-start rounded-2xl border border-violet-400/40 bg-slate-900/70 px-4 py-3 text-left transition hover:-translate-y-[1px] hover:border-violet-300 hover:bg-slate-900/90"
             >
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300/90">
@@ -140,7 +166,7 @@ export default function HomePage() {
                 Podrás comparar startups a través de las 7 categorías Colibrí,
                 viendo datos en lugar de relatos difusos.
               </span>
-            </button>
+            </Link>
           </div>
         </div>
 
