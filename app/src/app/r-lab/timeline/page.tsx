@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 type CategoryId = "C1" | "C2" | "C3" | "C4" | "C5" | "C6" | "C7";
@@ -19,6 +19,12 @@ interface TimelineEvent {
   completed: boolean;
   isIpOnStory: boolean; // mock: true si “registrado” en Story
 }
+
+/**
+ * Clave usada por /r-lab/evidencias para guardar registros locales.
+ * Aquí la leemos y convertimos esos registros al formato del Timeline.
+ */
+const STORAGE_KEY = "colibri_timeline_custom_events_v1";
 
 // 🧪 Mock de eventos de Ana (puedes ajustar textos cuando quieras)
 const mockEvents: TimelineEvent[] = [
@@ -193,6 +199,39 @@ function getTypeBadgeClasses(type: TimelineEventType) {
   }
 }
 
+/**
+ * Mapea cada registro almacenado por /r-lab/evidencias
+ * (que viene en formato libre) al formato TimelineEvent.
+ */
+function mapLocalEntryToTimelineEvent(raw: any): TimelineEvent | null {
+  if (!raw || !raw.id || !raw.type || !raw.category || !raw.title) return null;
+
+  const iso = raw.createdAtIso ?? new Date().toISOString();
+  const dateLabel = new Date(iso).toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+  const type: TimelineEventType =
+    raw.type === "microaccion" || raw.type === "evidencia"
+      ? raw.type
+      : "hito";
+
+  return {
+    id: String(raw.id),
+    type,
+    category: raw.category as CategoryId,
+    level: "Torpor", // por ahora todo en nivel base; luego podremos variar
+    title: String(raw.title),
+    description: String(raw.description ?? ""),
+    dateLabel,
+    isoDate: iso,
+    completed: true,
+    isIpOnStory: !!raw.isIpOnStory,
+  };
+}
+
 export default function TimelinePage() {
   const [categoryFilter, setCategoryFilter] = useState<CategoryId | "ALL">(
     "ALL"
@@ -200,9 +239,33 @@ export default function TimelinePage() {
   const [typeFilter, setTypeFilter] = useState<TimelineEventType | "ALL">(
     "ALL"
   );
+  const [localEvents, setLocalEvents] = useState<TimelineEvent[]>([]);
+
+  // Cargar eventos guardados en /r-lab/evidencias (localStorage)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as any[];
+      const mapped = parsed
+        .map(mapLocalEntryToTimelineEvent)
+        .filter((e): e is TimelineEvent => e !== null);
+
+      setLocalEvents(mapped);
+    } catch (err) {
+      console.error("Error leyendo eventos locales del timeline", err);
+    }
+  }, []);
+
+  // Unimos los eventos mock con los locales
+  const allEvents = useMemo(
+    () => [...mockEvents, ...localEvents],
+    [localEvents]
+  );
 
   const sortedAndFilteredEvents = useMemo(() => {
-    return [...mockEvents]
+    return [...allEvents]
       .sort(
         (a, b) => new Date(b.isoDate).getTime() - new Date(a.isoDate).getTime()
       )
@@ -215,17 +278,17 @@ export default function TimelinePage() {
         }
         return true;
       });
-  }, [categoryFilter, typeFilter]);
+  }, [allEvents, categoryFilter, typeFilter]);
 
-  const totalMicroacciones = mockEvents.filter(
+  const totalMicroacciones = allEvents.filter(
     (e) => e.type === "microaccion"
   ).length;
-  const completadasMicroacciones = mockEvents.filter(
+  const completadasMicroacciones = allEvents.filter(
     (e) => e.type === "microaccion" && e.completed
   ).length;
 
-  const totalEvidencias = mockEvents.filter((e) => e.type === "evidencia").length;
-  const completadasEvidencias = mockEvents.filter(
+  const totalEvidencias = allEvents.filter((e) => e.type === "evidencia").length;
+  const completadasEvidencias = allEvents.filter(
     (e) => e.type === "evidencia" && e.completed
   ).length;
 
@@ -243,8 +306,9 @@ export default function TimelinePage() {
             </h1>
             <p className="max-w-2xl text-sm text-slate-400">
               Aquí ves la secuencia de pequeñas acciones que Ana ha realizado
-              para avanzar desde el estado <span className="font-semibold">Torpor</span>{" "}
-              hacia <span className="font-semibold">Semilla de Luz (N1)</span>. Cada
+              para avanzar desde el estado{" "}
+              <span className="font-semibold">Torpor</span> hacia{" "}
+              <span className="font-semibold">Semilla de Luz (N1)</span>. Cada
               microacción y evidencia puede convertirse en IP educativa
               registrable en Story Protocol.
             </p>
@@ -278,8 +342,10 @@ export default function TimelinePage() {
               </span>
             </div>
             <p className="mt-2 text-xs text-slate-400">
-              Recuerda: al completar las <span className="font-semibold">21 microacciones</span> y{" "}
-              <span className="font-semibold">7 evidencias</span> tu NFT evoluciona a{" "}
+              Recuerda: al completar las{" "}
+              <span className="font-semibold">21 microacciones</span> y{" "}
+              <span className="font-semibold">7 evidencias</span> tu NFT
+              evoluciona a{" "}
               <span className="font-semibold">Semilla de Luz (N1)</span>.
             </p>
           </div>
